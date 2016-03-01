@@ -142,6 +142,7 @@ function onOpen(){
       .timeBased()
       .everyMinutes(5)
       .create();
+    init();
     //	checkVersion();
     //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
     //	menu.addItem('Open menu', 'start');
