@@ -550,6 +550,7 @@ function getSchedule(person){
     var out='';
     //current represents where the person is currently
   var current= '<b>Currently at - Before school</b>';;
+  var next='';
     //<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
     //cehck every time
     for(var i =0;i<16;i++){
@@ -586,6 +587,12 @@ function getSchedule(person){
      // ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
         if(getTime(currenttime)>getTime(d)){
          current = '<b>Currently at - '+getFullModName(mods[row][i])+'</b>';
+         if (typeof getFullModName(mods[row][i+1]) === undefined) {
+            next = '<b>Next - End of school </b>';
+          }
+          else {
+            next = '<b>Next - ' + getFullModName(mods[row][i+1]) + '</b>';
+          }
         }
       }
       }
@@ -600,6 +607,7 @@ function getSchedule(person){
     }
   
   out+='<br>'+current;
+  out+='<br>'+next;
     return out;
   }
 
