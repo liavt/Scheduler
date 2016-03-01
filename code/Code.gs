@@ -138,6 +138,10 @@ function onOpen(){
       .forSpreadsheet(ss)
       .onOpen()
       .create();
+    ScriptApp.newTrigger('showSidebar')
+      .timeBased()
+      .everyMinutes(5)
+      .create();
     //	checkVersion();
     //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
     //	menu.addItem('Open menu', 'start');
