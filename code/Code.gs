@@ -587,7 +587,12 @@ function getSchedule(person){
      // ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
         if(getTime(currenttime)>getTime(d)){
          current = '<b>Currently at - '+getFullModName(mods[row][i])+'</b>';
-          next = '<b>Next - ' + getFullModName(mods[row][i+1]) + '</b>';
+         if (typeof getFullModName(mods[row][i+1]) === undefined) {
+            next = '<b>Next - End of school </b>';
+          }
+          else {
+            next = '<b>Next - ' + getFullModName(mods[row][i+1]) + '</b>';
+          }
         }
       }
       }
