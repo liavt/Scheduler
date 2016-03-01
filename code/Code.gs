@@ -138,6 +138,7 @@ function onOpen(){
       .forSpreadsheet(ss)
       .onOpen()
       .create();
+    init();
     //	checkVersion();
     //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
     //	menu.addItem('Open menu', 'start');
