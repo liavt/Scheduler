@@ -17,7 +17,13 @@
 *And also MAYBE A DEVELOPER CONSOLE
 *
 *Basically if the API was better this could be much better, but sadly, this is how it has to be.
+*
+*Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
+*It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
+*good enough, I will add it to the master branch (with Mr. Bailey's approval of course)
 *-Liav
+*
+*PS: If you find this message, come up to me and say the word 'cucumber' to my face.
 */
 var ui = SpreadsheetApp.getUi(); 
 var currentsheet = SpreadsheetApp.getActiveSheet();
@@ -25,13 +31,12 @@ var currentsheet = SpreadsheetApp.getActiveSheet();
 var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
 var settings = sheet.getRange(24,1,37,5).getValues();
   var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
-  var helpdesk=SpreadsheetApp.openByUrl(settings[3][0]).getActiveSheet().getRange(2,1,135,3).getValues().sort();
   var mods = sheet.getRange(2,1,5,16).getValues();
   var times = sheet.getRange(1,1,1,16).getValues();
 //when updating modnames don't forget to change the getModColor() function
 var modnames = sheet.getRange(8,1,15,2).getValues();
   var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.1;
+var version =1.2;
   var user = PropertiesService.getUserProperties();
 
 
@@ -40,7 +45,7 @@ function checkVersion(){
     //var newsheet = SpreadsheetApp.create("Schedule");
     //<a href='http://www.google.com' target='_blank'>Open in new window</a>
       var htmlOutput = HtmlService
-     .createHtmlOutput(getHTMLPrepend()+ '<p>A new version is available (version '+remoteversion+'.) It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>'+getHTMLAppend())
+      .createHtmlOutput(getHTMLPrepend()+ '<p>A new version is available (version '+remoteversion+'.) You have version '+version+'. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>'+getHTMLAppend())
      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
      .setWidth(300)
      .setHeight(130);
@@ -68,7 +73,7 @@ function showSidebar(){
   if(personid>0){
   var schedule = getSchedule(personid);
    var htmlOutput = HtmlService
- .createHtmlOutput(getHTMLPrepend()+'<p>'+parseLearnerSchedule(schedule,personid)+'</p><br><input type="submit"value="Cohort: '+peoplenames[personid][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[personid][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[personid][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group '+peoplenames[personid][3]+'"onclick="google.script.run.showGroup('+personid+');">'+getHTMLAppend())
+ .createHtmlOutput(getHTMLPrepend()+'<p>'+schedule+'</p><br><input type="submit"value="Cohort: '+peoplenames[personid][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[personid][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[personid][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group '+peoplenames[personid][3]+'"onclick="google.script.run.showGroup('+personid+');">'+getHTMLAppend())
      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
      .setWidth(300)
      .setHeight(500).setTitle(peoplenames[personid][0]+' '+peoplenames[personid][1]+'\'s schedule');
@@ -107,13 +112,13 @@ function versionInfo(){
 }
 
 function onOpen(){
+    checkVersion();
   var menu= SpreadsheetApp.getUi().createMenu('Schedule');
    menu.addItem('Open menu', 'start');
   menu.addItem('Update spreadsheet','updateSpreadsheet');
   menu.addItem('View your schedule','checkVersion');
   menu.addItem('Settings', 'versionInfo').addToUi();
-  //updateSpreadsheet();
-  checkVersion();
+  //updateSpreadsheet();}
 }
 
 function start() {
@@ -292,28 +297,28 @@ function parseGroupSchedule(sched, person){
       return replaceAll(sched,'%HD','<i> or '+settings[11][0]+'</i>');
 }
 
-function helpDeskNameToSplitName(name){
-  var split = name.split(',');
-  if(name){
-    //the substring is because there is a space in front of it
-    return [split[1].replace(' ','').toLowerCase(),split[0].toLowerCase()];
-  }
-  return '';
-}
-
-function getHelpDeskID(person){
-   for(var i=1;i<helpdesk.length;i++){
-    var newname = helpDeskNameToSplitName(helpdesk[i][2]);
-    if((newname[0]===peoplenames[person][0].toLowerCase())&&(newname[1]===peoplenames[person][1].toLowerCase())){
-      return i;
-    }
-  }
-  return 0;
-}
-
-function isInHelpDesk(person){
-  return Number(helpdesk[getHelpDeskID(person)][1])>0;
-}
+//function helpDeskNameToSplitName(name){
+//  var split = name.split(',');
+//  if(name){
+//    //the substring is because there is a space in front of it
+//    return [split[1].replace(' ','').toLowerCase(),split[0].toLowerCase()];
+//  }
+//  return '';
+//}
+//
+//function getHelpDeskID(person){
+//   for(var i=1;i<helpdesk.length;i++){
+//    var newname = helpDeskNameToSplitName(helpdesk[i][2]);
+//    if((newname[0]===peoplenames[person][0].toLowerCase())&&(newname[1]===peoplenames[person][1].toLowerCase())){
+//      return i;
+//    }
+//  }
+//  return 0;
+//}
+//
+//function isInHelpDesk(person){
+//  return Number(helpdesk[getHelpDeskID(person)][1])>0;
+//}
 
 function getMainMenuButton(){
   return '<input type="submit"value="Back to main menu"onclick="google.script.run.start();">';
@@ -504,24 +509,24 @@ function askForLOTE(){
   } 
 }
 
-function viewHelpDesk(){
-  var out = '<p>';
-  for(var i=0;i<peoplenames.length;i++){
-    var id = getHelpDeskID(i);
-    if(helpdesk[id][1]>0){
-     out+='<input type="submit"value="'+helpdesk[id][2]+' for '+helpdesk[id][1]+' subject(s)"onclick="google.script.run.showPerson('+i+');"><br>';
-    }
-  }
-  out+='</p><br>';
-  out+=getMainMenuButton();
-  
-  var htmlOutput = HtmlService
-     .createHtmlOutput(getHTMLPrepend()+out+getHTMLAppend())
-     .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-     .setWidth(300)
-     .setHeight(500);
- ui.showModalDialog(htmlOutput, 'Help Desk');
-}
+//function viewHelpDesk(){
+//  var out = '<p>';
+//  for(var i=0;i<peoplenames.length;i++){
+//    var id = getHelpDeskID(i);
+//    if(helpdesk[id][1]>0){
+//     out+='<input type="submit"value="'+helpdesk[id][2]+' for '+helpdesk[id][1]+' subject(s)"onclick="google.script.run.showPerson('+i+');"><br>';
+//    }
+//  }
+//  out+='</p><br>';
+//  out+=getMainMenuButton();
+//  
+//  var htmlOutput = HtmlService
+//     .createHtmlOutput(getHTMLPrepend()+out+getHTMLAppend())
+//     .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+//     .setWidth(300)
+//     .setHeight(500);
+// ui.showModalDialog(htmlOutput, 'Help Desk');
+//}
 
 function getGroupMembers(group){
   var groupnum = peoplenames[group][3];
@@ -607,7 +612,7 @@ function addZero(i) {
 
   function showGroup(row){
  var htmlOutput = HtmlService
-     .createHtmlOutput(getHTMLPrepend()+'<p>'+parseGroupSchedule(getSchedule(row))+'</p><br><input type="submit"value="Cohort: '+peoplenames[row][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[row][4]+'\')"><br>'+getGroupMembers(row)+'<br><br>'+getMainMenuButton()+getHTMLAppend())
+     .createHtmlOutput(getHTMLPrepend()+'<p>'+getSchedule(row)+'</p><br><input type="submit"value="Cohort: '+peoplenames[row][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[row][4]+'\')"><br>'+getGroupMembers(row)+'<br><br>'+getMainMenuButton()+getHTMLAppend())
      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
      .setWidth(300)
      .setHeight(500);
@@ -616,7 +621,7 @@ function addZero(i) {
   
   function showPerson(person){
  var htmlOutput = HtmlService
- .createHtmlOutput(getHTMLPrepend()+'<p>'+parseLearnerSchedule(getSchedule(person),person)+'</p><br><input type="submit"value="Cohort: '+peoplenames[person][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[person][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[person][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group '+peoplenames[person][3]+'"onclick="google.script.run.showGroup('+person+');"><br><br>'+getMainMenuButton()+getHTMLAppend())
+ .createHtmlOutput(getHTMLPrepend()+'<p>'+getSchedule(person)+'</p><br><input type="submit"value="Cohort: '+peoplenames[person][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[person][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[person][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group '+peoplenames[person][3]+'"onclick="google.script.run.showGroup('+person+');"><br><br>'+getMainMenuButton()+getHTMLAppend())
      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
      .setWidth(300)
      .setHeight(500);
