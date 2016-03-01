@@ -122,14 +122,29 @@ function versionInfo(){
 	ui.showModalDialog(htmlOutput, 'Version info');
 }
 
-function onOpen(){
-	checkVersion();
+function init() {
+    checkVersion();
 	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
 	menu.addItem('Update spreadsheet','updateSpreadsheet');
 	//menu.addItem('View your schedule','checkVersion');
 	menu.addItem('Settings', 'versionInfo').addToUi();
 	//updateSpreadsheet();}
+}
+
+function onOpen(){
+    var ss = SpreadsheetApp.getActive();
+    ScriptApp.newTrigger('init')
+      .forSpreadsheet(ss)
+      .onOpen()
+      .create();
+    //	checkVersion();
+    //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
+    //	menu.addItem('Open menu', 'start');
+    //	menu.addItem('Update spreadsheet','updateSpreadsheet');
+    //	//menu.addItem('View your schedule','checkVersion');
+    //	menu.addItem('Settings', 'versionInfo').addToUi();
+    //	//updateSpreadsheet();}
 }
 
 function start() {
