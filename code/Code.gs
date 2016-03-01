@@ -36,7 +36,7 @@ var settings = sheet.getRange(24,1,37,5).getValues();
 //when updating modnames don't forget to change the getModColor() function
 var modnames = sheet.getRange(8,1,15,2).getValues();
   var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.2;
+var version =1.21;
   var user = PropertiesService.getUserProperties();
 
 
@@ -116,7 +116,7 @@ function onOpen(){
   var menu= SpreadsheetApp.getUi().createMenu('Schedule');
    menu.addItem('Open menu', 'start');
   menu.addItem('Update spreadsheet','updateSpreadsheet');
-  menu.addItem('View your schedule','checkVersion');
+  //menu.addItem('View your schedule','checkVersion');
   menu.addItem('Settings', 'versionInfo').addToUi();
   //updateSpreadsheet();}
 }
