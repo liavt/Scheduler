@@ -3,3 +3,5 @@ v1.3
 * Next class label
 * Automatically load schedule menu item on open
 * Code clean up
+* First time button
+* Refresh schedule button
