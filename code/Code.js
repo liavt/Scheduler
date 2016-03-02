@@ -218,7 +218,7 @@ function getSchedule(person){
 				rows+=hours +':'+addZero(d.getMinutes())+'&'+mods[row][i]+';';
 				var currenttime = new Date();
 				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
-				if (getTime(currenttime)>getTime(d)) {
+				if (getTime(currenttime) >= getTime(d)) {
 					current = '<b>Currently at - '+getFullModName(mods[row][i])+'</b>';
 					if (typeof getFullModName(mods[row][i+1]) == 'undefined') {
 						next = '<b>Next - End of school </b>';
