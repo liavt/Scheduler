@@ -453,7 +453,7 @@ function listAll(target) {
 	}
 	out += '</div><br>';
 	if (target == 'LOTE' || target == 'Cohort') {
-		out += '<input type="submit"value="Search for a cohort"onclick="google.script.run.askFor' + target + '();">';
+		out += '<input type="submit"value="Search for a ' + target + '"onclick="google.script.run.askFor' + target + '();">';
 	} else if (target == 'People') {
 		out += '<input type="submit"value="Search for a student"onclick="google.script.run.searchAndViewStudent()">';
 	}
