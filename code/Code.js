@@ -25,11 +25,13 @@
  * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
  */
 
-// Mostly self-explanatory
+// Get UI. It won't work when triggered by time
 var ui = SpreadsheetApp.getUi();
+// Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
 var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
+// Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
 var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
 var mods = sheet.getRange(2,1,5,16).getValues();
@@ -38,36 +40,24 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.21;
+// Bump when needed
+var version = 1.21;
+// Current user. Only this user can access it
 var user = PropertiesService.getUserProperties();
 
 
-function checkVersion(){
-	if (remoteversion>version){
-		//var newsheet = SpreadsheetApp.create("Schedule");
-		//<a href='http://www.google.com' target='_blank'>Open in new window</a>
-		  var htmlOutput = HtmlService
-		  .createHtmlOutput(getHTMLPrepend()+ '<p>A new version is available (version ' + remoteversion + '.) You have version '+version+'. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>'+getHTMLAppend())
-		 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-		 .setWidth(300)
-		 .setHeight(130);
+function checkVersion() {
+	if (remoteversion > version) {
+		var htmlOutput = HtmlService
+		.createHtmlOutput(getHTMLPrepend()+ '<p>A new version is available (version ' + remoteversion + '.) You have version '+version+'. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>'+getHTMLAppend())
+		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
+		.setWidth(300)
+		.setHeight(130);
 		ui.showModalDialog(htmlOutput, 'New Version');
 	}
 	checkProperties();
-	showSidebar();
-}
-
-function onEdit(e){
-//  var old = e.oldValue;
-//  //  ui.alert(old);
-// // if(old){
-//  if(old){
-//	e.range.setValue(old);
-//  }else{
-//	e.range.setValue('');
-//  }
-// // ui.alert('hi');
-//  //}
+	// I don't think we should refresh the sidebar after checking version
+	// showSidebar();
 }
 
 function showSidebar(){
@@ -79,10 +69,11 @@ function showSidebar(){
 		var schedule = getSchedule(personid);
 		// Build HTML output
 		var htmlOutput = HtmlService
-		.createHtmlOutput(getHTMLPrepend()+'<p>'+schedule+'</p><br><input type="submit"value="Cohort: '+peoplenames[personid][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[personid][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[personid][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group '+peoplenames[personid][3]+'"onclick="google.script.run.showGroup('+personid+');">'+getHTMLAppend())
+		.createHtmlOutput(getHTMLPrepend()+'<p>'+schedule+'</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.viewCohort(\''+ peoplenames[personid][4] + '\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.viewLOTE(\''+ peoplenames[personid][2] + '\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.showGroup(' + personid + ');">' + getHTMLAppend())
 		 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
 		 .setWidth(300)
-		 .setHeight(500).setTitle(peoplenames[personid][0]+' '+peoplenames[personid][1]+'\'s schedule');
+		 .setHeight(500).setTitle(peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
+		// Show the sidebar
 		ui.showSidebar(htmlOutput);
 	}
 }
@@ -97,10 +88,9 @@ function checkProperties(){
 			// Read the input
 			var text = response.getResponseText();
 			var spaceindex = text.indexOf(' ');
-			// The +1 is because i dont want to include the actual space in the final string
-			// TODO: Come back to this
-			var second = text.substring(spaceindex+1).toLowerCase();
-			var first = replaceAll(text.substring(0,spaceindex).toLowerCase(),'_',' ');
+			// The +1 is because I don't want to include the actual space in the final string
+			var second = text.substring(spaceindex + 1).toLowerCase();
+			var first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
 			user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
 		}
 	}
@@ -115,54 +105,58 @@ function clearSettings(){
 
 function versionInfo(){
 	var htmlOutput = HtmlService
-	.createHtmlOutput(getHTMLPrepend()+ '<p>Version: '+version+'<br>Required version: '+remoteversion+'<br>Person: '+user.getProperty('USER_DATABASE_ID')+'<br><br>Created by Liav Turkia</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">'+getHTMLAppend())
+	.createHtmlOutput(getHTMLPrepend()+ '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">'+getHTMLAppend())
 	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
 	 .setWidth(200)
 	 .setHeight(200);
-	ui.showModalDialog(htmlOutput, 'Version info');
+	ui.showModalDialog(htmlOutput, 'Version Info');
 }
 
 function init() {
+	// Kickstart everything
     checkVersion();
-	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
+	updateSpreadsheet();
+	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
 	menu.addItem('Update spreadsheet','updateSpreadsheet');
-	//menu.addItem('View your schedule','checkVersion');
 	menu.addItem('Settings', 'versionInfo').addToUi();
-	//updateSpreadsheet();}
 }
 
-function onOpen(){
-    var ss = SpreadsheetApp.getActive();
-    ScriptApp.newTrigger('init')
-      .forSpreadsheet(ss)
-      .onOpen()
-      .create();
-    init();
-    //	checkVersion();
-    //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
-    //	menu.addItem('Open menu', 'start');
-    //	menu.addItem('Update spreadsheet','updateSpreadsheet');
-    //	//menu.addItem('View your schedule','checkVersion');
-    //	menu.addItem('Settings', 'versionInfo').addToUi();
-    //	//updateSpreadsheet();}
+function firstRun(){
+	// Ask if this is the first time
+	if (Browser.msgBox("Is this your first time clicking this?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+		// Get active spreadsheet
+	    var ss = SpreadsheetApp.getActive();
+		// Add trigger for init when spreadsheet opens
+	    ScriptApp.newTrigger('init')
+	      .forSpreadsheet(ss)
+	      .onOpen()
+	      .create();
+		// Run init or else nothing else will appear
+	    init();
+	} else {
+		// Run init
+		init();
+	}
 }
 
 function start() {
+	// Menu
 	var html = HtmlService.createHtmlOutputFromFile('entry')
 	  .setSandboxMode(HtmlService.SandboxMode.IFRAME).setWidth(250).setHeight(250);
-	ui.showModalDialog(html,'What do you want to do?');
-	checkVersion();
+	ui.showModalDialog(html,'Main Menu');
+	// Why would you call this right now?
+	// checkVersion();
 }
 
 function updateModNames(){
-	for(var i=7;i<23;i++){
+	for(var i = 7; i < 23; i++){
 		var newrange = currentsheet.getRange(i,1,1,4);
 		var remoterange = sheet.getRange(i,1,1,4);
 
 		var remotevalues = remoterange.getValues();
 		remotevalues[0][1] = remotevalues[0][1].replace('%HD','');
-		//you can't copy from a remote spreadsheet so you must do it manually
+		// You can't copy from a remote spreadsheet so you must do it manually
 		newrange.setValues(remotevalues);
 		newrange.setFontColors(remoterange.getFontColors());
 		newrange.setFontFamilies(remoterange.getFontFamilies());
@@ -171,27 +165,28 @@ function updateModNames(){
 	}
 }
 
-function updateSchedule(){
+function updateSchedule() {
 	var timerange = currentsheet.getRange(1,1,1,16);
 	var modrange = currentsheet.getRange(2,1,5,16);
 	var timevalues = timerange.getValues();
 	var modvalues = modrange.getValues();
 
-	//reset the values
-	for(var x=0;x<16;x++){
-		for(var y=0;y<5;y++){
-			modvalues[y][x]='';
-			timevalues[0][x]='';
+	// Reset the values
+	for(var x = 0; x < 16; x++){
+		for(var y = 0;y < 5;y++){
+			modvalues[y][x] = '';
+			timevalues[0][x] = '';
 		}
 	}
-
-	for(var x =0;x<16;x++){
+	// I have no idea what's going on
+	// If you can understand this, please write a better comment
+	for(var x = 0;x < 16;x++){
 		if(times[0][x]){
-			if(times[0][x]=='KEY'){
-				timevalues[0][x]='';
-				for(var y = 0;y<mods.length;y++){
+			if(times[0][x] == 'KEY'){
+				timevalues[0][x] = '';
+				for(var y = 0; y < mods.length; y++){
 					if(mods[y][x]){
-						modvalues[y][x]=mods[y][x].substring(1);
+						modvalues[y][x] = mods[y][x].substring(1);
 					}
 				}
 			} else {
@@ -209,12 +204,12 @@ function updateSchedule(){
 }
 
 function getModColor(mod){
-	for(var i=0;i<modnames.length;i++){
-		if(modnames[i][0]==mod){
+	for(var i = 0; i < modnames.length; i++){
+		if(modnames[i][0] == mod){
+			// Get background color of the selected box
 			return sheet.getRange(i+8,1).getBackground();
 		}
 	}
-	// return 'F5F5F5';
 }
 
 function updateModColors(){
@@ -227,13 +222,13 @@ function updateModColors(){
 	var defaultcolor = '#F5F5F5'
 
 
-	for (var x =0;x<16;x++) {
+	for (var x = 0; x < 16; x++) {
 		//the comparisons are against the remote mods because timevalues and modvalues are color values, while times and mods are text. color values should never be null
-		if(timetext[0][x]){
-			timevalues[0][x]=defaultcolor;
-			for(var y = 0;y<modtext.length;y++){
+		if(timetext[0][x]) {
+			timevalues[0][x] = defaultcolor;
+			for (var y = 0;y < modtext.length;y++) {
 				if(modtext[y][x]){
-					modvalues[y][x]=getModColor(modtext[y][x]);
+					modvalues[y][x] = getModColor(modtext[y][x]);
 				} else {
 					modvalues[y][x]='#000000';
 				}
@@ -249,6 +244,7 @@ function updateModColors(){
 			}
 		}
 	}
+	// Actually set the background colors
 	modrange.setBackgrounds(modvalues);
 	timerange.setBackgrounds(timevalues);
 }
@@ -259,34 +255,28 @@ function updateSpreadsheet(){
 	updateModNames();
 	updateSchedule();
 	updateModColors();
-	var protection =currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
+	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
 	var users = protection.getEditors();
-	for (var i =0;i<users.length;i++) {
+	for (var i =0; i < users.length; i++) {
 		protection.removeEditor(users[i]);
 	}
-
 	SpreadsheetApp.getActive().toast('Schedule updated');
 }
 
 function getHTMLPrepend(){
 	return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
 }
+
 function getHTMLAppend(){
 	return ' </body></html>';
 }
 
 function getFullModName(name){
-	for(var i=0;i<modnames.length;i++) {
-		if(modnames[i][0]==name){
+	for(var i=0; i < modnames.length; i++) {
+		if(modnames[i][0] == name){
 		  return modnames[i][1];
 		}
 	}
-}
-
-
-//had a purpose at one point but was removed
-function getFullLOTEName(lote){
-	return 'LOTE';
 }
 
 function parseLearnerSchedule(sched, person){
@@ -343,7 +333,7 @@ function parseGroupSchedule(sched, person){
 //}
 
 function getMainMenuButton(){
-	return '<input type="submit"value="Back to main menu"onclick="google.script.run.start();">';
+	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.start();">';
 }
 
 function filterOutDuplicates(a,xindex){
@@ -354,16 +344,6 @@ function filterOutDuplicates(a,xindex){
 		}
 	}
 	return result;
-}
-
-//doesn't work
-function showGroupByNumber(number){
-	for(var i=1;i<peoplenames.length;i++){
-		if(peoplenames[i][3]===number){
-		  showGroup(i);
-		  break;
-		}
-	}
 }
 
 function listAllCohort(){
@@ -530,25 +510,6 @@ function askForLOTE(){
 		start();
 	}
 }
-
-//function viewHelpDesk(){
-//  var out = '<p>';
-//  for(var i=0;i<peoplenames.length;i++){
-//	var id = getHelpDeskID(i);
-//	if(helpdesk[id][1]>0){
-//	 out+='<input type="submit"value="'+helpdesk[id][2]+' for '+helpdesk[id][1]+' subject(s)"onclick="google.script.run.showPerson('+i+');"><br>';
-//	}
-//  }
-//  out+='</p><br>';
-//  out+=getMainMenuButton();
-//
-//  var htmlOutput = HtmlService
-//	 .createHtmlOutput(getHTMLPrepend()+out+getHTMLAppend())
-//	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-//	 .setWidth(300)
-//	 .setHeight(500);
-// ui.showModalDialog(htmlOutput, 'Help Desk');
-//}
 
 function getGroupMembers(group){
 	var groupnum = peoplenames[group][3];
