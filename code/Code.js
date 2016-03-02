@@ -256,10 +256,13 @@ function getMainMenuButton() {
 /*** UI Interaction ***/
 
 function checkVersion() {
+	SpreadsheetApp.getActive().toast('Checking for updates...');
 	if (remoteversion > version) {
         var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' +version+ '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
 		var htmlOutput = constructHTML(output, 300, 130);
 		ui.showModalDialog(htmlOutput, 'New Version');
+	} else {
+		SpreadsheetApp.getActive().toast('No updates found.');
 	}
 	checkProperties();
 	// I don't think we should refresh the sidebar after checking version
@@ -346,13 +349,11 @@ function updateSchedule() {
 
 	// Reset the values
 	for (var x = 0; x < 16; x++) {
-		for (var y = 0;y < 5;y++) {
+		for (var y = 0; y < 5; y++) {
 			modvalues[y][x] = '';
 			timevalues[0][x] = '';
 		}
 	}
-	// I have no idea what's going on
-	// If you can understand this, please write a better comment
 	for (var x = 0; x < 16; x++) {
 		if (times[0][x]) {
 			if (times[0][x] == 'KEY') {
@@ -385,9 +386,7 @@ function updateModColors() {
 	var modvalues = modrange.getBackgrounds();
 	var defaultcolor = '#F5F5F5'
 
-
 	for (var x = 0; x < 16; x++) {
-		//the comparisons are against the remote mods because timevalues and modvalues are color values, while times and mods are text. color values should never be null
 		if (timetext[0][x]) {
 			timevalues[0][x] = defaultcolor;
 			for (var y = 0; y < modtext.length; y++) {
@@ -450,9 +449,9 @@ function listAllLOTE() {
 
 function listAllPeople() {
 	var out = '<div>';
-	for (var i=0;i<peoplenames.length;i++) {
-		if (peoplenames[i][0]&&peoplenames[i][1]) {
-			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
+	for (var i = 0; i < peoplenames.length; i++) {
+		if (peoplenames[i][0] && peoplenames[i][1]) {
+			out += '<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
 		}
 	}
 	out += '</div><br>';
@@ -481,7 +480,6 @@ function listAllCohort() {
 }
 
 function viewCohort(cohort) {
-	//ui.alert('test',ui.ButtonSet.OK);
 	var out = '';
 	for (var i=0;i<peoplenames.length;i++) {
 		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
@@ -522,11 +520,11 @@ function askForCohort() {
 	if (button == ui.Button.OK) {
 		var found = false;
 		if (!response) {
-			ui.alert('Please make a selection',ui.ButtonSet.OK);
-			found=true;
+			ui.alert('Please make a selection', ui.ButtonSet.OK);
+			found = true;
 			askForCohort();}
 		else {
-			found=true;
+			found = true;
 			viewCohort(response.toLowerCase());
 		}
 		if (!found) {
