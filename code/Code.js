@@ -299,22 +299,6 @@ function checkProperties() {
 	}
 }
 
-function listAllCohort() {
-	var out = '<div>';
-	var newarray = filterOutDuplicates(peoplenames,4);
-	for (var i=0; i < newarray.length; i++) {
-		if (newarray[i]) {
-			out+='<input type="submit"value="' +newarray[i] + '"onclick="google.script.run.viewCohort(\'' +newarray[i] + '\');"><br>';
-		}
-	}
-	out += '</div><br>';
-	out += '<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForCohort();">';
-	out += getMainMenuButton();
-
-	var htmlOutput = constructHTML(out, 300, 500);
-	ui.showModalDialog(htmlOutput, 'Cohort');
-}
-
 function clearSettings() {
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
@@ -448,16 +432,6 @@ function updateSpreadsheet() {
 	showSidebar();
 }
 
-function listAll(target) {
-	var out = '<div>';
-	var newarray = filterOutDuplicates(peoplenames,2);
-	for (var i=0;i<newarray.length;i++) {
-		if (newarray[i]) {
-			out += '<input type="submit"value="' + newarray[i] + '"onclick="google.script.run.view' + target + '(\'' + newarray[i] + '\');"><br>';
-		}
-	}
-}
-
 function listAllLOTE() {
 	var out = '<div>';
 	var newarray = filterOutDuplicates(peoplenames,2);
@@ -467,7 +441,7 @@ function listAllLOTE() {
 		}
 	}
 	out += '</div><br>';
-	out += '<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForLOTE();">';
+	out += '<input type="submit"value="Search for LOTE"onclick="google.script.run.askForLOTE();">';
 	out += getMainMenuButton();
 
 	var htmlOutput = constructHTML(out,300,500);
@@ -482,11 +456,28 @@ function listAllPeople() {
 		}
 	}
 	out += '</div><br>';
-	out += '<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.searchAndViewStudent()">';
+	out += '<input type="submit"value="Search for a student"onclick="google.script.run.searchAndViewStudent()">';
 	out += getMainMenuButton();
 
 	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'Learners');
+}
+
+
+function listAllCohort() {
+	var out = '<div>';
+	var newarray = filterOutDuplicates(peoplenames,4);
+	for (var i=0; i < newarray.length; i++) {
+		if (newarray[i]) {
+			out+='<input type="submit"value="' +newarray[i] + '"onclick="google.script.run.viewCohort(\'' +newarray[i] + '\');"><br>';
+		}
+	}
+	out += '</div><br>';
+	out += '<input type="submit"value="Search for a cohort"onclick="google.script.run.askForCohort();">';
+	out += getMainMenuButton();
+
+	var htmlOutput = constructHTML(out, 300, 500);
+	ui.showModalDialog(htmlOutput, 'Cohort');
 }
 
 function viewCohort(cohort) {
