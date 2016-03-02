@@ -25,6 +25,7 @@
  * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
  */
 
+/*** Variables ***/
 // Get UI. It won't work when triggered by time
 var ui = SpreadsheetApp.getUi();
 // Get active spreadsheet
@@ -45,6 +46,198 @@ var version = 1.21;
 // Current user. Only this user can access it
 var user = PropertiesService.getUserProperties();
 
+/*** Functions ***/
+function init() {
+	// Kickstart everything
+    checkVersion();
+	updateSpreadsheet();
+	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
+	menu.addItem('Open menu', 'start');
+	menu.addItem('Update spreadsheet','updateSpreadsheet');
+	menu.addItem('About', 'versionInfo').addToUi();
+}
+
+function firstRun(){
+	// Ask if this is the first time
+	if (Browser.msgBox("Is this your first time clicking this?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+		// Get active spreadsheet
+	    var ss = SpreadsheetApp.getActive();
+		// Add trigger for init when spreadsheet opens
+	    ScriptApp.newTrigger('init')
+	      .forSpreadsheet(ss)
+	      .onOpen()
+	      .create();
+		// Run init or else nothing else will appear
+	    init();
+	} else {
+		// Run init
+		init();
+	}
+}
+
+/*** Data Processing ***/
+
+function getModColor(mod){
+	for(var i = 0; i < modnames.length; i++){
+		if(modnames[i][0] == mod){
+			// Get background color of the selected box
+			return sheet.getRange(i+8,1).getBackground();
+		}
+	}
+}
+
+function getFullModName(name){
+	for(var i=0; i < modnames.length; i++) {
+		if(modnames[i][0] == name){
+		  return modnames[i][1];
+		}
+	}
+}
+
+function getHTMLPrepend(){
+	return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
+}
+
+function getHTMLAppend(){
+	return ' </body></html>';
+}
+
+function parseLearnerSchedule(sched, person){
+	var newsched = sched.split('<br>');
+	var out='';
+	if(newsched) {
+		for(var i= 0;i<newsched.length;i++){
+			if(newsched[i]){
+				var split = newsched[i].split('-');
+				var hdindex = split[1].indexOf('%HD');
+				if(hdindex>=0){
+					if(isInHelpDesk(person)){
+						split[1]='  <i>'+settings[11][0]+'</i>';
+					} else {
+						split[1] = split[1].substring(0,hdindex);
+					}
+				}
+				out+=split[0]+'-'+split[1]+'<br>';
+			}
+		}
+	}
+	return out;
+}
+
+function replaceAll(string, search, replacement) {
+	return string.replace(new RegExp(search, 'g'), replacement);
+};
+
+function parseGroupSchedule(sched, person){
+	return replaceAll(sched,'%HD','<i> or '+settings[11][0]+'</i>');
+}
+
+function filterOutDuplicates(a,xindex){
+	var result = [];
+	for (var i = 0; i < a.length; i++) {
+		if (result.indexOf(a[i][xindex]) == -1) {
+			result.push(a[i][xindex]);
+		}
+	}
+	return result;
+}
+
+function findPersonByName(first,last){
+	for(var i=0;i<peoplenames.length;i++){
+		if (peoplenames[i][0].toLowerCase()===first&&peoplenames[i][1].toLowerCase()===last) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function searchAndViewStudent(){
+	showPerson(askForStudent());
+}
+
+function getTime(date){
+	//we don't want to check the dates and weeks and stuff like that, we assume that the schedule is for the same day
+	return (date.getHours()*60)+date.getMinutes();
+}
+
+
+function getSchedule(person){
+	var row =0;
+	var rows='';
+	var out='';
+	//current represents where the person is currently
+	var current= '<b>Currently at - Before school</b>';;
+	var next='';
+	//<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+	//cehck every time
+	for(var i =0;i<16;i++){
+		if(times[0][i]) {
+		//if it is a criteria key
+			if(times[0][i]=='KEY') {
+				//check all the mod names
+				for (var y=0;y<5;y++) {
+					if(mods[y][i]!='NULL'||mods[y][i]) {
+						//check key type
+						if(mods[y][i].substring(0,1)=='c') {
+							if(mods[y][i].substring(1)==peoplenames[(person)][4]) {
+								row=y;
+								break;
+							}
+						} else if (mods[y][i].substring(0,1)=='g') {
+							var range = mods[y][i].substring(1).split('-');
+							if(peoplenames[person][3]>=range[0]&&peoplenames[person][3]<=range[1]){
+								row=y;
+								break;
+							}
+						}
+					}
+				}
+			} else {
+			//check actual times
+				var d = new Date(times[0][i]);
+				var hours = parseInt(d.getHours());
+				if(hours>12){
+					hours-=12;
+				}
+				rows+=hours +':'+addZero(d.getMinutes())+'&'+mods[row][i]+';';
+				var currenttime = new Date();
+				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
+				if (getTime(currenttime)>getTime(d)) {
+					current = '<b>Currently at - '+getFullModName(mods[row][i])+'</b>';
+					if (typeof getFullModName(mods[row][i+1]) == 'undefined') {
+						next = '<b>Next - End of school </b>';
+					} else {
+						next = '<b>Next - ' + getFullModName(mods[row][i+1]) + '</b>';
+					}
+				}
+			}
+		}
+	}
+	rows=rows.split(';');
+	for(var i =0;i<rows.length;i++){
+	if(rows[i]){
+	var currentrow = rows[i].split('&');
+	out+=currentrow[0]+' - '+getFullModName(currentrow[1])+'<br>';
+	}
+	}
+
+	out+='<br>'+current;
+	out+='<br>'+next;
+	return out;
+}
+
+function addZero(i) {
+	if (i < 10) {
+		i = "0" + i;
+	}
+	return i;
+}
+
+function getMainMenuButton(){
+	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.start();">';
+}
+
+/*** UI Interaction ***/
 
 function checkVersion() {
 	if (remoteversion > version) {
@@ -96,48 +289,41 @@ function checkProperties(){
 	}
 }
 
+function listAllCohort(){
+	var out = '<div>';
+	var newarray = filterOutDuplicates(peoplenames,4);
+	for (var i=0;i<newarray.length;i++) {
+		if(newarray[i]){
+			out+='<input type="submit"value="'+newarray[i]+'"onclick="google.script.run.viewCohort(\''+newarray[i]+'\');"><br>';
+		}
+	}
+	out+='</div><br>';
+	out+='<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForCohort();">';
+	out += getMainMenuButton();
+
+	var htmlOutput = HtmlService
+	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
+	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+	 .setWidth(300)
+	 .setHeight(500);
+	ui.showModalDialog(htmlOutput, 'Cohort');
+}
+
 function clearSettings(){
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
 	ui.alert('Reset settings.',ui.ButtonSet.OK);
-	checkVersion();
+	// checkVersion();
+	updateSpreadsheet();
 }
 
 function versionInfo(){
 	var htmlOutput = HtmlService
-	.createHtmlOutput(getHTMLPrepend()+ '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">'+getHTMLAppend())
+	.createHtmlOutput(getHTMLPrepend()+ '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">' + getHTMLAppend())
 	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
 	 .setWidth(200)
-	 .setHeight(200);
+	 .setHeight(250);
 	ui.showModalDialog(htmlOutput, 'Version Info');
-}
-
-function init() {
-	// Kickstart everything
-    checkVersion();
-	updateSpreadsheet();
-	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
-	menu.addItem('Open menu', 'start');
-	menu.addItem('Update spreadsheet','updateSpreadsheet');
-	menu.addItem('Settings', 'versionInfo').addToUi();
-}
-
-function firstRun(){
-	// Ask if this is the first time
-	if (Browser.msgBox("Is this your first time clicking this?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
-		// Get active spreadsheet
-	    var ss = SpreadsheetApp.getActive();
-		// Add trigger for init when spreadsheet opens
-	    ScriptApp.newTrigger('init')
-	      .forSpreadsheet(ss)
-	      .onOpen()
-	      .create();
-		// Run init or else nothing else will appear
-	    init();
-	} else {
-		// Run init
-		init();
-	}
 }
 
 function start() {
@@ -203,15 +389,6 @@ function updateSchedule() {
 	timerange.setValues(timevalues);
 }
 
-function getModColor(mod){
-	for(var i = 0; i < modnames.length; i++){
-		if(modnames[i][0] == mod){
-			// Get background color of the selected box
-			return sheet.getRange(i+8,1).getBackground();
-		}
-	}
-}
-
 function updateModColors(){
 	var timerange = currentsheet.getRange(1,1,1,16);
 	var modrange = currentsheet.getRange(2,1,5,16);
@@ -251,119 +428,21 @@ function updateModColors(){
 
 function updateSpreadsheet(){
 	SpreadsheetApp.getActive().toast('Refreshing schedule...');
+	// Check for updates
 	checkVersion();
+	// Update everything
 	updateModNames();
-	updateSchedule();
 	updateModColors();
+	updateSchedule();
+	// Prevent editing of the sheet
+	// TODO: Fix this
 	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
 	var users = protection.getEditors();
 	for (var i =0; i < users.length; i++) {
 		protection.removeEditor(users[i]);
 	}
 	SpreadsheetApp.getActive().toast('Schedule updated');
-}
-
-function getHTMLPrepend(){
-	return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
-}
-
-function getHTMLAppend(){
-	return ' </body></html>';
-}
-
-function getFullModName(name){
-	for(var i=0; i < modnames.length; i++) {
-		if(modnames[i][0] == name){
-		  return modnames[i][1];
-		}
-	}
-}
-
-function parseLearnerSchedule(sched, person){
-	var newsched = sched.split('<br>');
-	var out='';
-	if(newsched) {
-		for(var i= 0;i<newsched.length;i++){
-			if(newsched[i]){
-				var split = newsched[i].split('-');
-				var hdindex = split[1].indexOf('%HD');
-				if(hdindex>=0){
-					if(isInHelpDesk(person)){
-						split[1]='  <i>'+settings[11][0]+'</i>';
-					} else {
-						split[1] = split[1].substring(0,hdindex);
-					}
-				}
-				out+=split[0]+'-'+split[1]+'<br>';
-			}
-		}
-	}
-	return out;
-}
-
-function replaceAll(string, search, replacement) {
-	return string.replace(new RegExp(search, 'g'), replacement);
-};
-
-function parseGroupSchedule(sched, person){
-	return replaceAll(sched,'%HD','<i> or '+settings[11][0]+'</i>');
-}
-
-//function helpDeskNameToSplitName(name){
-//  var split = name.split(',');
-//  if(name){
-//	//the substring is because there is a space in front of it
-//	return [split[1].replace(' ','').toLowerCase(),split[0].toLowerCase()];
-//  }
-//  return '';
-//}
-//
-//function getHelpDeskID(person){
-//   for(var i=1;i<helpdesk.length;i++){
-//	var newname = helpDeskNameToSplitName(helpdesk[i][2]);
-//	if((newname[0]===peoplenames[person][0].toLowerCase())&&(newname[1]===peoplenames[person][1].toLowerCase())){
-//	  return i;
-//	}
-//  }
-//  return 0;
-//}
-//
-//function isInHelpDesk(person){
-//  return Number(helpdesk[getHelpDeskID(person)][1])>0;
-//}
-
-function getMainMenuButton(){
-	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.start();">';
-}
-
-function filterOutDuplicates(a,xindex){
-	var result = [];
-	for (var i = 0; i < a.length; i++) {
-		if (result.indexOf(a[i][xindex]) == -1) {
-			result.push(a[i][xindex]);
-		}
-	}
-	return result;
-}
-
-function listAllCohort(){
-	var out = '<div>';
-	var newarray = filterOutDuplicates(peoplenames,4);
-	for (var i=0;i<newarray.length;i++) {
-		if(newarray[i]){
-			out+='<input type="submit"value="'+newarray[i]+'"onclick="google.script.run.viewCohort(\''+newarray[i]+'\');"><br>';
-		}
-	}
-	out+='</div><br>';
-	out+='<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForCohort();">';
-	out += getMainMenuButton();
-
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
-	ui.showModalDialog(htmlOutput, 'Cohort');
+	showSidebar();
 }
 
 function listAllLOTE(){
@@ -384,19 +463,6 @@ function listAllLOTE(){
 	 .setWidth(300)
 	 .setHeight(500);
 	ui.showModalDialog(htmlOutput, 'LOTE');
-}
-
-function findPersonByName(first,last){
-	for(var i=0;i<peoplenames.length;i++){
-		if (peoplenames[i][0].toLowerCase()===first&&peoplenames[i][1].toLowerCase()===last) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-function searchAndViewStudent(){
-	showPerson(askForStudent());
 }
 
 function listAllPeople(){
@@ -520,83 +586,6 @@ function getGroupMembers(group){
 		}
 	}
 	return out;
-}
-
-function getTime(date){
-	//we don't want to check the dates and weeks and stuff like that, we assume that the schedule is for the same day
-	return (date.getHours()*60)+date.getMinutes();
-}
-
-function getSchedule(person){
-	var row =0;
-	var rows='';
-	var out='';
-	//current represents where the person is currently
-	var current= '<b>Currently at - Before school</b>';;
-	var next='';
-	//<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
-	//cehck every time
-	for(var i =0;i<16;i++){
-		if(times[0][i]) {
-		//if it is a criteria key
-			if(times[0][i]=='KEY') {
-				//check all the mod names
-				for (var y=0;y<5;y++) {
-					if(mods[y][i]!='NULL'||mods[y][i]) {
-						//check key type
-						if(mods[y][i].substring(0,1)=='c') {
-							if(mods[y][i].substring(1)==peoplenames[(person)][4]) {
-								row=y;
-								break;
-							}
-						} else if (mods[y][i].substring(0,1)=='g') {
-							var range = mods[y][i].substring(1).split('-');
-							if(peoplenames[person][3]>=range[0]&&peoplenames[person][3]<=range[1]){
-								row=y;
-								break;
-							}
-						}
-					}
-				}
-			} else {
-			//check actual times
-				var d = new Date(times[0][i]);
-				var hours = parseInt(d.getHours());
-				if(hours>12){
-					hours-=12;
-				}
-				rows+=hours +':'+addZero(d.getMinutes())+'&'+mods[row][i]+';';
-				var currenttime = new Date();
-				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
-				if (getTime(currenttime)>getTime(d)) {
-					current = '<b>Currently at - '+getFullModName(mods[row][i])+'</b>';
-					if (typeof getFullModName(mods[row][i+1]) == 'undefined') {
-						next = '<b>Next - End of school </b>';
-					} else {
-						next = '<b>Next - ' + getFullModName(mods[row][i+1]) + '</b>';
-					}
-				}
-			}
-		}
-	}
-	rows=rows.split(';');
-	for(var i =0;i<rows.length;i++){
-	if(rows[i]){
-	var currentrow = rows[i].split('&');
-	out+=currentrow[0]+' - '+getFullModName(currentrow[1])+'<br>';
-	}
-	}
-
-	out+='<br>'+current;
-	out+='<br>'+next;
-	return out;
-}
-
-function addZero(i) {
-	if (i < 10) {
-		i = "0" + i;
-	}
-	return i;
 }
 
 function showGroup(row){
