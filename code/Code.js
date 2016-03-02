@@ -102,11 +102,19 @@ function getHTMLAppend(){
 	return ' </body></html>';
 }
 
-function constructHTML(data, width, height) {
-	var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
-	.setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	.setWidth(width)
-	.setHeight(height);
+function constructHTML(data, width, height, title) {
+	if (title == 'undefined') {
+		var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
+		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
+		.setWidth(width)
+		.setHeight(height);
+	} else {
+		var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
+		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
+		.setWidth(width)
+		.setHeight(height)
+		.setTitle(title);
+	}
 	return output;
 }
 
@@ -249,11 +257,8 @@ function getMainMenuButton(){
 
 function checkVersion() {
 	if (remoteversion > version) {
-		var htmlOutput = HtmlService
-		.createHtmlOutput(getHTMLPrepend()+ '<p>A new version is available (version ' + remoteversion + '.) You have version '+version+'. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>'+getHTMLAppend())
-		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
-		.setWidth(300)
-		.setHeight(130);
+        var output = '<p>A new version is available (version ' + remoteversion + '.) You have version '+version+'. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
+		var htmlOutput = constructHTML(output, 300, 130);
 		ui.showModalDialog(htmlOutput, 'New Version');
 	}
 	checkProperties();
@@ -268,12 +273,9 @@ function showSidebar(){
 	if(personid > 0) {
 		// Get the schedule
 		var schedule = getSchedule(personid);
+        var output = '<p>'+schedule+'</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.viewCohort(\''+ peoplenames[personid][4] + '\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.viewLOTE(\''+ peoplenames[personid][2] + '\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.showGroup(' + personid + ');">';
 		// Build HTML output
-		var htmlOutput = HtmlService
-		.createHtmlOutput(getHTMLPrepend()+'<p>'+schedule+'</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.viewCohort(\''+ peoplenames[personid][4] + '\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.viewLOTE(\''+ peoplenames[personid][2] + '\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.showGroup(' + personid + ');">' + getHTMLAppend())
-		 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-		 .setWidth(300)
-		 .setHeight(500).setTitle(peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
+		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
 		// Show the sidebar
 		ui.showSidebar(htmlOutput);
 	}
@@ -584,20 +586,12 @@ function getGroupMembers(group){
 }
 
 function showGroup(row){
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+'<p>'+getSchedule(row)+'</p><br><input type="submit"value="Cohort: '+peoplenames[row][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[row][4]+'\')"><br>'+getGroupMembers(row)+'<br><br>'+getMainMenuButton()+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML('<p>'+getSchedule(row)+'</p><br><input type="submit"value="Cohort: '+peoplenames[row][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[row][4]+'\')"><br>'+getGroupMembers(row)+'<br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, 'Group '+peoplenames[row][3]);
 }
 
 function showPerson(person){
-	var htmlOutput = HtmlService
-	.createHtmlOutput(getHTMLPrepend()+'<p>'+getSchedule(person)+'</p><br><input type="submit"value="Cohort: '+peoplenames[person][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[person][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[person][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group '+peoplenames[person][3]+'"onclick="google.script.run.showGroup('+person+');"><br><br>'+getMainMenuButton()+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML('</p><br><input type="submit"value="Cohort: '+peoplenames[person][4]+'"onclick="google.script.run.viewCohort(\''+peoplenames[person][4]+'\')"><br><input type="submit"value="LOTE: '+peoplenames[person][2]+'"onclick="google.script.run.viewLOTE(\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group '+peoplenames[person][3]+'"onclick="google.script.run.showGroup('+person+');"><br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, peoplenames[person][0]+' '+peoplenames[person][1]);
 }
 
