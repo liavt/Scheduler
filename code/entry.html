@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+
 <html>
   <head>
     <base target="_top">
+<script type="text/javascript"src="https://raw.githubusercontent.com/liavt/Scheduler/master/code/Code.js"></script>
+<script>
+function blah(){
+Logger.log('yo');
+SpreadsheetApp.getUi().alert('hello yellow');
+}
+</script>
   </head>
   <body>
-      <input type="submit"value="Lookup a group"id="view"onclick="google.script.run.askForGroup();"/><br>
-      <input type="submit"value="Lookup a learner"id="view"onclick="google.script.run.listAllPeople();"/><br>
+      <input type="submit"value="Update your schedule"id="view"onclick="blah();"/><br>
+      <input type="submit"value="Lookup a group"id="view"onclick="askForGroup();"/><br>
+      <input type="submit"value="Lookup a learner"id="view"onclick="listAllPeople();"/><br>
       <input type="submit"value="Lookup a LOTE"id="view"onclick="google.script.run.listAllLOTE();"/><br>
       <input type="submit"value="Lookup a cohort"id="view"onclick="google.script.run.listAllCohort();"/><br>
       <br>
