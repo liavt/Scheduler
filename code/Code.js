@@ -46,7 +46,7 @@ var version = 1.21;
 // Current user. Only this user can access it
 var user = PropertiesService.getUserProperties();
 
-/*** Functions ***/
+/*** Triggers ***/
 function init() {
 	// Kickstart everything
     checkVersion();
@@ -100,6 +100,14 @@ function getHTMLPrepend(){
 
 function getHTMLAppend(){
 	return ' </body></html>';
+}
+
+function constructHTML(data, width, height) {
+	var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
+	.setSandboxMode(HtmlService.SandboxMode.IFRAME)
+	.setWidth(width)
+	.setHeight(height);
+	return output;
 }
 
 function parseLearnerSchedule(sched, person){
@@ -301,11 +309,7 @@ function listAllCohort(){
 	out+='<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForCohort();">';
 	out += getMainMenuButton();
 
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'Cohort');
 }
 
@@ -318,11 +322,8 @@ function clearSettings(){
 }
 
 function versionInfo(){
-	var htmlOutput = HtmlService
-	.createHtmlOutput(getHTMLPrepend()+ '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">' + getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(200)
-	 .setHeight(250);
+    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">';
+	var htmlOutput = constructHTML(output, 200, 250);
 	ui.showModalDialog(htmlOutput, 'Version Info');
 }
 
@@ -445,6 +446,16 @@ function updateSpreadsheet(){
 	showSidebar();
 }
 
+function listAll(target) {
+	var out = '<div>';
+	var newarray = filterOutDuplicates(peoplenames,2);
+	for(var i=0;i<newarray.length;i++){
+		if(newarray[i]){
+			out+='<input type="submit"value="'+newarray[i]+'"onclick="google.script.run.view' + target + '(\''+newarray[i]+'\');"><br>';
+		}
+	}
+}
+
 function listAllLOTE(){
 	var out = '<div>';
 	var newarray = filterOutDuplicates(peoplenames,2);
@@ -457,11 +468,7 @@ function listAllLOTE(){
 	out+='<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.askForLOTE();">';
 	out+=getMainMenuButton();
 
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML(out,300,500);
 	ui.showModalDialog(htmlOutput, 'LOTE');
 }
 
@@ -476,11 +483,7 @@ function listAllPeople(){
 	out+='<input type="submit"value="Can\'t find what you are looking for? Search it!"onclick="google.script.run.searchAndViewStudent()">';
 	out+=getMainMenuButton();
 
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'Learners');
 }
 
@@ -495,11 +498,7 @@ function viewCohort(cohort){
 	out+='<br>';
 	out+=getMainMenuButton();
 
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'Cohort: '+cohort);
 }
 
@@ -513,11 +512,7 @@ function viewLOTE(lote){
 	out+='</div><br>';
 	out+=getMainMenuButton();
 
-	var htmlOutput = HtmlService
-	 .createHtmlOutput(getHTMLPrepend()+ out+getHTMLAppend())
-	 .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-	 .setWidth(300)
-	 .setHeight(500);
+	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'LOTE: '+lote);
 }
 
