@@ -51,15 +51,19 @@ var user = PropertiesService.getUserProperties();
 
 /*** Triggers ***/
 function init() {
-//	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
-//		// Get active spreadsheet
-//	    var ss = SpreadsheetApp.getActive();
-//		// Add trigger for init when spreadsheet opens
-//	    ScriptApp.newTrigger('init')
-//	      .forSpreadsheet(ss)
-//	      .onOpen()
-//	      .create();
-//	}
+	// Kickstart everything
+    checkVersion();
+    // Ask if this is the first time
+	if (!triggersExist()) {
+		// Get active spreadsheet
+	    var ss = SpreadsheetApp.getActive();
+		// Add trigger for init when spreadsheet opens
+	    ScriptApp.newTrigger('init')
+	      .forSpreadsheet(ss)
+	      .onOpen()
+	      .create();
+	}
+	updateSpreadsheet();
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
 	// Integrated with the refresh button
@@ -76,7 +80,7 @@ function showBugReports(){
 }
 
 function firstRun() {
-  ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
+    ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
 }
 
 /*** Data Processing ***/
