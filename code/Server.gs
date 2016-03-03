@@ -58,21 +58,18 @@ function init() {
 }
 
 function firstRun() {
-    // Get active spreadsheet
-    var ss = SpreadsheetApp.getActive();
-    // Add trigger for init when spreadsheet opens
-    if(!triggersExist()){
-        ScriptApp.newTrigger('init')
-          .forSpreadsheet(ss)
-          .onOpen()
-          .create();
-		// Run init or else nothing else will appear
-	    init();
-    } else {
-		// Run init
-        Browser.msgbox("You've already clicked this before!");
-		init();
+	// Ask if this is the first time
+	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+		// Get active spreadsheet
+	    var ss = SpreadsheetApp.getActive();
+		// Add trigger for init when spreadsheet opens
+	    ScriptApp.newTrigger('init')
+	      .forSpreadsheet(ss)
+	      .onOpen()
+	      .create();
 	}
+  //run init
+  init();
 }
 
 /*** Data Processing ***/
@@ -120,7 +117,7 @@ function constructHTML(data, width, height, title) {
 
 function parseLearnerSchedule(sched, person) {
 	var newsched = sched.split('<br>');
-	var out = '';
+	var out='';
 	if (newsched) {
 		for (var i = 0; i < newsched.length; i++) {
 			if (newsched[i]) {
@@ -133,7 +130,7 @@ function parseLearnerSchedule(sched, person) {
 						split[1] = split[1].substring(0,hdindex);
 					}
 				}
-				out += split[0] + '-' + split[1] + '<br>';
+				out+=split[0] + '-' +split[1] + '<br>';
 			}
 		}
 	}
@@ -145,7 +142,7 @@ function replaceAll(string, search, replacement) {
 };
 
 function parseGroupSchedule(sched, person) {
-	return replaceAll(sched,'%HD','<i> or ' + settings[11][0] + '</i>');
+	return replaceAll(sched,'%HD','<i> or ' +settings[11][0] + '</i>');
 }
 
 function filterOutDuplicates(a,xindex) {
@@ -173,7 +170,7 @@ function searchAndViewStudent() {
 
 function getTime(date) {
 	//we don't want to check the dates and weeks and stuff like that, we assume that the schedule is for the same day
-	return (date.getHours() * 60) + date.getMinutes();
+	return (date.getHours()*60) +date.getMinutes();
 }
 
 
@@ -212,10 +209,10 @@ function getSchedule(person) {
 			//check actual times
 				var d = new Date(times[0][i]);
 				var hours = parseInt(d.getHours());
-				if (hours > 12) {
-					hours -= 12;
+				if (hours>12) {
+					hours-=12;
 				}
-				rows += hours + ':' + addZero(d.getMinutes()) + '&' + mods[row][i] + ';';
+				rows += hours + ':' +addZero(d.getMinutes()) + '&' +mods[row][i] + ';';
 				var currenttime = new Date();
 				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
 				if (getTime(currenttime) >= getTime(d)) {
@@ -250,7 +247,7 @@ function addZero(i) {
 }
 
 function getMainMenuButton() {
-	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.start();">';
+	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.runRemote(\'start\')">';
 }
 
 /*** UI Interaction ***/
@@ -276,7 +273,7 @@ function showSidebar() {
 	if (personid > 0) {
 		// Get the schedule
 		var schedule = getSchedule(personid);
-        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.viewCohort(\'' + peoplenames[personid][4] + '\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.viewLOTE(\'' + peoplenames[personid][2] + '\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.showGroup(' + personid + ');">';
+        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'peoplenames[personid][4]\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
 		// Build HTML output
 		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
 		// Show the sidebar
@@ -311,23 +308,23 @@ function clearSettings() {
 }
 
 function versionInfo() {
-    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.checkVersion();"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.clearSettings();">';
+    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
 	var htmlOutput = constructHTML(output, 200, 250);
 	ui.showModalDialog(htmlOutput, 'Version Info');
 }
 
 function triggersExist(){
-    var triggers = ScriptApp.getProjectTriggers();
-    for (var i = 0; i < triggers.length; i++) {
-        if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN && triggers[i].getHandlerFunction() == "init") {
-            return true;
-            // Some code here - other options are:
-            // ScriptApp.EventType.ON_EDIT
-            // ScriptApp.EventType.ON_FORM_SUBMIT
-            // ScriptApp.EventType.ON_OPEN
-        }
-    }
-    return false;
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="init") {
+     return true;
+     // Some code here - other options are:
+     // ScriptApp.EventType.ON_EDIT
+     // ScriptApp.EventType.ON_FORM_SUBMIT
+     // ScriptApp.EventType.ON_OPEN
+   }
+ }
+  return false;
 }
 
 function start() {
@@ -456,21 +453,21 @@ function listAll(target) {
 	if (target == 'LOTE' || target == 'Cohort') {
 		for (var i = 0; i < newarray.length; i++) {
 			if (newarray[i]) {
-				out += '<input type="submit"value="' + newarray[i] + '"onclick="google.script.run.view' + target + '(\'' + newarray[i] + '\');"><br>';
+				out += '<input type="submit"value="' + newarray[i] + '"onclick="google.script.run.runRemote(\'view' + target + '\',\''+newarray[i]+'\');"><br>';
 			}
 		}
 	} else if (target == 'People') {
 		for (var i = 0; i < peoplenames.length; i++) {
 			if (peoplenames[i][0] && peoplenames[i][1]) {
-				out += '<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
+				out += '<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 			}
 		}
 	}
 	out += '</div><br>';
 	if (target == 'LOTE' || target == 'Cohort') {
-		out += '<input type="submit"value="Search for a ' + target + '"onclick="google.script.run.askFor' + target + '();">';
+		out += '<input type="submit"value="Search for a ' + target + '"onclick="google.script.run.runRemote(\'askFor' + target + '\');">';
 	} else if (target == 'People') {
-		out += '<input type="submit"value="Search for a student"onclick="google.script.run.searchAndViewStudent()">';
+		out += '<input type="submit"value="Search for a student"onclick="google.script.run.runRemote(\'searchAndViewStudent\');">';
 	}
 	out += getMainMenuButton();
 
@@ -493,23 +490,23 @@ function listAllCohort() {
 
 function viewCohort(cohort) {
 	var out = '';
-	for (var i = 0; i < peoplenames.length; i++) {
+	for (var i=0;i<peoplenames.length;i++) {
 		if (peoplenames[i][4].toLowerCase() == cohort.toLowerCase()) {
-			out += '<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
+			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
-	out += '<br>';
-	out += getMainMenuButton();
+	out+='<br>';
+	out+=getMainMenuButton();
 
 	var htmlOutput = constructHTML(out, 300, 500);
-	ui.showModalDialog(htmlOutput, 'Cohort: ' + cohort);
+	ui.showModalDialog(htmlOutput, 'Cohort: ' +cohort);
 }
 
 function viewLOTE(lote) {
 	var out = '<div>';
 	for (var i=0;i<peoplenames.length;i++) {
 		if (peoplenames[i][2]===lote) {
-			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
+			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
 	out+='</div><br>';
@@ -580,14 +577,14 @@ function getGroupMembers(group) {
 	var out='Group Members:<br>';
 	for (var i =0;i<peoplenames.length;i++) {
 		if (peoplenames[i][3]==groupnum) {
-			out+='<input type="submit"onclick="google.script.run.showPerson(' + i + ');"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + ' - ' +peoplenames[i][2] + '"><br>';
+			out+='<input type="submit"onclick="google.script.run.runRemote(\'showPerson\','+i+');"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + ' - ' +peoplenames[i][2] + '"><br>';
 		}
 	}
 	return out;
 }
 
 function showGroup(row) {
-	var htmlOutput = constructHTML('<p>' +getSchedule(row) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[row][4] + '"onclick="google.script.run.viewCohort(\'' +peoplenames[row][4] + '\')"><br>' +getGroupMembers(row) + '<br><br>', 300, 500);
+	var htmlOutput = constructHTML('<p>' +getSchedule(row) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[row][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'' +peoplenames[row][4] + '\');"><br>' +getGroupMembers(row) + '<br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, 'Group ' +peoplenames[row][3]);
 }
 

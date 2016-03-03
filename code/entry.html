@@ -5,13 +5,11 @@
     <base target="_top">
   </head>
   <body>
-      <input type="submit"value="Lookup a group"id="view"onclick="google.script.run.askForGroup();"/><br>
-      <input type="submit"value="Lookup a learner"id="view"onclick="google.script.run.listAllPeople();"/><br>
-      <input type="submit"value="Lookup a LOTE"id="view"onclick="google.script.run.listAllLOTE();"/><br>
-      <input type="submit"value="Lookup a cohort"id="view"onclick="google.script.run.listAllCohort();"/><br>
+      <input type="submit"value="Lookup a group"id="view"onclick="google.script.run.runRemote('askForGroup');"/><br>
+      <input type="submit"value="Lookup a learner"id="view"onclick="google.script.run.runRemote('listAll','People');"/><br>
+      <input type="submit"value="Lookup a LOTE"id="view"onclick="google.script.run.runRemote('listAll,'LOTE');"/><br>
+      <input type="submit"value="Lookup a cohort"id="view"onclick="google.script.run.runRemote('listAll,'Cohort');"/><br>
       <br>
       <input class="action"target="_bottom"type="button"value="Close menu"id="view"onclick="google.script.host.close();"/>
   </body>
 </html>
-
-
