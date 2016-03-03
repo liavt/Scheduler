@@ -71,7 +71,7 @@ function init() {
 }
 
 function firstRun() {
-  ui.alert('Hey! This button has become outdated!\n Feel free to remove this button!\n\nTo remove it, right click on it, and click \'delete image\'');
+  ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
 }
 
 /*** Data Processing ***/
