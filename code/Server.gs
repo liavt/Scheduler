@@ -1,4 +1,26 @@
-/* If you want to edit or view the code, go to https://github.com/liavt/Scheduler
+/*
+ * Hey
+ * You must be pretty tech savvy to reach here. Unless you got it shared directly.
+ * You may also notice that you have edit permissions. Trust
+ *
+ * You found the source
+ * Cool.
+ *
+ * I know it sucks
+ * I know it is redudant
+ * I know it is messy
+ * I know it is undocumented
+ *
+ * I don't care enough to fix any of it. It works, it's happens basically instantly on chromebooks (the window delay is google's fault)
+ *
+ * Also why does Google scripts not have OOP? That would make this task so much easier on so many levels.
+ * And autocomplete might be nice
+ * How about an actually competetant formatter?
+ * And also MAYBE A DEVELOPER CONSOLE
+ *
+ * Basically if the API was better this could be much better, but sadly, this is how it has to be.
+ *
+ * Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
  * It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
  * good enough, I will add it to the master branch (with Mr. Bailey's approval of course)
  * -Liav
@@ -22,7 +44,7 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version = 1.4;
+var version =1.43;
 
 var user = PropertiesService.getUserProperties();
 
@@ -30,6 +52,16 @@ var user = PropertiesService.getUserProperties();
 function init() {
 	// Kickstart everything
     checkVersion();
+  // Ask if this is the first time
+	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+		// Get active spreadsheet
+	    var ss = SpreadsheetApp.getActive();
+		// Add trigger for init when spreadsheet opens
+	    ScriptApp.newTrigger('firstRun')
+	      .forSpreadsheet(ss)
+	      .onOpen()
+	      .create();
+	}
 	updateSpreadsheet();
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
@@ -39,20 +71,7 @@ function init() {
 }
 
 function firstRun() {
-	// Ask if this is the first time
-	if (!triggersExist()) {
-		// Get active spreadsheet
-	    var ss = SpreadsheetApp.getActive();
-		// Add trigger for init when spreadsheet opens
-	    ScriptApp.newTrigger('init')
-	      .forSpreadsheet(ss)
-	      .onOpen()
-	      .create();
-	} else {
-        Browser.msgBox("You already clicked this before!");
-    }
-  //run init
-  init();
+  ui.alert('Hey! This button has become outdated!\n Feel free to remove this button!\n\nTo remove it, right click on it, and click \'delete image\'');
 }
 
 /*** Data Processing ***/
@@ -256,7 +275,8 @@ function showSidebar() {
 	if (personid > 0) {
 		// Get the schedule
 		var schedule = getSchedule(personid);
-        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'' + peoplenames[personid][4] + '\');"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
+      //ui.alert('hello');
+        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+peoplenames[personid][4]+'\');"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
 		// Build HTML output
 		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
 		// Show the sidebar
@@ -299,7 +319,7 @@ function versionInfo() {
 function triggersExist(){
   var triggers = ScriptApp.getProjectTriggers();
   for (var i = 0; i < triggers.length; i++) {
-   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="init") {
+   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="firstRun") {
      return true;
      // Some code here - other options are:
      // ScriptApp.EventType.ON_EDIT
@@ -447,9 +467,7 @@ function listAll(target) {
 		}
 	}
 	out += '</div><br>';
-	if (target == 'LOTE' || target == 'Cohort') {
-		out += '<input type="submit"value="Search for a ' + target + '"onclick="google.script.run.runRemote(\'askFor' + target + '\');">';
-	} else if (target == 'People') {
+	if (target == 'People') {
 		out += '<input type="submit"value="Search for a student"onclick="google.script.run.runRemote(\'searchAndViewStudent\');">';
 	}
 	out += getMainMenuButton();
@@ -474,7 +492,7 @@ function listAllCohort() {
 function viewCohort(cohort) {
 	var out = '';
 	for (var i=0;i<peoplenames.length;i++) {
-		if (peoplenames[i][4].toLowerCase() == cohort.toLowerCase()) {
+		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
 			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
