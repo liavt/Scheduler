@@ -50,19 +50,15 @@ var user = PropertiesService.getUserProperties();
 
 /*** Triggers ***/
 function init() {
-	// Kickstart everything
-    checkVersion();
-  // Ask if this is the first time
-	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
-		// Get active spreadsheet
-	    var ss = SpreadsheetApp.getActive();
-		// Add trigger for init when spreadsheet opens
-	    ScriptApp.newTrigger('init')
-	      .forSpreadsheet(ss)
-	      .onOpen()
-	      .create();
-	}
-	updateSpreadsheet();
+//	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+//		// Get active spreadsheet
+//	    var ss = SpreadsheetApp.getActive();
+//		// Add trigger for init when spreadsheet opens
+//	    ScriptApp.newTrigger('init')
+//	      .forSpreadsheet(ss)
+//	      .onOpen()
+//	      .create();
+//	}
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
 	// Integrated with the refresh button
@@ -255,6 +251,7 @@ function getMainMenuButton() {
 /*** UI Interaction ***/
 
 function checkVersion() {
+    init();
 	SpreadsheetApp.getActive().toast('Checking for updates...');
 	if (remoteversion > version) {
         var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
@@ -319,7 +316,7 @@ function versionInfo() {
 function triggersExist(){
   var triggers = ScriptApp.getProjectTriggers();
   for (var i = 0; i < triggers.length; i++) {
-   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="firstRun") {
+   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=='init') {
      return true;
      // Some code here - other options are:
      // ScriptApp.EventType.ON_EDIT
