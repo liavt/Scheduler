@@ -53,7 +53,8 @@ function init() {
 	updateSpreadsheet();
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
-	menu.addItem('Update spreadsheet','updateSpreadsheet');
+	// Integrated with the refresh button
+	// menu.addItem('Update spreadsheet','updateSpreadsheet');
 	menu.addItem('About', 'versionInfo').addToUi();
 }
 
@@ -258,7 +259,7 @@ function getMainMenuButton() {
 function checkVersion() {
 	SpreadsheetApp.getActive().toast('Checking for updates...');
 	if (remoteversion > version) {
-        var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' +version+ '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
+        var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
 		var htmlOutput = constructHTML(output, 300, 130);
 		ui.showModalDialog(htmlOutput, 'New Version');
 	} else {
