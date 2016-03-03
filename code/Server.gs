@@ -256,7 +256,7 @@ function showSidebar() {
 	if (personid > 0) {
 		// Get the schedule
 		var schedule = getSchedule(personid);
-        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'peoplenames[personid][4]\')"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
+        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'' + peoplenames[personid][4] + '\');"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
 		// Build HTML output
 		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
 		// Show the sidebar
