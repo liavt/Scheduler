@@ -57,7 +57,7 @@ function init() {
 		// Get active spreadsheet
 	    var ss = SpreadsheetApp.getActive();
 		// Add trigger for init when spreadsheet opens
-	    ScriptApp.newTrigger('firstRun')
+	    ScriptApp.newTrigger('init')
 	      .forSpreadsheet(ss)
 	      .onOpen()
 	      .create();
