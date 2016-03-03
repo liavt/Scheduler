@@ -63,10 +63,12 @@ function firstRun() {
 		// Get active spreadsheet
 	    var ss = SpreadsheetApp.getActive();
 		// Add trigger for init when spreadsheet opens
+		if(!triggersExist()){
 	    ScriptApp.newTrigger('init')
 	      .forSpreadsheet(ss)
 	      .onOpen()
 	      .create();
+		}
 		// Run init or else nothing else will appear
 	    init();
 	} else {
