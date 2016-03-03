@@ -44,7 +44,7 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.43;
+var version =1.44;
 
 var user = PropertiesService.getUserProperties();
 
@@ -64,6 +64,14 @@ function init() {
 	// Integrated with the refresh button
 	// menu.addItem('Update spreadsheet','updateSpreadsheet');
 	menu.addItem('About', 'versionInfo').addToUi();
+    //menu.addItem('Report an issue','showBugReports').addToUi();
+}
+
+function showBugReports(){
+ // https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform
+          var output = '<p>Have an issue to report?<br>Fill out a simple form to notify us!</p><br><a href="https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform" target="_blank">Open</a>';
+		var htmlOutput = constructHTML(output, 300, 130);
+		ui.showModalDialog(htmlOutput, 'Bug Report');
 }
 
 function firstRun() {
@@ -308,7 +316,7 @@ function clearSettings() {
 }
 
 function versionInfo() {
-    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
+    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
 	var htmlOutput = constructHTML(output, 200, 250);
 	ui.showModalDialog(htmlOutput, 'Version Info');
 }
