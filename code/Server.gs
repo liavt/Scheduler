@@ -22,7 +22,7 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.31;
+var version = 1.4;
 
 var user = PropertiesService.getUserProperties();
 
@@ -40,7 +40,7 @@ function init() {
 
 function firstRun() {
 	// Ask if this is the first time
-	if (!triggersExist()&&Browser.msgBox("Do you want this to run while you are gone?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
+	if (!triggersExist()) {
 		// Get active spreadsheet
 	    var ss = SpreadsheetApp.getActive();
 		// Add trigger for init when spreadsheet opens
@@ -48,7 +48,9 @@ function firstRun() {
 	      .forSpreadsheet(ss)
 	      .onOpen()
 	      .create();
-	}
+	} else {
+        Browser.msgBox("You already clicked this before!");
+    }
   //run init
   init();
 }
