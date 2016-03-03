@@ -572,7 +572,7 @@ function showGroup(row) {
 }
 
 function showPerson(person) {
-	var htmlOutput = constructHTML('<p>' +getSchedule(person) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[person][4] + '"onclick="google.script.run.viewCohort(\'' +peoplenames[person][4] + '\')"><br><input type="submit"value="LOTE: ' +peoplenames[person][2] + '"onclick="google.script.run.viewLOTE(\'' +peoplenames[person][2] + '\');"><br><input type="submit"value="Group ' +peoplenames[person][3] + '"onclick="google.script.run.showGroup(' +person+ ');"><br><br>', 300, 500);
+	var htmlOutput = constructHTML('<p>' +getSchedule(person) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[person][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+peoplenames[person][4]+'\');"><br><input type="submit"value="LOTE: ' +peoplenames[person][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group ' +peoplenames[person][3] + '"onclick="google.script.run.runRemote(\'showGroup\','+person+');"><br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, peoplenames[person][0] + ' ' +peoplenames[person][1]);
 }
 
