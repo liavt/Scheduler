@@ -1,23 +1,4 @@
-/*
- * Hey
- *
- * You found the source
- * Cool.
- * I know it sucks
- * I know it is redudant
- * I know it is messy
- * I know it is undocumented
- *
- * I don't care enough to fix any of it. It works, it's happens basically instantly on chromebooks (the window delay is google's fault)
- *
- * Also why does Google scripts not have OOP? That would make this task so much easier on so many levels.
- * And autocomplete might be nice
- * How about an actually competetant formatter?
- * And also MAYBE A DEVELOPER CONSOLE
- *
- * Basically if the API was better this could be much better, but sadly, this is how it has to be.
- *
- * Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
+/* If you want to edit or view the code, go to https://github.com/liavt/Scheduler
  * It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
  * good enough, I will add it to the master branch (with Mr. Bailey's approval of course)
  * -Liav
