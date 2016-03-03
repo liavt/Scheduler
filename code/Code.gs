@@ -38,7 +38,7 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.21;
+var version =1.31;
 var user = PropertiesService.getUserProperties();
 
 
@@ -132,13 +132,29 @@ function init() {
 	//updateSpreadsheet();}
 }
 
+function triggersExist(){
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="init") {
+     return true;
+     // Some code here - other options are:
+     // ScriptApp.EventType.ON_EDIT
+     // ScriptApp.EventType.ON_FORM_SUBMIT
+     // ScriptApp.EventType.ON_OPEN
+   }
+ }
+  return false;
+}
+
 function onOpen(){
+    init();
+  if(!triggersExist()){
     var ss = SpreadsheetApp.getActive();
     ScriptApp.newTrigger('init')
       .forSpreadsheet(ss)
       .onOpen()
       .create();
-    init();
+  }
     //	checkVersion();
     //	var menu= SpreadsheetApp.getUi().createMenu('Schedule');
     //	menu.addItem('Open menu', 'start');
@@ -627,7 +643,7 @@ function getSchedule(person){
 	}
 
 	out+='<br>'+current;
-	out+='<br>'+next;
+	out+='<br><br>'+next;
 	return out;
 }
 
