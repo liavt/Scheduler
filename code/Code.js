@@ -58,21 +58,19 @@ function init() {
 }
 
 function firstRun() {
-	// Ask if this is the first time
-	if (Browser.msgBox("Is this your first time clicking this?", ui.ButtonSet.YES_NO) == ui.Button.YES) {
-		// Get active spreadsheet
-	    var ss = SpreadsheetApp.getActive();
-		// Add trigger for init when spreadsheet opens
-		if(!triggersExist()){
-	    ScriptApp.newTrigger('init')
-	      .forSpreadsheet(ss)
-	      .onOpen()
-	      .create();
-		}
+    // Get active spreadsheet
+    var ss = SpreadsheetApp.getActive();
+    // Add trigger for init when spreadsheet opens
+    if(!triggersExist()){
+        ScriptApp.newTrigger('init')
+          .forSpreadsheet(ss)
+          .onOpen()
+          .create();
 		// Run init or else nothing else will appear
 	    init();
-	} else {
+    } else {
 		// Run init
+        Browser.msgbox("You've already clicked this before!");
 		init();
 	}
 }
@@ -122,7 +120,7 @@ function constructHTML(data, width, height, title) {
 
 function parseLearnerSchedule(sched, person) {
 	var newsched = sched.split('<br>');
-	var out='';
+	var out = '';
 	if (newsched) {
 		for (var i = 0; i < newsched.length; i++) {
 			if (newsched[i]) {
@@ -135,7 +133,7 @@ function parseLearnerSchedule(sched, person) {
 						split[1] = split[1].substring(0,hdindex);
 					}
 				}
-				out+=split[0] + '-' +split[1] + '<br>';
+				out += split[0] + '-' + split[1] + '<br>';
 			}
 		}
 	}
@@ -147,7 +145,7 @@ function replaceAll(string, search, replacement) {
 };
 
 function parseGroupSchedule(sched, person) {
-	return replaceAll(sched,'%HD','<i> or ' +settings[11][0] + '</i>');
+	return replaceAll(sched,'%HD','<i> or ' + settings[11][0] + '</i>');
 }
 
 function filterOutDuplicates(a,xindex) {
@@ -175,7 +173,7 @@ function searchAndViewStudent() {
 
 function getTime(date) {
 	//we don't want to check the dates and weeks and stuff like that, we assume that the schedule is for the same day
-	return (date.getHours()*60) +date.getMinutes();
+	return (date.getHours() * 60) + date.getMinutes();
 }
 
 
@@ -214,10 +212,10 @@ function getSchedule(person) {
 			//check actual times
 				var d = new Date(times[0][i]);
 				var hours = parseInt(d.getHours());
-				if (hours>12) {
-					hours-=12;
+				if (hours > 12) {
+					hours -= 12;
 				}
-				rows += hours + ':' +addZero(d.getMinutes()) + '&' +mods[row][i] + ';';
+				rows += hours + ':' + addZero(d.getMinutes()) + '&' + mods[row][i] + ';';
 				var currenttime = new Date();
 				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
 				if (getTime(currenttime) >= getTime(d)) {
@@ -319,17 +317,17 @@ function versionInfo() {
 }
 
 function triggersExist(){
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=="init") {
-     return true;
-     // Some code here - other options are:
-     // ScriptApp.EventType.ON_EDIT
-     // ScriptApp.EventType.ON_FORM_SUBMIT
-     // ScriptApp.EventType.ON_OPEN
-   }
- }
-  return false;
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+        if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN && triggers[i].getHandlerFunction() == "init") {
+            return true;
+            // Some code here - other options are:
+            // ScriptApp.EventType.ON_EDIT
+            // ScriptApp.EventType.ON_FORM_SUBMIT
+            // ScriptApp.EventType.ON_OPEN
+        }
+    }
+    return false;
 }
 
 function start() {
@@ -495,16 +493,16 @@ function listAllCohort() {
 
 function viewCohort(cohort) {
 	var out = '';
-	for (var i=0;i<peoplenames.length;i++) {
-		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
-			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
+	for (var i = 0; i < peoplenames.length; i++) {
+		if (peoplenames[i][4].toLowerCase() == cohort.toLowerCase()) {
+			out += '<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.showPerson(' + i + ');"><br>';
 		}
 	}
-	out+='<br>';
-	out+=getMainMenuButton();
+	out += '<br>';
+	out += getMainMenuButton();
 
 	var htmlOutput = constructHTML(out, 300, 500);
-	ui.showModalDialog(htmlOutput, 'Cohort: ' +cohort);
+	ui.showModalDialog(htmlOutput, 'Cohort: ' + cohort);
 }
 
 function viewLOTE(lote) {
