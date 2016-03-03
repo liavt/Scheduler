@@ -453,13 +453,13 @@ function listAll(target) {
 	if (target == 'LOTE' || target == 'Cohort') {
 		for (var i = 0; i < newarray.length; i++) {
 			if (newarray[i]) {
-				out += '<input type="submit"value="' + newarray[i] + '"onclick="google.script.run.runRemote(\'view' + target + '\','+peoplenames[personid][2]+');"><br>';
+				out += '<input type="submit"value="' + newarray[i] + '"onclick="google.script.run.runRemote(\'view' + target + '\',\''+newarray[i]+'\');"><br>';
 			}
 		}
 	} else if (target == 'People') {
 		for (var i = 0; i < peoplenames.length; i++) {
 			if (peoplenames[i][0] && peoplenames[i][1]) {
-				out += '<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+peoplenames[personid][2]+');"><br>';
+				out += '<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 			}
 		}
 	}
@@ -491,7 +491,7 @@ function listAllCohort() {
 function viewCohort(cohort) {
 	var out = '';
 	for (var i=0;i<peoplenames.length;i++) {
-		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
+		if (peoplenames[i][4].toLowerCase() == cohort.toLowerCase()) {
 			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
