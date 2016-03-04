@@ -32,10 +32,11 @@
 /*** Variables ***/
 // Get UI. It won't work when triggered by time triggers
 var ui = SpreadsheetApp.getUi();
+var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
-var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet('10').getSheets()[0];
+var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(getGrade())).getSheets()[0];
 // Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
 var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
@@ -48,7 +49,6 @@ var remoteversion = sheet.getRange(19, 10).getValue();
 // Current version
 var version = 1.44;
 // Get current user
-var user = PropertiesService.getUserProperties();
 var grade = '9';
 var invalidGrade = false;
 
@@ -97,7 +97,7 @@ function firstRun() {
 /*** Data Processing ***/
 
 function getGradeSpreadsheet(target) {
-    if (target == '9' || target == '-1') {
+    if (target == '9') {
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
     } else if (target == '10') {
         return 'https://docs.google.com/spreadsheets/d/1Yk2b9Ha0msdyD7h-D0yh0ZiXPoKgODrrWLHWbx4noLo/edit?usp=sharing';
@@ -115,7 +115,7 @@ function setGrade() {
 function getGrade() {
     if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
         invalidGrade = true;
-        return '-1';
+        return '9';
     } else {
         return user.getProperty('USER_GRADE');
     }
@@ -574,15 +574,15 @@ function updateSpreadsheet() {
 	SpreadsheetApp.getActive().toast('Refreshing schedule...');
 	// Check for updates
 	checkVersion();
+    if (invalidGrade) {
+        setGrade();
+    }
+    getGradeSpreadsheet(getGrade());
 	// Update everything
 	updateModNames();
 	updateModColors();
 	updateSchedule();
-    var result = getGrade();
-    if (result == '-1') {
-        setGrade();
-    }
-    getGradeSpreadsheet(getGrade);
+    getGrade();
 	// Prevent editing of the sheet
 	// TODO: Fix this
 	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
