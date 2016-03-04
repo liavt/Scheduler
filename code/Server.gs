@@ -1,33 +1,4 @@
-/*
- * Hey
- * You must be pretty tech savvy to reach here.
- * We trust you enough not to mess with people's computers.
- * If you do do something malicous, then this entire schedule program will probably be banned, and everyone involved will get in huge trouble.
- * Don't mess it up for everyone else.
- *
- * But otherwise congrats on finding the source
- *
- * I know it sucks
- * I know it is redudant
- * I know it is messy
- * I know it is undocumented
- *
- * I don't care enough to fix any of it. It works, it's happens basically instantly on chromebooks (the window delay is google's fault)
- *
- * Also why does Google scripts not have OOP? That would make this task so much easier on so many levels.
- * And autocomplete might be nice
- * How about an actually competetant formatter?
- * And also MAYBE A DEVELOPER CONSOLE
- *
- * Basically if the API was better this could be much better, but sadly, this is how it has to be.
- *
- * Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
- * It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
- * good enough, I will add it to the master branch (with Mr. Bailey's approval of course)
- * -Liav
- *
- * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
- */
+
 
 /*** Variables ***/
 // Get UI. It won't work when triggered by time triggers
@@ -35,16 +6,16 @@ var ui = SpreadsheetApp.getUi();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
-var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
+var sheet ;
 // Variable initialization
-var settings = sheet.getRange(24,1,37,5).getValues();
-var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
-var mods = sheet.getRange(2,1,5,16).getValues();
-var times = sheet.getRange(1,1,1,16).getValues();
+var settings ;
+var peoplenames;
+var mods ;
+var times;
 // When updating modnames don't forget to change the getModColor() function
-var modnames = sheet.getRange(8,1,15,2).getValues();
+var modnames;
 // Get remote version
-var remoteversion = sheet.getRange(19, 10).getValue();
+var remoteversion;
 // Current version
 var version = 1.44;
 // Get current user
@@ -74,6 +45,7 @@ function init() {
 }
 
 function showBugReports(){
+  
     // https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform
     var output = '<p>Have an issue to report?<br>Fill out a simple form to notify us!</p><br><a href="https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform" target="_blank">Open</a>';
     var htmlOutput = constructHTML(output, 300, 130);
@@ -112,7 +84,7 @@ function getFullModName(name) {
 }
 
 function getHTMLPrepend() {
-    // HTML header
+  // HTML header
 	return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
 }
 
@@ -204,6 +176,7 @@ function getTime(date) {
 
 
 function getSchedule(person) {
+    checkVersion();
     // TODO: Rename one of them
 	var row = 0;
 	var rows = '';
@@ -288,18 +261,23 @@ function getMainMenuButton() {
 }
 
 /*** UI Interaction ***/
-
+//checkVersion() must be called each time the code is called, as it initializes variables
 function checkVersion() {
-    // Display something so it won't seem like nothing happened
-	SpreadsheetApp.getActive().toast('Checking for updates...');
+  sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
+// Variable initialization
+settings = sheet.getRange(24,1,37,5).getValues();
+peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+mods = sheet.getRange(2,1,5,16).getValues();
+times = sheet.getRange(1,1,1,16).getValues();
+// When updating modnames don't forget to change the getModColor() function
+modnames = sheet.getRange(8,1,15,2).getValues();
+// Get remote version
+remoteversion = sheet.getRange(19, 10).getValue();
 	if (remoteversion > version) {
         // Display the update message
         var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
 		var htmlOutput = constructHTML(output, 300, 130);
 		ui.showModalDialog(htmlOutput, 'New Version');
-	} else {
-        // No updates
-		SpreadsheetApp.getActive().toast('No updates found.');
 	}
 	checkProperties();
 }
@@ -541,6 +519,7 @@ function updateSpreadsheet() {
 }
 
 function listAll(target) {
+    checkVersion();
 	var out = '<div>';
 	Logger.log(target);
 	if (target == 'LOTE') {
@@ -587,6 +566,7 @@ function listAllCohort() {
 }
 
 function viewCohort(cohort) {
+    checkVersion();
 	var out = '';
 	for (var i = 0; i < peoplenames.length; i++) {
 		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
@@ -602,6 +582,7 @@ function viewCohort(cohort) {
 }
 
 function viewLOTE(lote) {
+      checkVersion();
 	var out = '<div>';
 	for (var i = 0; i < peoplenames.length; i++) {
 		if (peoplenames[i][2] === lote) {
@@ -617,6 +598,7 @@ function viewLOTE(lote) {
 }
 
 function askForCohort() {
+      checkVersion();
 	var result = ui.prompt(
 	  'Cohort Lookup',
 	'Please enter the desired cohort to search foor',
@@ -648,6 +630,7 @@ function askForCohort() {
 }
 
 function askForLOTE() {
+      checkVersion();
 	var result = ui.prompt(
 	  'LOTE Lookup',
 	'Please enter the acronym used for a LOTE.',
@@ -700,6 +683,8 @@ function showPerson(person) {
 }
 
 function askForGroup() {
+      checkVersion();
+
 	var result = ui.prompt(
 		'Group Lookup',
 		'Please enter a valid group number',
@@ -736,6 +721,8 @@ function askForGroup() {
 }
 
 function askForStudent() {
+      checkVersion();
+
 	var result = ui.prompt(
 	'Learner Lookup',
 	'Please enter a learner\'s full first and last name:',
@@ -769,5 +756,5 @@ function askForStudent() {
 		}
 	} else if (button == ui.Button.CANCEL) {
 		start();
-	}
+    }
 }
