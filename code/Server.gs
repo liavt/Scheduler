@@ -106,12 +106,18 @@ function getGradeSpreadsheet(target) {
 
 function setGrade() {
     // Prompt for a valid grade
-    var response = ui.prompt('Enter a valid grade: ',ui.ButtonSet.OK);
+    var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
     // Read the input
     var text = response.getResponseText();
-    user.setProperty('USER_GRADE', text);
+    if (text == '9' || text == '10') {
+        user.setProperty('USER_GRADE', text);
+    } else {
+        ui.alert("Invalid grade was entered. Defaulting to 9. Reset to enter another.", ui.ButtonSet.OK);
+        user.setProperty('USER_GRADE', '9');
+    }
     // Set invalidGrade to false so it won't trigger another prompt
     invalidGrade = false;
+    ui.alert("Grade has been updated. You may need to refresh the spreadsheet to load the new schedule.", ui.ButtonSet.OK);
 }
 
 function getGrade() {
