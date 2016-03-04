@@ -573,16 +573,16 @@ function updateModColors() {
 function updateSpreadsheet() {
 	SpreadsheetApp.getActive().toast('Refreshing schedule...');
 	// Check for updates
-	checkVersion();
+    getGrade();
     if (invalidGrade) {
         setGrade();
     }
     getGradeSpreadsheet(getGrade());
 	// Update everything
+    checkVersion();
 	updateModNames();
 	updateModColors();
 	updateSchedule();
-    getGrade();
 	// Prevent editing of the sheet
 	// TODO: Fix this
 	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
