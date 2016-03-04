@@ -298,24 +298,29 @@ function checkProperties() {
 		user.setProperty('USER_DATABASE_ID', -1);
 		// While the ID is invalid (because the user doesn't exist)
 		while(user.getProperty('USER_DATABASE_ID') < 0) {
-            SpreadsheetApp.getActive().toast('Attempting automatic user detection...');
-            var first = detectUser('first');
-            var second = detectUser('last');
-            if (first == 'undefined' || second == 'undefined') {
-                SpreadsheetApp.getActive().toast('Automatic user detection failed.');
-    			// Prompt the user for their First Name and last name
-    			var response = ui.prompt('Please enter your full first and last name. If you don\'t want a personalized calender (only want to look at other people\'s) then leave it blank.',ui.ButtonSet.OK);
-    			// Read the input
-    			var text = response.getResponseText();
-    			var spaceindex = text.indexOf(' ');
-    			// The +1 is because I don't want to include the actual space in the final string
-    			second = text.substring(spaceindex + 1).toLowerCase();
-    			first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
-    			user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
+            if (ui.alert('Attempt automatic user detection?', ui.ButtonSet.YES_NO) == ui.Button.YES)
+            {
+                SpreadsheetApp.getActive().toast('Attempting automatic user detection...');
+                var first = detectUser('first');
+                var second = detectUser('last');
+                if (first == 'undefined' || second == 'undefined') {
+                    SpreadsheetApp.getActive().toast('Automatic user detection failed.');
+                    ui.prompt("Please try again, and do NOT choose automatic detection. Manually enter it in.", ui.ButtonSet.OK);
+        			// Prompt the user for their First Name and last name
+                } else {
+                    SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
+                    // Might be redundant
+                    user.setProperty('USER_DATABASE_ID', findPersonByName(first, second));
+                }
             } else {
-                SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
-                // Might be redundant
-                user.setProperty('USER_DATABASE_ID', findPersonByName(first, second));
+                var response = ui.prompt('Please enter your full first and last name. If you don\'t want a personalized calender (only want to look at other people\'s) then leave it blank.',ui.ButtonSet.OK);
+                // Read the input
+                var text = response.getResponseText();
+                var spaceindex = text.indexOf(' ');
+                // The +1 is because I don't want to include the actual space in the final string
+                second = text.substring(spaceindex + 1).toLowerCase();
+                first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
+                user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
             }
 		}
 	}
