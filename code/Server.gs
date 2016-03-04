@@ -583,10 +583,15 @@ function updateSpreadsheet() {
 	SpreadsheetApp.getActive().toast('Refreshing schedule...');
 	// Check for updates
     getGrade();
+    // invalidGrade is set if getGrade detects that USER_GRADE isn't set
     if (invalidGrade) {
         setGrade();
     }
+    // Set correct grade spreadsheet
     getGradeSpreadsheet(getGrade());
+    // Update global variables, so the functions after this
+    // such as updateModNames and updateSchedule will
+    // use the updated data
     updateGlobalVariables();
 	// Update everything
     checkVersion();
