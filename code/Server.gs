@@ -30,7 +30,7 @@
  */
 
 /*** Variables ***/
-// Get UI. It won't work when triggered by time
+// Get UI. It won't work when triggered by time triggers
 var ui = SpreadsheetApp.getUi();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
@@ -45,15 +45,16 @@ var times = sheet.getRange(1,1,1,16).getValues();
 var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
-var version =1.44;
-
+// Current version
+var version = 1.44;
+// Get current user
 var user = PropertiesService.getUserProperties();
 
 /*** Triggers ***/
 function init() {
-	// Kickstart everything
+	// Check for updates
     checkVersion();
-    // Ask if this is the first time
+    // Check if the init trigger already exists
 	if (!triggersExist()) {
 		// Get active spreadsheet
 	    var ss = SpreadsheetApp.getActive();
@@ -63,29 +64,37 @@ function init() {
 	      .onOpen()
 	      .create();
 	}
+    // Get latest version of spreadsheet and schedule
 	updateSpreadsheet();
+    // Add menu items
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
-	// Integrated with the refresh button
-	// menu.addItem('Update spreadsheet','updateSpreadsheet');
 	menu.addItem('About', 'versionInfo').addToUi();
     //menu.addItem('Report an issue','showBugReports').addToUi();
 }
 
 function showBugReports(){
- // https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform
-          var output = '<p>Have an issue to report?<br>Fill out a simple form to notify us!</p><br><a href="https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform" target="_blank">Open</a>';
-		var htmlOutput = constructHTML(output, 300, 130);
-		ui.showModalDialog(htmlOutput, 'Bug Report');
+    // https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform
+    var output = '<p>Have an issue to report?<br>Fill out a simple form to notify us!</p><br><a href="https://docs.google.com/a/mypisd.net/forms/d/1WRZtUyp_WJfaPrjWEUcGR0hzeEiUWNH6GDXEpZwnLi4/viewform" target="_blank">Open</a>';
+    var htmlOutput = constructHTML(output, 300, 130);
+    // Display the output
+    ui.showModalDialog(htmlOutput, 'Bug Report');
 }
 
 function firstRun() {
+    /* This function is deprecated. Do NOT use this
+     * The only reason why it still exists is because
+     * the spreadsheet that everyone else has has a button
+     * that links to this. If we remove this, it wrill break that.
+     */
     ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
+    // TODO: Call init after this
 }
 
 /*** Data Processing ***/
 
 function getModColor(mod) {
+    // Loop through modnames array and set the appropriate color
 	for (var i = 0; i < modnames.length; i++) {
 		if (modnames[i][0] == mod) {
 			// Get background color of the selected box
@@ -103,20 +112,25 @@ function getFullModName(name) {
 }
 
 function getHTMLPrepend() {
+    // HTML header
 	return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
 }
 
 function getHTMLAppend() {
+    // HTML footer
 	return ' </body></html>';
 }
 
 function constructHTML(data, width, height, title) {
+    // title is undefined if one wasn't provided as an argument
 	if (title == 'undefined') {
+        // Title doesn't exist. Generate a message without it.
 		var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
 		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
 		.setWidth(width)
 		.setHeight(height);
 	} else {
+        // Title DOES exist. Set the title too
 		var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
 		.setSandboxMode(HtmlService.SandboxMode.IFRAME)
 		.setWidth(width)
@@ -128,7 +142,7 @@ function constructHTML(data, width, height, title) {
 
 function parseLearnerSchedule(sched, person) {
 	var newsched = sched.split('<br>');
-	var out='';
+	var out=''
 	if (newsched) {
 		for (var i = 0; i < newsched.length; i++) {
 			if (newsched[i]) {
@@ -136,12 +150,12 @@ function parseLearnerSchedule(sched, person) {
 				var hdindex = split[1].indexOf('%HD');
 				if (hdindex >= 0) {
 					if (isInHelpDesk(person)) {
-						split[1] = '  <i>' +settings[11][0] + '</i>';
+						split[1] = '  <i>' + settings[11][0] + '</i>';
 					} else {
 						split[1] = split[1].substring(0,hdindex);
 					}
 				}
-				out+=split[0] + '-' +split[1] + '<br>';
+				out += split[0] + '-' +split[1] + '<br>';
 			}
 		}
 	}
@@ -149,11 +163,12 @@ function parseLearnerSchedule(sched, person) {
 }
 
 function replaceAll(string, search, replacement) {
+    // Replace the requested item with the replacement
 	return string.replace(new RegExp(search, 'g'), replacement);
 };
 
 function parseGroupSchedule(sched, person) {
-	return replaceAll(sched,'%HD','<i> or ' +settings[11][0] + '</i>');
+	return replaceAll(sched,'%HD','<i> or ' + settings[11][0] + '</i>');
 }
 
 function filterOutDuplicates(a,xindex) {
@@ -167,39 +182,43 @@ function filterOutDuplicates(a,xindex) {
 }
 
 function findPersonByName(first,last) {
+    // Get the ID of the personS
 	for (var i = 0;i < peoplenames.length; i++) {
 		if (peoplenames[i][0].toLowerCase() === first && peoplenames[i][1].toLowerCase() === last) {
 			return i;
 		}
 	}
+    // Didn't find it. Return -1
 	return -1;
 }
 
 function searchAndViewStudent() {
+    // This is really just a wrapper
 	showPerson(askForStudent());
 }
 
 function getTime(date) {
-	//we don't want to check the dates and weeks and stuff like that, we assume that the schedule is for the same day
-	return (date.getHours()*60) +date.getMinutes();
+	// Only check for current day
+	return (date.getHours() * 60) + date.getMinutes();
 }
 
 
 function getSchedule(person) {
+    // TODO: Rename one of them
 	var row = 0;
 	var rows = '';
+    // HTML output variable
 	var out = '';
-	//current represents where the person is currently
+	// Current represents where the person is currently
 	var current = '<b>Currently at - Before school</b>';;
 	var next = '';
-	//<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
-	//cehck every time
+    // Check every time
 	for (var i = 0; i<16; i++) {
 		if (times[0][i]) {
-		//if it is a criteria key
+    		// Iff it is a criteria key
 			if (times[0][i] == 'KEY') {
-				//check all the mod names
-				for (var y = 0; y<5; y++) {
+				// Check all the mod names
+				for (var y = 0; y < 5; y++) {
 					if (mods[y][i] != 'NULL' || mods[y][i]) {
 						//check key type
 						if (mods[y][i].substring(0,1) == 'c') {
@@ -217,20 +236,25 @@ function getSchedule(person) {
 					}
 				}
 			} else {
-			//check actual times
+    			// Check actual times
 				var d = new Date(times[0][i]);
 				var hours = parseInt(d.getHours());
-				if (hours>12) {
-					hours-=12;
+				if (hours > 12) {
+                    // Convert to AM/PM from military time
+					hours -= 12;
 				}
-				rows += hours + ':' +addZero(d.getMinutes()) + '&' +mods[row][i] + ';';
+                // Add new time to output
+				rows += hours + ':' + addZero(d.getMinutes()) + '&' + mods[row][i] + ';';
+                // Current time
 				var currenttime = new Date();
-				// ui.alert(getTime(currenttime),getTime(d),ui.ButtonSet.OK);
 				if (getTime(currenttime) >= getTime(d)) {
+                    // Get display name of current class
 					current = '<b>Currently at - ' + getFullModName(mods[row][i]) + '</b>';
-					if (typeof getFullModName(mods[row][i +1]) == 'undefined') {
+					if (typeof getFullModName(mods[row][i + 1]) == 'undefined') {
+                        // Since the next mod is undefined, we can safely assume that school is over
 						next = '<b>Next - End of school </b>';
 					} else {
+                        // Get the next class
 						next = '<b>Next - ' + getFullModName(mods[row][i +1]) + '</b>';
 					}
 				}
@@ -251,7 +275,9 @@ function getSchedule(person) {
 }
 
 function addZero(i) {
+    // Add a leading zero if the number is a single digit
 	if (i < 10) {
+        // Implicit cast
 		i = "0" + i;
 	}
 	return i;
@@ -264,17 +290,18 @@ function getMainMenuButton() {
 /*** UI Interaction ***/
 
 function checkVersion() {
+    // Display something so it won't seem like nothing happened
 	SpreadsheetApp.getActive().toast('Checking for updates...');
 	if (remoteversion > version) {
+        // Display the update message
         var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
 		var htmlOutput = constructHTML(output, 300, 130);
 		ui.showModalDialog(htmlOutput, 'New Version');
 	} else {
+        // No updates
 		SpreadsheetApp.getActive().toast('No updates found.');
 	}
 	checkProperties();
-	// I don't think we should refresh the sidebar after checking version
-	// showSidebar();
 }
 
 function showSidebar() {
@@ -284,7 +311,6 @@ function showSidebar() {
 	if (personid > 0) {
 		// Get the schedule
 		var schedule = getSchedule(personid);
-      //ui.alert('hello');
         var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+peoplenames[personid][4]+'\');"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
 		// Build HTML output
 		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
@@ -294,16 +320,20 @@ function showSidebar() {
 }
 
 function checkProperties() {
+    // Invalid user ID
 	if (!user.getProperty('USER_DATABASE_ID') || user.getProperty('USER_DATABASE_ID') == null || user.getProperty('USER_DATABASE_ID') < 0) {
+        // Set the invalid ID
 		user.setProperty('USER_DATABASE_ID', -1);
 		// While the ID is invalid (because the user doesn't exist)
 		while(user.getProperty('USER_DATABASE_ID') < 0) {
             if (ui.alert('Attempt automatic user detection?', ui.ButtonSet.YES_NO) == ui.Button.YES)
             {
                 SpreadsheetApp.getActive().toast('Attempting automatic user detection...');
+                // Get the first and last name of our user
                 var first = detectUser('first');
                 var second = detectUser('last');
                 if (first == 'undefined' || second == 'undefined') {
+                    // detectUser returned undefined because the current user
                     SpreadsheetApp.getActive().toast('Automatic user detection failed.');
                     ui.prompt("Please try again, and do NOT choose automatic detection. Manually enter it in.", ui.ButtonSet.OK);
         			// Prompt the user for their First Name and last name
