@@ -298,15 +298,25 @@ function checkProperties() {
 		user.setProperty('USER_DATABASE_ID', -1);
 		// While the ID is invalid (because the user doesn't exist)
 		while(user.getProperty('USER_DATABASE_ID') < 0) {
-			// Prompt the user for their First Name and last name
-			var response = ui.prompt('Please enter your full first and last name. If you don\'t want a personalized calender (only want to look at other people\'s) then leave it blank.',ui.ButtonSet.OK);
-			// Read the input
-			var text = response.getResponseText();
-			var spaceindex = text.indexOf(' ');
-			// The +1 is because I don't want to include the actual space in the final string
-			var second = text.substring(spaceindex + 1).toLowerCase();
-			var first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
-			user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
+            SpreadsheetApp.getActive().toast('Attempting automatic user detection...');
+            var first = detectUser('first');
+            var second = detectUser('last');
+            if (first == 'undefined' || second == 'undefined') {
+                SpreadsheetApp.getActive().toast('Automatic user detection failed.');
+    			// Prompt the user for their First Name and last name
+    			var response = ui.prompt('Please enter your full first and last name. If you don\'t want a personalized calender (only want to look at other people\'s) then leave it blank.',ui.ButtonSet.OK);
+    			// Read the input
+    			var text = response.getResponseText();
+    			var spaceindex = text.indexOf(' ');
+    			// The +1 is because I don't want to include the actual space in the final string
+    			second = text.substring(spaceindex + 1).toLowerCase();
+    			first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
+    			user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
+            } else {
+                SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
+                // Might be redundant
+                user.setProperty('USER_DATABASE_ID', findPersonByName(first, second));
+            }
 		}
 	}
 }
@@ -326,18 +336,38 @@ function versionInfo() {
 }
 
 function triggersExist(){
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-   if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=='init') {
-     return true;
-     // Some code here - other options are:
-     // ScriptApp.EventType.ON_EDIT
-     // ScriptApp.EventType.ON_FORM_SUBMIT
-     // ScriptApp.EventType.ON_OPEN
-   }
- }
-  return false;
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=='init') {
+        return true;
+        // Some code here - other options are:
+        // ScriptApp.EventType.ON_EDIT
+        // ScriptApp.EventType.ON_FORM_SUBMIT
+        // ScriptApp.EventType.ON_OPEN
+        }
+    }
+    return false;
 }
+
+function detectUser(target) {
+    var useremail = Session.getActiveUser().getEmail();
+    if (useremail == null || useremail == 'undefined' || useremail == '') {
+        return 'undefined';
+    }
+    useremail = useremail.substring(0, useremail.indexOf("@mypisd.net"));
+    Logger.log(useremail);
+    var firstname = useremail.substring(0, useremail.indexOf("."));
+    Logger.log(firstname);
+    var lastname = useremail.substring(useremail.indexOf(".") + 1, useremail.lastIndexOf("."));
+    Logger.log(lastname);
+    if (target == 'first') {
+        return firstname;
+    } else if (target == 'last') {
+        return lastname;
+    }
+}
+
+
 
 function start() {
 	// Menu
