@@ -49,9 +49,12 @@ var remoteversion = sheet.getRange(19, 10).getValue();
 var version = 1.44;
 // Get current user
 var user = PropertiesService.getUserProperties();
+var grade = '9';
 
 /*** Triggers ***/
 function init() {
+    grade = getGrade();
+    // Browser.msgBox(grade);
 	// Check for updates
     checkVersion();
     // Check if the init trigger already exists
@@ -92,6 +95,29 @@ function firstRun() {
 }
 
 /*** Data Processing ***/
+
+function getGrade() {
+    if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
+        var userGrade;
+        var isValid = false;
+        while (!isValid) {
+            var response = ui.prompt('Please enter a valid grade: 9, 10',ui.ButtonSet.OK);
+            // Read the input
+            var text = response.getResponseText();
+            if (text == '9') {
+                userGrade = '9';
+                isValid = true;
+            } else if (text == '10') {
+                userGrade = '10';
+                isValid = true;
+            }
+        }
+        user.setProperty('USER_GRADE', userGrade)
+        return userGrade;
+    } else {
+        return user.getProperty('USER_GRADE');
+    }
+}
 
 function getModColor(mod) {
     // Loop through modnames array and set the appropriate color
