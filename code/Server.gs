@@ -314,7 +314,7 @@ function checkProperties() {
 function clearSettings() {
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
-	ui.alert('Reset settings.',ui.ButtonSet.OK);
+	ui.alert('Settings reset',ui.ButtonSet.OK);
 	// checkVersion();
 	updateSpreadsheet();
 }
