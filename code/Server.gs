@@ -333,13 +333,15 @@ function checkProperties() {
                 var first = detectUser('first');
                 var second = detectUser('last');
                 if (first == 'undefined' || second == 'undefined') {
-                    // detectUser returned undefined because the current user
+                    // detectUser returned undefined because some error was encountered
                     SpreadsheetApp.getActive().toast('Automatic user detection failed.');
                     ui.prompt("Please try again, and do NOT choose automatic detection. Manually enter it in.", ui.ButtonSet.OK);
         			// Prompt the user for their First Name and last name
                 } else {
                     SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
-                    // Might be redundant
+                    // Set the user ID
+                    // Even if it was an invalid ID (because teacher, maybe),
+                    // This thing would just loop over because the ID would be invalid (-1)
                     user.setProperty('USER_DATABASE_ID', findPersonByName(first, second));
                 }
             } else {
@@ -359,45 +361,62 @@ function checkProperties() {
 function clearSettings() {
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
+    // Alert that settings were completely reset
 	ui.alert('Settings reset',ui.ButtonSet.OK);
 	// checkVersion();
 	updateSpreadsheet();
 }
 
 function versionInfo() {
+    // Version HTML output
     var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
 	var htmlOutput = constructHTML(output, 200, 250);
+    // Display the output
 	ui.showModalDialog(htmlOutput, 'Version Info');
 }
 
-function triggersExist(){
+function triggersExist() {
+    // Get all project triggers
     var triggers = ScriptApp.getProjectTriggers();
     for (var i = 0; i < triggers.length; i++) {
-    if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN&&triggers[i].getHandlerFunction()=='init') {
-        return true;
-        // Some code here - other options are:
-        // ScriptApp.EventType.ON_EDIT
-        // ScriptApp.EventType.ON_FORM_SUBMIT
-        // ScriptApp.EventType.ON_OPEN
+        // Very specific check to make sure we only detect our trigger
+        // Just in case that another trigger exists
+        if (triggers[i].getEventType() == ScriptApp.EventType.ON_OPEN && triggers[i].getHandlerFunction() == 'init') {
+            return true;
+            // Some code here - other options are:
+            // ScriptApp.EventType.ON_EDIT
+            // ScriptApp.EventType.ON_FORM_SUBMIT
+            // ScriptApp.EventType.ON_OPEN
         }
     }
     return false;
 }
 
 function detectUser(target) {
+    // Get email of the currently logged in user
+    // This works because PISD emails are in the format of
+    // firstname.lastname.x@mypisd.net
+    // This will not work for non mypisd.net accounts
+    // because security restrictions
     var useremail = Session.getActiveUser().getEmail();
     if (useremail == null || useremail == 'undefined' || useremail == '') {
+        // This means that the user is A) not logged in or 2) not in PISD domain
         return 'undefined';
     }
+    // Remove the trailing @mypisd.net
     useremail = useremail.substring(0, useremail.indexOf("@mypisd.net"));
-    Logger.log(useremail);
+    // Logger.log(useremail);
+    // Grab the first name by getting everything up to the first .
     var firstname = useremail.substring(0, useremail.indexOf("."));
-    Logger.log(firstname);
+    // Logger.log(firstname);
+    // Get the last name by getting everything between the first . and the last . (there are only 2)
     var lastname = useremail.substring(useremail.indexOf(".") + 1, useremail.lastIndexOf("."));
-    Logger.log(lastname);
+    // Logger.log(lastname);
     if (target == 'first') {
+        // Return what's requested
         return firstname;
     } else if (target == 'last') {
+        // Return what's requested
         return lastname;
     }
 }
@@ -405,12 +424,10 @@ function detectUser(target) {
 
 
 function start() {
-	// Menu
+	// Main menu
 	var html = HtmlService.createHtmlOutputFromFile('entry')
 	  .setSandboxMode(HtmlService.SandboxMode.IFRAME).setWidth(250).setHeight(250);
 	ui.showModalDialog(html,'Main Menu');
-	// Why would you call this right now?
-	// checkVersion();
 }
 
 function updateModNames() {
@@ -550,6 +567,8 @@ function listAll(target) {
 	ui.showModalDialog(htmlOutput, target);
 }
 
+// Following three functions are wrapper functions for the
+// unified listAll function for compatibility
 function listAllLOTE() {
 	listAll('LOTE');
 }
@@ -565,13 +584,14 @@ function listAllCohort() {
 
 function viewCohort(cohort) {
 	var out = '';
-	for (var i=0;i<peoplenames.length;i++) {
+	for (var i = 0; i < peoplenames.length; i++) {
 		if (peoplenames[i][4].toLowerCase()==cohort.toLowerCase()) {
+            // Generate a button for each person in a cohort
 			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
-	out+='<br>';
-	out+=getMainMenuButton();
+	out += '<br>';
+	out += getMainMenuButton();
 
 	var htmlOutput = constructHTML(out, 300, 500);
 	ui.showModalDialog(htmlOutput, 'Cohort: ' +cohort);
@@ -579,16 +599,17 @@ function viewCohort(cohort) {
 
 function viewLOTE(lote) {
 	var out = '<div>';
-	for (var i=0;i<peoplenames.length;i++) {
-		if (peoplenames[i][2]===lote) {
-			out+='<input type="submit"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
+	for (var i = 0; i < peoplenames.length; i++) {
+		if (peoplenames[i][2] === lote) {
+            // Generate a button for that person
+			out+='<input type="submit"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + '"onclick="google.script.run.runRemote(\'showPerson\','+i+');"><br>';
 		}
 	}
-	out+='</div><br>';
-	out+=getMainMenuButton();
-
+	out += '</div><br>';
+	out += getMainMenuButton();
+    // Display the output
 	var htmlOutput = constructHTML(out, 300, 500);
-	ui.showModalDialog(htmlOutput, 'LOTE: ' +lote);
+	ui.showModalDialog(htmlOutput, 'LOTE: ' + lote);
 }
 
 function askForCohort() {
@@ -604,17 +625,20 @@ function askForCohort() {
 	if (button == ui.Button.OK) {
 		var found = false;
 		if (!response) {
+            // The response was empty
 			ui.alert('Please make a selection', ui.ButtonSet.OK);
 			found = true;
-			askForCohort();}
-		else {
+			askForCohort();
+        } else {
+            // Valid response
 			found = true;
 			viewCohort(response.toLowerCase());
 		}
 		if (!found) {
-			ui.alert('Cohort not found',ui.ButtonSet.OK);askForCohort();
+			ui.alert('Cohort not found', ui.ButtonSet.OK);askForCohort();
 		}
 	} else if (button == ui.Button.CANCEL) {
+        // Return to menu
 		start();
 	}
 }
@@ -633,10 +657,10 @@ function askForLOTE() {
 		var found = false;
 		if (!response) {
 			ui.alert('Please make a selection',ui.ButtonSet.OK);
-			found=true;
+			found = true;
 			askForLOTE();
 		} else {
-			found=true;
+			found = true;
 			viewLOTE(response.toUpperCase());
 		}
 		if (!found) {
@@ -649,22 +673,25 @@ function askForLOTE() {
 
 function getGroupMembers(group) {
 	var groupnum = peoplenames[group][3];
-	var out='Group Members:<br>';
-	for (var i =0;i<peoplenames.length;i++) {
-		if (peoplenames[i][3]==groupnum) {
-			out+='<input type="submit"onclick="google.script.run.runRemote(\'showPerson\','+i+');"value="' +peoplenames[i][0] + ' ' +peoplenames[i][1] + ' - ' +peoplenames[i][2] + '"><br>';
+	var out = 'Group Members:<br>';
+	for (var i = 0; i < peoplenames.length; i++) {
+		if (peoplenames[i][3] == groupnum) {
+            // Generate a button for each person in the group
+			out += '<input type="submit"onclick="google.script.run.runRemote(\'showPerson\',' + i + ');"value="' + peoplenames[i][0] + ' ' + peoplenames[i][1] + ' - ' + peoplenames[i][2] + '"><br>';
 		}
 	}
 	return out;
 }
 
 function showGroup(row) {
-	var htmlOutput = constructHTML('<p>' +getSchedule(row) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[row][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'' +peoplenames[row][4] + '\');"><br>' +getGroupMembers(row) + '<br><br>', 300, 500);
+    // Construct group HTML output
+	var htmlOutput = constructHTML('<p>' + getSchedule(row) + '</p><br><input type="submit"value="Cohort: ' + peoplenames[row][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\'' + peoplenames[row][4] + '\');"><br>' + getGroupMembers(row) + '<br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, 'Group ' +peoplenames[row][3]);
 }
 
 function showPerson(person) {
-	var htmlOutput = constructHTML('<p>' +getSchedule(person) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[person][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+peoplenames[person][4]+'\');"><br><input type="submit"value="LOTE: ' +peoplenames[person][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[person][2]+'\');"><br><input type="submit"value="Group ' +peoplenames[person][3] + '"onclick="google.script.run.runRemote(\'showGroup\','+person+');"><br><br>', 300, 500);
+    // Create the HTML for the schedule
+	var htmlOutput = constructHTML('<p>' +getSchedule(person) + '</p><br><input type="submit"value="Cohort: ' +peoplenames[person][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+ peoplenames[person][4]+'\');"><br><input type="submit"value="LOTE: ' + peoplenames[person][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\'' + peoplenames[person][2] + '\');"><br><input type="submit"value="Group ' + peoplenames[person][3] + '"onclick="google.script.run.runRemote(\'showGroup\',' + person + ');"><br><br>', 300, 500);
 	ui.showModalDialog(htmlOutput, peoplenames[person][0] + ' ' +peoplenames[person][1]);
 }
 
