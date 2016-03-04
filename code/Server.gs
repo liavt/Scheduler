@@ -95,6 +95,21 @@ function firstRun() {
 
 /*** Data Processing ***/
 
+function updateGlobalVariables() {
+    // Same code as the global initialization
+    // This is needed so we can load the new data
+    // from the new spreadsheet after updating
+    // the current grade
+    settings = sheet.getRange(24,1,37,5).getValues();
+    peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+    mods = sheet.getRange(2,1,5,16).getValues();
+    times = sheet.getRange(1,1,1,16).getValues();
+    // When updating modnames don't forget to change the getModColor() function
+    modnames = sheet.getRange(8,1,15,2).getValues();
+    // Get remote version
+    remoteversion = sheet.getRange(19, 10).getValue();
+}
+
 function getGradeSpreadsheet(target) {
     // Return spreadsheet based on grade
     if (target == '9') {
@@ -109,6 +124,8 @@ function setGrade() {
     var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
     // Read the input
     var text = response.getResponseText();
+    // Are there JavaScript switch statements?
+    // TODO: Switch to switch case if they exist in JavaScript
     if (text == '9' || text == '10') {
         user.setProperty('USER_GRADE', text);
     } else {
@@ -570,6 +587,7 @@ function updateSpreadsheet() {
         setGrade();
     }
     getGradeSpreadsheet(getGrade());
+    updateGlobalVariables();
 	// Update everything
     checkVersion();
 	updateModNames();
