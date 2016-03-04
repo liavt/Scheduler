@@ -97,6 +97,7 @@ function firstRun() {
 /*** Data Processing ***/
 
 function getGradeSpreadsheet(target) {
+    // Return spreadsheet based on grade
     if (target == '9') {
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
     } else if (target == '10') {
@@ -105,40 +106,26 @@ function getGradeSpreadsheet(target) {
 }
 
 function setGrade() {
+    // Prompt for a valid grade
     var response = ui.prompt('Enter a valid grade: ',ui.ButtonSet.OK);
     // Read the input
     var text = response.getResponseText();
     user.setProperty('USER_GRADE', text);
+    // Set invalidGrade to false so it won't trigger another prompt
     invalidGrade = false;
 }
 
 function getGrade() {
+    // Detect invalid grade
     if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
+        // Set invalidGrade to true, so later the user will be prompted
         invalidGrade = true;
+        // Return default grade (9)
         return '9';
     } else {
+        // Return the stored grade
         return user.getProperty('USER_GRADE');
     }
-    // if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
-    //     var userGrade;
-    //     var isValid = false;
-    //     while (!isValid) {
-    //         var response = ui.prompt('Please enter a valid grade: 9, 10',ui.ButtonSet.OK);
-    //         // Read the input
-    //         var text = response.getResponseText();
-    //         if (text == '9') {
-    //             userGrade = '9';
-    //             isValid = true;
-    //         } else if (text == '10') {
-    //             userGrade = '10';
-    //             isValid = true;
-    //         }
-    //     }
-    //     user.setProperty('USER_GRADE', userGrade)
-    //     return userGrade;
-    // } else {
-    //     return user.getProperty('USER_GRADE');
-    // }
 }
 
 function getModColor(mod) {
