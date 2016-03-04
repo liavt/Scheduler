@@ -35,37 +35,23 @@ var ui = SpreadsheetApp.getUi();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
-var sheet ;
+var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
 // Variable initialization
-var settings ;
-var peoplenames;
-var mods ;
-var times;
+var settings = sheet.getRange(24,1,37,5).getValues();
+var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+var mods = sheet.getRange(2,1,5,16).getValues();
+var times = sheet.getRange(1,1,1,16).getValues();
 // When updating modnames don't forget to change the getModColor() function
-var modnames;
+var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
-var remoteversion;
+var remoteversion = sheet.getRange(19, 10).getValue();
 // Current version
 var version = 1.44;
 // Get current user
 var user = PropertiesService.getUserProperties();
 
 /*** Triggers ***/
-function initializeVariables() {
-    sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
-    // Variable initialization
-    settings = sheet.getRange(24,1,37,5).getValues();
-    peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
-    mods = sheet.getRange(2,1,5,16).getValues();
-    times = sheet.getRange(1,1,1,16).getValues();
-    // When updating modnames don't forget to change the getModColor() function
-    modnames = sheet.getRange(8,1,15,2).getValues();
-    // Get remote version
-    remoteversion = sheet.getRange(19, 10).getValue();
-}
-
 function init() {
-    initializeVariables();
 	// Check for updates
     checkVersion();
     // Check if the init trigger already exists
