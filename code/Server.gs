@@ -1,7 +1,7 @@
 /*
  * Hey
- * You must be pretty tech savvy to reach here. Unless you got it shared directly.
- * You may also notice that you have edit permissions. We trust you enough not to mess with people's computers.
+ * You must be pretty tech savvy to reach here.
+ * We trust you enough not to mess with people's computers.
  * If you do do something malicous, then this entire schedule program will probably be banned, and everyone involved will get in huge trouble.
  * Don't mess it up for everyone else.
  *
