@@ -88,7 +88,7 @@ function firstRun() {
      * that links to this. If we remove this, it wrill break that.
      */
     ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
-    // TODO: Call init after this
+    init();
 }
 
 /*** Data Processing ***/
