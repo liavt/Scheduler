@@ -54,9 +54,8 @@ var invalidGrade = false;
 
 /*** Triggers ***/
 function init() {
-    // Browser.msgBox(grade);
-	// Check for updates
-    checkVersion();
+	// No longer necessary, since updateSpreadsheet calls it anyways
+    // checkVersion();
     // Check if the init trigger already exists
 	if (!triggersExist()) {
 		// Get active spreadsheet
