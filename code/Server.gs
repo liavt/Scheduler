@@ -399,6 +399,10 @@ function detectUser(target) {
     // This will not work for non mypisd.net accounts
     // because security restrictions
     var useremail = Session.getActiveUser().getEmail();
+    var emailPattern = /[A-Za-z]+\.[A-Za-z]+\.[1-9]\@mypisd.net/;
+    if (!emailPattern.test(useremail)) {
+        return 'undefined';
+    }
     if (useremail == null || useremail == 'undefined' || useremail == '') {
         // This means that the user is A) not logged in or 2) not in PISD domain
         return 'undefined';
