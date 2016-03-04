@@ -35,7 +35,7 @@ var ui = SpreadsheetApp.getUi();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
-var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
+var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet('10').getSheets()[0];
 // Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
 var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
@@ -50,10 +50,10 @@ var version = 1.44;
 // Get current user
 var user = PropertiesService.getUserProperties();
 var grade = '9';
+var invalidGrade = false;
 
 /*** Triggers ***/
 function init() {
-    grade = getGrade();
     // Browser.msgBox(grade);
 	// Check for updates
     checkVersion();
@@ -96,27 +96,49 @@ function firstRun() {
 
 /*** Data Processing ***/
 
+function getGradeSpreadsheet(target) {
+    if (target == '9' || target == '-1') {
+        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
+    } else if (target == '10') {
+        return 'https://docs.google.com/spreadsheets/d/1Yk2b9Ha0msdyD7h-D0yh0ZiXPoKgODrrWLHWbx4noLo/edit?usp=sharing';
+    }
+}
+
+function setGrade() {
+    var response = ui.prompt('Enter a valid grade: ',ui.ButtonSet.OK);
+    // Read the input
+    var text = response.getResponseText();
+    user.setProperty('USER_GRADE', text);
+    invalidGrade = false;
+}
+
 function getGrade() {
     if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
-        var userGrade;
-        var isValid = false;
-        while (!isValid) {
-            var response = ui.prompt('Please enter a valid grade: 9, 10',ui.ButtonSet.OK);
-            // Read the input
-            var text = response.getResponseText();
-            if (text == '9') {
-                userGrade = '9';
-                isValid = true;
-            } else if (text == '10') {
-                userGrade = '10';
-                isValid = true;
-            }
-        }
-        user.setProperty('USER_GRADE', userGrade)
-        return userGrade;
+        invalidGrade = true;
+        return '-1';
     } else {
         return user.getProperty('USER_GRADE');
     }
+    // if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
+    //     var userGrade;
+    //     var isValid = false;
+    //     while (!isValid) {
+    //         var response = ui.prompt('Please enter a valid grade: 9, 10',ui.ButtonSet.OK);
+    //         // Read the input
+    //         var text = response.getResponseText();
+    //         if (text == '9') {
+    //             userGrade = '9';
+    //             isValid = true;
+    //         } else if (text == '10') {
+    //             userGrade = '10';
+    //             isValid = true;
+    //         }
+    //     }
+    //     user.setProperty('USER_GRADE', userGrade)
+    //     return userGrade;
+    // } else {
+    //     return user.getProperty('USER_GRADE');
+    // }
 }
 
 function getModColor(mod) {
@@ -387,6 +409,7 @@ function checkProperties() {
 function clearSettings() {
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
+    user.deleteProperty('USER_GRADE');
     // Alert that settings were completely reset
 	ui.alert('Settings reset',ui.ButtonSet.OK);
 	// checkVersion();
@@ -555,6 +578,11 @@ function updateSpreadsheet() {
 	updateModNames();
 	updateModColors();
 	updateSchedule();
+    var result = getGrade();
+    if (result == '-1') {
+        setGrade();
+    }
+    getGradeSpreadsheet(getGrade);
 	// Prevent editing of the sheet
 	// TODO: Fix this
 	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
