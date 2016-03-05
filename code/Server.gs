@@ -115,7 +115,7 @@ function getGradeSpreadsheet(target) {
     if (target == '9') {
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
     } else if (target == '10') {
-        return 'https://docs.google.com/spreadsheets/d/1Yk2b9Ha0msdyD7h-D0yh0ZiXPoKgODrrWLHWbx4noLo/edit?usp=sharing';
+        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1-aABE6GOqhMauoxXE7YX1e4VQOdoW-FDoFR3fSd7JnM/edit?usp=sharing';
     }
 }
 
