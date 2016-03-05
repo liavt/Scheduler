@@ -435,7 +435,7 @@ function clearSettings() {
 
 function versionInfo() {
     // Version HTML output
-    var output = '<p>Current Version: ' + version + '<br>Minimum Required Version: ' + remoteversion + '<br>Person ID: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
+    var output = '<p>Current Version: ' + version + '<br>Minimum Required Version: ' + remoteversion + '<br>Person ID: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and Jason Lu</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
 	var htmlOutput = constructHTML(output, 200, 250);
     // Display the output
 	ui.showModalDialog(htmlOutput, 'Version Info');
