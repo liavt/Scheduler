@@ -100,6 +100,8 @@ function updateGlobalVariables() {
     // This is needed so we can load the new data
     // from the new spreadsheet after updating
     // the current grade
+    user = PropertiesService.getUserProperties();
+    currentsheet = SpreadsheetApp.getActiveSheet();
     settings = sheet.getRange(24,1,37,5).getValues();
     peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
     mods = sheet.getRange(2,1,5,16).getValues();
