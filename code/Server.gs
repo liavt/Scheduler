@@ -137,7 +137,7 @@ function setGrade() {
     }
     // Set invalidGrade to false so it won't trigger another prompt
     invalidGrade = false;
-    ui.alert("Grade has been updated. You may need to refresh the spreadsheet to load the new schedule.", ui.ButtonSet.OK);
+    ui.alert("Your grade has been updated.", ui.ButtonSet.OK);
 }
 
 function getGrade() {
@@ -395,7 +395,7 @@ function checkProperties() {
                 if (first == 'undefined' || second == 'undefined') {
                     // detectUser returned undefined because some error was encountered
                     SpreadsheetApp.getActive().toast('Automatic user detection failed.');
-                    ui.prompt("Please try again, and do NOT choose automatic detection. Manually enter it in.", ui.ButtonSet.OK);
+                    ui.prompt("Please try again, and select NO when asked whether you want to use automatic detection or not.", ui.ButtonSet.OK);
         			// Prompt the user for their First Name and last name
                 } else {
                     SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
@@ -430,7 +430,7 @@ function clearSettings() {
 
 function versionInfo() {
     // Version HTML output
-    var output = '<p>Current Version: ' + version + '<br>Minimum version: ' + remoteversion + '<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
+    var output = '<p>Current Version: ' + version + '<br>Minimum Required Version: ' + remoteversion + '<br>Person ID: ' + user.getProperty('USER_DATABASE_ID') + '<br><br>Created by Liav Turkia and contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
 	var htmlOutput = constructHTML(output, 200, 250);
     // Display the output
 	ui.showModalDialog(htmlOutput, 'Version Info');
