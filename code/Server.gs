@@ -426,11 +426,8 @@ function clearSettings() {
 	    user.deleteProperty('USER_GRADE');
 	    // Alert that settings were completely reset
 		ui.alert('Settings reset',ui.ButtonSet.OK);
-		// checkVersion();
-		updateSpreadsheet();
-	} else {
-		updateSpreadsheet();
 	}
+	updateSpreadsheet();
 }
 
 function versionInfo() {
