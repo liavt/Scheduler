@@ -47,7 +47,7 @@ var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
 // Current version
-var version = 1.44;
+var version = 1.50;
 // Get current user
 var grade = '9';
 var invalidGrade = false;
