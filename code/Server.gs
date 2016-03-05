@@ -420,13 +420,17 @@ function checkProperties() {
 }
 
 function clearSettings() {
-	// Start all over
-	user.deleteProperty('USER_DATABASE_ID');
-    user.deleteProperty('USER_GRADE');
-    // Alert that settings were completely reset
-	ui.alert('Settings reset',ui.ButtonSet.OK);
-	// checkVersion();
-	updateSpreadsheet();
+	if (ui.alert('This will delete all your settings! Continue?', ui.ButtonSet.YES_NO) == ui.Button.YES)) {
+		// Start all over
+		user.deleteProperty('USER_DATABASE_ID');
+	    user.deleteProperty('USER_GRADE');
+	    // Alert that settings were completely reset
+		ui.alert('Settings reset',ui.ButtonSet.OK);
+		// checkVersion();
+		updateSpreadsheet();
+	} else {
+		updateSpreadsheet();
+	}
 }
 
 function versionInfo() {
