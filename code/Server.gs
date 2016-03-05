@@ -420,7 +420,7 @@ function checkProperties() {
 }
 
 function clearSettings() {
-	if (ui.alert('This will delete all your settings! Continue?', ui.ButtonSet.YES_NO) == ui.Button.YES)) {
+	if (ui.alert('This will delete all your settings! Continue?', ui.ButtonSet.YES_NO) == ui.Button.YES) {
 		// Start all over
 		user.deleteProperty('USER_DATABASE_ID');
 	    user.deleteProperty('USER_GRADE');
