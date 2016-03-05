@@ -32,10 +32,11 @@
 /*** Variables ***/
 // Get UI. It won't work when triggered by time triggers
 var ui = SpreadsheetApp.getUi();
+var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel
-var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing').getSheets()[0];
+var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(getGrade())).getSheets()[0];
 // Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
 var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
@@ -46,14 +47,15 @@ var modnames = sheet.getRange(8,1,15,2).getValues();
 // Get remote version
 var remoteversion = sheet.getRange(19, 10).getValue();
 // Current version
-var version = 1.44;
+var version = 1.50;
 // Get current user
-var user = PropertiesService.getUserProperties();
+var grade = '9';
+var invalidGrade = false;
 
 /*** Triggers ***/
 function init() {
-	// Check for updates
-    checkVersion();
+	// No longer necessary, since updateSpreadsheet calls it anyways
+    // checkVersion();
     // Check if the init trigger already exists
 	if (!triggersExist()) {
 		// Get active spreadsheet
@@ -92,6 +94,64 @@ function firstRun() {
 }
 
 /*** Data Processing ***/
+
+function updateGlobalVariables() {
+    // Same code as the global initialization
+    // This is needed so we can load the new data
+    // from the new spreadsheet after updating
+    // the current grade
+    sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(getGrade())).getSheets()[0];
+    user = PropertiesService.getUserProperties();
+    currentsheet = SpreadsheetApp.getActiveSheet();
+    settings = sheet.getRange(24,1,37,5).getValues();
+    peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+    mods = sheet.getRange(2,1,5,16).getValues();
+    times = sheet.getRange(1,1,1,16).getValues();
+    // When updating modnames don't forget to change the getModColor() function
+    modnames = sheet.getRange(8,1,15,2).getValues();
+    // Get remote version
+    remoteversion = sheet.getRange(19, 10).getValue();
+}
+
+function getGradeSpreadsheet(target) {
+    // Return spreadsheet based on grade
+    if (target == '9') {
+        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
+    } else if (target == '10') {
+        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1-aABE6GOqhMauoxXE7YX1e4VQOdoW-FDoFR3fSd7JnM/edit?usp=sharing';
+    }
+}
+
+function setGrade() {
+    // Prompt for a valid grade
+    var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
+    // Read the input
+    var text = response.getResponseText();
+    // Are there JavaScript switch statements?
+    // TODO: Switch to switch case if they exist in JavaScript
+    if (text == '9' || text == '10') {
+        user.setProperty('USER_GRADE', text);
+    } else {
+        ui.alert("Invalid grade was entered. Defaulting to 9. Reset to enter another.", ui.ButtonSet.OK);
+        user.setProperty('USER_GRADE', '9');
+    }
+    // Set invalidGrade to false so it won't trigger another prompt
+    invalidGrade = false;
+    ui.alert("Grade has been updated. You may need to refresh the spreadsheet to load the new schedule.", ui.ButtonSet.OK);
+}
+
+function getGrade() {
+    // Detect invalid grade
+    if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
+        // Set invalidGrade to true, so later the user will be prompted
+        invalidGrade = true;
+        // Return default grade (9)
+        return '9';
+    } else {
+        // Return the stored grade
+        return user.getProperty('USER_GRADE');
+    }
+}
 
 function getModColor(mod) {
     // Loop through modnames array and set the appropriate color
@@ -361,6 +421,7 @@ function checkProperties() {
 function clearSettings() {
 	// Start all over
 	user.deleteProperty('USER_DATABASE_ID');
+    user.deleteProperty('USER_GRADE');
     // Alert that settings were completely reset
 	ui.alert('Settings reset',ui.ButtonSet.OK);
 	// checkVersion();
@@ -524,8 +585,19 @@ function updateModColors() {
 function updateSpreadsheet() {
 	SpreadsheetApp.getActive().toast('Refreshing schedule...');
 	// Check for updates
-	checkVersion();
+    getGrade();
+    // invalidGrade is set if getGrade detects that USER_GRADE isn't set
+    if (invalidGrade) {
+        setGrade();
+    }
+    // Set correct grade spreadsheet
+    getGradeSpreadsheet(getGrade());
+    // Update global variables, so the functions after this
+    // such as updateModNames and updateSchedule will
+    // use the updated data
+    updateGlobalVariables();
 	// Update everything
+    checkVersion();
 	updateModNames();
 	updateModColors();
 	updateSchedule();
