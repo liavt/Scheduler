@@ -35,7 +35,7 @@ var ui = SpreadsheetApp.getUi();
 var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
-// Control Panel
+// Control Panel. Loaded based on grade
 var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(getGrade())).getSheets()[0];
 // Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
@@ -48,9 +48,9 @@ var modnames = sheet.getRange(8,1,15,2).getValues();
 var remoteversion = sheet.getRange(19, 10).getValue();
 // Current version
 var version = 1.50;
+// Variable for tracking whether grade is set or not
 var invalidGrade = false;
 
-/*** Triggers ***/
 function init() {
 	// No longer necessary, since updateSpreadsheet calls it anyways
     // checkVersion();
@@ -88,10 +88,9 @@ function firstRun() {
      * that links to this. If we remove this, it wrill break that.
      */
     ui.alert('Hey! This button has become outdated!\nFeel free to remove this button!\n\nTo remove it, right click on it.\nAt the top right of the button, there should be a dropdown menu.\nClick \'delete image\' and you\'re done!');
+	// Call init since it's the real function
     init();
 }
-
-/*** Data Processing ***/
 
 function updateGlobalVariables() {
     // Same code as the global initialization
@@ -114,8 +113,11 @@ function updateGlobalVariables() {
 function getGradeSpreadsheet(target) {
     // Return spreadsheet based on grade
     if (target == '9') {
+		// 9th grade spreadsheet
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
     } else if (target == '10') {
+		// 10th grade spreadsheets
+		// This will need to be updated when actually deploying it
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1-aABE6GOqhMauoxXE7YX1e4VQOdoW-FDoFR3fSd7JnM/edit?usp=sharing';
     }
 }
@@ -131,6 +133,7 @@ function setGrade() {
 	    // TODO: Switch to switch case if they exist in JavaScript
 	    if (text == '9' || text == '10') {
 	        user.setProperty('USER_GRADE', text);
+			// Escape the loop
 			inputValid = true;
 	    } else {
 	        ui.alert("Invalid grade was entered.", ui.ButtonSet.OK);
@@ -146,7 +149,9 @@ function getGrade() {
     if (!user.getProperty('USER_GRADE') || user.getProperty('USER_GRADE') == null || user.getProperty('USER_GRADE') < 0) {
         // Set invalidGrade to true, so later the user will be prompted
         invalidGrade = true;
-        // Return default grade (9)
+        // Return default grade (9) so it won't choke
+		// Otherwise, the script will halt with
+		// strange errors. DO NOT DELETE THIS
         return '9';
     } else {
         // Return the stored grade
@@ -273,6 +278,7 @@ function getSchedule(person) {
 	// Current represents where the person is currently
 	var current = '<b>Currently at - Before school</b>';;
 	var next = '';
+	// I have no idea what's going on here - Jason
     // Check every time
 	for (var i = 0; i<16; i++) {
 		if (times[0][i]) {
@@ -345,6 +351,7 @@ function addZero(i) {
 }
 
 function getMainMenuButton() {
+	// Generate a HTML button
 	return '<input type="submit"value="Back to Main Menu"onclick="google.script.run.runRemote(\'start\')">';
 }
 
@@ -413,6 +420,9 @@ function checkProperties() {
                 // The +1 is because I don't want to include the actual space in the final string
                 second = text.substring(spaceindex + 1).toLowerCase();
                 first = replaceAll(text.substring(0, spaceindex).toLowerCase(),'_',' ');
+				// Set the user ID
+				// Even if it was an invalid ID (because teacher, maybe),
+				// This thing would just loop over because the ID would be invalid (-1)
                 user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
             }
 		}
@@ -427,6 +437,7 @@ function clearSettings() {
 	    // Alert that settings were completely reset
 		ui.alert('Settings reset',ui.ButtonSet.OK);
 	}
+	// Reload the spreadsheet to get user data
 	updateSpreadsheet();
 }
 
@@ -745,6 +756,7 @@ function askForLOTE() {
 			ui.alert('LOTE not found',ui.ButtonSet.OK);askForLOTE();
 		}
 	} else if (button == ui.Button.CANCEL) {
+		// Back to menu
 		start();
 	}
 }
