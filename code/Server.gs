@@ -122,31 +122,24 @@ function getGradeSpreadsheet(target) {
     }
 }
 
-function chooseGrade() {
-	var html = HtmlService.createHtmlOutputFromFile('grade')
-	  .setSandboxMode(HtmlService.SandboxMode.IFRAME).setWidth(250).setHeight(250);
-	ui.showModalDialog(html,'Select Grade');
-}
-
-function setGrade(target) {
-	// var inputValid = false;
-	// while (!inputValid) {
-	//     // Prompt for a valid grade
-	//     var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
-	//     // Read the input
-	//     var text = response.getResponseText();
-	//     // Are there JavaScript switch statements?
-	//     // TODO: Switch to switch case if they exist in JavaScript
-	//     if (text == '9' || text == '10') {
-	//         user.setProperty('USER_GRADE', text);
-	// 		// Escape the loop
-	// 		inputValid = true;
-	//     } else {
-	//         ui.alert("Invalid grade was entered.", ui.ButtonSet.OK);
-	//     }
-	// }
+function setGrade() {
+	var inputValid = false;
+	while (!inputValid) {
+	    // Prompt for a valid grade
+	    var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
+	    // Read the input
+	    var text = response.getResponseText();
+	    // Are there JavaScript switch statements?
+	    // TODO: Switch to switch case if they exist in JavaScript
+	    if (text == '9' || text == '10') {
+	        user.setProperty('USER_GRADE', text);
+			// Escape the loop
+			inputValid = true;
+	    } else {
+	        ui.alert("Invalid grade was entered.", ui.ButtonSet.OK);
+	    }
+	}
     // Set invalidGrade to false so it won't trigger another prompt
-	user.setProperty('USER_GRADE', target);
     invalidGrade = false;
     ui.alert("Your grade has been updated.", ui.ButtonSet.OK);
 }
@@ -608,7 +601,7 @@ function updateSpreadsheet() {
     getGrade();
     // invalidGrade is set if getGrade detects that USER_GRADE isn't set
     if (invalidGrade) {
-        chooseGrade();
+        setGrade();
     }
     // Set correct grade spreadsheet
     getGradeSpreadsheet(getGrade());
