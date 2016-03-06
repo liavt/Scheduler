@@ -614,13 +614,6 @@ function updateSpreadsheet() {
 	updateModNames();
 	updateModColors();
 	updateSchedule();
-	// Prevent editing of the sheet
-	// TODO: Fix this
-	var protection = currentsheet.protect().setDomainEdit(false).setDescription('Cannot edit the schedule');;
-	var users = protection.getEditors();
-	for (var i =0; i < users.length; i++) {
-		protection.removeEditor(users[i]);
-	}
 	SpreadsheetApp.getActive().toast('Schedule updated');
 	showSidebar();
 }
