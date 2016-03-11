@@ -402,8 +402,7 @@ function checkProperties() {
                 var second = detectUser('last');
                 if (first == 'undefined' || second == 'undefined') {
                     // detectUser returned undefined because some error was encountered
-                    SpreadsheetApp.getActive().toast('Automatic user detection failed.');
-                    ui.prompt("Please try again, and select NO when asked whether you want to use automatic detection or not.", ui.ButtonSet.OK);
+                    // ui.prompt("Please try again, and select NO when asked whether you want to use automatic detection or not.", ui.ButtonSet.OK);
         			// Prompt the user for their First Name and last name
                 } else {
                     SpreadsheetApp.getActive().toast('User detected. First: ' + first + ' Last: ' + second);
@@ -412,6 +411,10 @@ function checkProperties() {
                     // This thing would just loop over because the ID would be invalid (-1)
                     user.setProperty('USER_DATABASE_ID', findPersonByName(first, second));
                 }
+				if (!user.getProperty('USER_DATABASE_ID') || user.getProperty('USER_DATABASE_ID') == null || user.getProperty('USER_DATABASE_ID') < 0) {
+					SpreadsheetApp.getActive().toast('Automatic user detection failed.');
+					ui.alert("An error occurred. This usually means that the name in the roster does not match your PISD email name. Please enter your name manually when asked. Do not attempt automatic detection again. It will NOT work.");
+				}
             } else {
                 var response = ui.prompt('Please enter your full first and last name. If you don\'t want a personalized calender (only want to look at other people\'s) then leave it blank.',ui.ButtonSet.OK);
                 // Read the input
@@ -424,6 +427,13 @@ function checkProperties() {
 				// Even if it was an invalid ID (because teacher, maybe),
 				// This thing would just loop over because the ID would be invalid (-1)
                 user.setProperty('USER_DATABASE_ID', findPersonByName(first,second));
+				// Same as above. The only reason why I didn't put it outside the main
+				// if else block was because I don't want to display two error messages
+				// if the detectUser function returns undefined.
+				// I also need customized messages for both scenarios
+				if (!user.getProperty('USER_DATABASE_ID') || user.getProperty('USER_DATABASE_ID') == null || user.getProperty('USER_DATABASE_ID') < 0) {
+					ui.alert("An error occurred. This usually means that the name you entered was entered incorrectly or was not found in the roster. Please check your spelling and make sure that it matches the name found in the roster.");
+				}
             }
 		}
 	}
