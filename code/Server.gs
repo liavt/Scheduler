@@ -126,7 +126,7 @@ function setGrade() {
 	var inputValid = false;
 	while (!inputValid) {
 	    // Prompt for a valid grade
-	    var response = ui.prompt('Enter a valid grade (9, 10): ', ui.ButtonSet.OK);
+	    var response = ui.prompt('Please enter your current grade level (9, 10): ', ui.ButtonSet.OK);
 	    // Read the input
 	    var text = response.getResponseText();
 	    // Are there JavaScript switch statements?
