@@ -51,12 +51,6 @@ var version = 1.50;
 // Variable for tracking whether grade is set or not
 var invalidGrade = false;
 
-// Temporary hack to add one hour for DST
-Date.prototype.addHours = function(h) {    
-   this.setTime(this.getTime() + (h*60*60*1000)); 
-   return this;   
-}
-
 function init() {
     // No longer necessary, since updateSpreadsheet calls it anyways
     // checkVersion();
