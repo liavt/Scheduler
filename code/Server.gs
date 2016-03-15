@@ -29,7 +29,7 @@ var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
 // Control Panel. Loaded based on grade
-var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(getGrade())).getSheets()[0];
+var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet('9')).getSheets()[0];
 // Variable initialization
 var settings = sheet.getRange(24,1,37,5).getValues();
 var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
