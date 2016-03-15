@@ -352,14 +352,19 @@ function getMainMenuButton() {
 
 /*** UI Interaction ***/
 
-function checkVersion() {
+function checkVersion(){
+	checkVersion(version);
+}
+
+function checkVersion(clientversion) {
     // Display something so it won't seem like nothing happened
 	SpreadsheetApp.getActive().toast('Checking for updates...');
-	if (remoteversion > version) {
+	if (remoteversion > clientversion) {
         // Display the update message
-        var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
-		var htmlOutput = constructHTML(output, 300, 130);
-		ui.showModalDialog(htmlOutput, 'New Version');
+       // var output = '<p>A new version is available (version ' + remoteversion + '.) You have version ' + version + '. <br>It is HIGHLY recommended that you copy the newest spreadsheet</p><br><a href="https://docs.google.com/a/pisd.edu/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/edit?usp=sharing" target="_blank">Open</a>';
+	//	var htmlOutput = constructHTML(output, 300, 130);
+	//	ui.showModalDialog(htmlOutput, 'New Version');
+		ui.alert('New Version','A new version is available (version ' + remoteversion + '.) It is HIGHLY recommended that you upgrade. You have version ' + clientversion + '.Go to tinyurl.com/betterschedule to redownload',ui.ButtonSet.OK);
 	} else {
         // No updates
 		SpreadsheetApp.getActive().toast('No updates found.');
