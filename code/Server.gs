@@ -25,8 +25,6 @@
  */
 
 /*** Variables ***/
-// Get UI. It won't work when triggered by time triggers
-// var ui = SpreadsheetApp.getUi();
 var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
@@ -175,11 +173,6 @@ function findPersonByName(first,last) {
 	return -1;
 }
 
-function searchAndViewStudent() {
-    // This is really just a wrapper
-	showPerson(askForStudent());
-}
-
 function getTime(date) {
 	// Only check for current day
 	return (date.getHours() * 60) + date.getMinutes();
@@ -265,106 +258,4 @@ function addZero(i) {
 		i = "0" + i;
 	}
 	return i;
-}
-
-function showSidebar() {
-	// Get the ID of a person
-	var personid = parseInt(user.getProperty('USER_DATABASE_ID'));
-	// Make sure the ID isn't invalid
-	if (personid > 0) {
-		// Get the schedule
-		var schedule = getSchedule(personid);
-        var output = '<p>' +schedule+ '</p><br><input type="submit"value="Cohort: ' + peoplenames[personid][4] + '"onclick="google.script.run.runRemote(\'viewCohort\',\''+peoplenames[personid][4]+'\');"><br><input type="submit"value="LOTE: ' + peoplenames[personid][2] + '"onclick="google.script.run.runRemote(\'viewLOTE\',\''+peoplenames[personid][2]+'\');"><br><input type="submit"value="Group ' + peoplenames[personid][3] + '"onclick="google.script.run.runRemote(\'showGroup\',\''+personid+'\');">';
-		// Build HTML output
-		var htmlOutput = constructHTML(output, 300, 500, peoplenames[personid][0] + ' ' + peoplenames[personid][1] + '\'s schedule');
-		// Show the sidebar
-		ui.showSidebar(htmlOutput);
-	}
-}
-
-function updateModNames() {
-	for (var i = 7; i < 23; i++) {
-		var newrange = currentsheet.getRange(i,1,1,4);
-		var remoterange = sheet.getRange(i,1,1,4);
-
-		var remotevalues = remoterange.getValues();
-		remotevalues[0][1] = remotevalues[0][1].replace('%HD','');
-		// You can't copy from a remote spreadsheet so you must do it manually
-		newrange.setValues(remotevalues);
-		newrange.setFontColors(remoterange.getFontColors());
-		newrange.setFontFamilies(remoterange.getFontFamilies());
-		newrange.setFontLines(remoterange.getFontLines());
-		newrange.setBackgrounds(remoterange.getBackgrounds());
-	}
-}
-
-function updateSchedule() {
-	var timerange = currentsheet.getRange(1,1,1,16);
-	var modrange = currentsheet.getRange(2,1,5,16);
-	var timevalues = timerange.getValues();
-	var modvalues = modrange.getValues();
-
-	// Reset the values
-	for (var x = 0; x < 16; x++) {
-		for (var y = 0; y < 5; y++) {
-			modvalues[y][x] = '';
-			timevalues[0][x] = '';
-		}
-	}
-	for (var x = 0; x < 16; x++) {
-		if (times[0][x]) {
-			if (times[0][x] == 'KEY') {
-				timevalues[0][x] = '';
-				for (var y = 0; y < mods.length; y++) {
-					if (mods[y][x]) {
-						modvalues[y][x] = mods[y][x].substring(1);
-					}
-				}
-			} else {
-				timevalues[0][x] = times[0][x];
-				for (var y = 0; y < mods.length; y++) {
-					if (mods[y][x]) {
-						modvalues[y][x] = mods[y][x];
-					}
-				}
-			}
-		}
-	}
-	modrange.setValues(modvalues);
-	timerange.setValues(timevalues);
-}
-
-function updateModColors() {
-	var timerange = currentsheet.getRange(1,1,1,16);
-	var modrange = currentsheet.getRange(2,1,5,16);
-	var modtext = modrange.getValues();
-	var timetext = timerange.getValues();
-	var timevalues = timerange.getBackgrounds();
-	var modvalues = modrange.getBackgrounds();
-	var defaultcolor = '#F5F5F5'
-
-	for (var x = 0; x < 16; x++) {
-		if (timetext[0][x]) {
-			timevalues[0][x] = defaultcolor;
-			for (var y = 0; y < modtext.length; y++) {
-				if (modtext[y][x]) {
-					modvalues[y][x] = getModColor(modtext[y][x]);
-				} else {
-					modvalues[y][x] = '#000000';
-				}
-			}
-		} else {
-			timevalues[0][x] = '#000000';
-			for (var y = 0; y < modtext.length; y++) {
-				if (modtext[y][x]) {
-					modvalues[y][x] = defaultcolor;
-				} else {
-					modvalues[y][x] = '#000000';
-				}
-			}
-		}
-	}
-	// Actually set the background colors
-	modrange.setBackgrounds(modvalues);
-	timerange.setBackgrounds(timevalues);
 }
