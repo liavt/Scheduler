@@ -113,7 +113,7 @@ function getGradeSpreadsheet(target) {
     } else if (target == '10') {
 		// 10th grade spreadsheets
 		// This will need to be updated when actually deploying it
-        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1-aABE6GOqhMauoxXE7YX1e4VQOdoW-FDoFR3fSd7JnM/edit?usp=sharing';
+        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1HsbA9Sjj2qTzKikSJBsH9wPZCZlQnxQyvp00v2QSbJo/edit?usp=sharing';
     }
 }
 
