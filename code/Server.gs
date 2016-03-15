@@ -59,8 +59,6 @@ function init() {
 	      .onOpen()
 	      .create();
 	}
-    // Get latest version of spreadsheet and schedule
-	updateSpreadsheet();
     // Add menu items
 	var menu = SpreadsheetApp.getUi().createMenu('Schedule');
 	menu.addItem('Open menu', 'start');
@@ -612,6 +610,7 @@ function updateSpreadsheet() {
     if (invalidGrade) {
         setGrade();
     }
+    init();
     // Set correct grade spreadsheet
     getGradeSpreadsheet(getGrade());
     // Update global variables, so the functions after this
