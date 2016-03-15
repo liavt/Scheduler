@@ -453,7 +453,7 @@ function clearSettings() {
 
 function versionInfo(clientversion) {
   var output = '<p>Client version: '+clientversion+'<br>Code Version: ' + version + '<br>Minimum client version: ' + remoteversion + '<br>Grade: '+getGrade()+'<br>Person: ' + user.getProperty('USER_DATABASE_ID') + '<br>Current time: '+new Date()+'<br><br>Created by Liav Turkia, Jason Lu, and other contributors</p><br><input type="submit"value="Report an issue"onclick="google.script.run.runRemote(\'showBugReports\');"><input type="submit"value="Check for new updates"onclick="google.script.run.runRemote(\'checkVersion\')"><br><input class="create"type="submit"value="RESET"onclick="google.script.run.runRemote(\'clearSettings\');">';
-	var htmlOutput = constructHTML(output, 200, 250);
+	var htmlOutput = constructHTML(output, 200, 350);
     // Display the output
 	ui.showModalDialog(htmlOutput, 'Version Info');
 }
