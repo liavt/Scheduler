@@ -26,7 +26,7 @@
 
 /*** Variables ***/
 // Get UI. It won't work when triggered by time triggers
-var ui = SpreadsheetApp.getUi();
+// var ui = SpreadsheetApp.getUi();
 var user = PropertiesService.getUserProperties();
 // Get active spreadsheet
 var currentsheet = SpreadsheetApp.getActiveSheet();
@@ -45,6 +45,26 @@ var remoteversion = sheet.getRange(19, 10).getValue();
 var version = 1.6;
 // Variable for tracking whether grade is set or not
 var invalidGrade = false;
+
+function getParameterByName(name, url) {
+	url = url.toLowerCase(); // This is just to avoid case sensitiveness
+	name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function doGet(e) {
+	var queryString = e.queryString;
+	queryString = '?' + queryString;
+	var firstName = getParameterByName('first', queryString);
+	var lastName = getParameterByName('last', queryString);
+	var id = findPersonByName(firstName, lastName);
+	var htmlOutput = constructHTML(getSchedule(id), 250, 250);
+	return htmlOutput;
+}
 
 function init() {
 	// No longer necessary, since updateSpreadsheet calls it anyways
