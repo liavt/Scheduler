@@ -93,8 +93,7 @@ function viewLearnerSchedule(querystring){
 
 //if we ever want to make it look cooler
 function get404Page(){
-    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>'
-
+    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>';
 }
 
 function findGroup(groupnum){
