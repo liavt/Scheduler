@@ -108,7 +108,7 @@ function findGroup(groupnum){
 }
 
 function viewGroupSchedule(querystring){
-    var group = getParameterByName('group',querystring);
+    var group = getParameterByName('group', querystring);
     // Resolve the name into an ID that we can use
     var id = findGroup(group);
     if (id != -1) {
@@ -137,18 +137,21 @@ function processQuery(querystring) {
     // It needs it in the format ?field1=data&field2=data&field3=data etc.
     querystring = '?' + querystring;
     var type = getParameterByName('view',querystring);
-  if(type==VIEW_TYPE.LEARNER_SCHEDULE.toString()){
-     return viewLearnerSchedule(querystring);
-  }else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()){
-    return viewGroupSchedule(querystring);
-  }else {
-    return get404Page();
-  }
+	if(type == VIEW_TYPE.LEARNER_SCHEDULE.toString()){
+	 	return viewLearnerSchedule(querystring);
+	} else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()) {
+		return viewGroupSchedule(querystring);
+	} else {
+		return get404Page();
+	}
 }
 
 function doGet(e) {
     // Function that runs when the page opens
 	var tempGrade = getParameterByName('grade', '?' + e.queryString);
+	if (tempGrade != '9' || tempGrade != '10') {
+		tempGrade = '9';
+	}
 	createVariables(tempGrade);
     var html = processQuery(e.queryString);
     var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
