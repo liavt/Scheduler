@@ -103,7 +103,8 @@ function doGet(e) {
 
 function embedSchedule(){
     // Embed the schedule spreadsheet into the page
-	return '<iframe src="https://docs.google.com/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" width=1000 height=500></iframe>'
+	// return '<iframe src="https://docs.google.com/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" width=1000 height=500></iframe>'
+	return '';
 }
 
 function getGradeSpreadsheet(target) {
