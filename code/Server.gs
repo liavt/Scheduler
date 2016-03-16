@@ -83,7 +83,7 @@ function processQuery(querystring) {
 function doGet(e) {
 	// Function that runs when the page opens
     var html = processQuery(e.queryString);
-    var htmlOutput = constructHTML(html + '<br>' + embedSchedule(), 1000, 1000, 'Schedule');
+	var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
     return htmlOutput;
 }
 
