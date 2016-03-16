@@ -1,3 +1,5 @@
+//tinyurl.com/ahsscheduler
+
 /*
  * Hey
  * Congrats on finding the source
@@ -18,7 +20,7 @@
  *
  * Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
  * It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
- * good enough, I will add it to the master branch (with Mr. Bailey's approval of course)
+ * good enough, I will add it to the master branch
  * -Liav
  *
  * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
@@ -72,11 +74,8 @@ function capitalizeFirstLetter(target) {
     return target.substring(0,1).toUpperCase()+target.substring(1);
 }
 
-function processQuery(querystring) {
-    // Needed so the querystring parse won't choke
-    // It needs it in the format ?field1=data&field2=data&field3=data etc.
-    querystring = '?' + querystring;
-    // Get the first name
+function viewLearnerSchedule(querystring){
+   // Get the first name
     var firstName = getParameterByName('first', querystring);
     // Get the last name
     var lastName = getParameterByName('last', querystring);
@@ -90,6 +89,62 @@ function processQuery(querystring) {
         // Return an error message
         return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
     }
+}
+
+//if we ever want to make it look cooler
+function get404Page(){
+    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>'
+
+}
+
+function findGroup(groupnum){
+    // Get the ID of a person in the group
+    for (var i = 0;i < peoplenames.length; i++) {
+        if (peoplenames[i][3]==groupnum) {
+            return i;
+        }
+    }
+    // Didn't find it. Return -1
+    return -1;
+}
+
+function viewGroupSchedule(querystring){
+    var group = getParameterByName('group',querystring);
+    // Resolve the name into an ID that we can use
+    var id = findGroup(group);
+    if (id != -1) {
+        // Return the normal data
+        return '<h1>Group ' + group + '</h1>' + getSchedule(id);
+    } else {
+        // Invalid user
+        // Return an error message
+        return 'Group '+group+ ' was not found. Please enter a valid number.';
+    }
+}
+
+/**
+*What to show, based on GET query
+*@readonly
+*@enum {number}
+*/
+var VIEW_TYPE = {
+  LEARNER_SCHEDULE: 0,
+  GROUP_SCHEDULE: 1,
+  LIST_ALL: 2
+};
+
+function processQuery(querystring) {
+    // Needed so the querystring parse won't choke
+    // It needs it in the format ?field1=data&field2=data&field3=data etc.
+    querystring = '?' + querystring;
+    var type = getParameterByName('view',querystring);
+  if(type==VIEW_TYPE.LEARNER_SCHEDULE.toString()){
+     return viewLearnerSchedule(querystring);
+  }else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()){
+    return viewGroupSchedule(querystring);
+  }else {
+    return get404Page();
+  }
 }
 
 function doGet(e) {
