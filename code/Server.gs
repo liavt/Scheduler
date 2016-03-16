@@ -24,25 +24,37 @@
  * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
  */
 
-/*** Variables ***/
-var user = PropertiesService.getUserProperties();
-// Get active spreadsheet
-var currentsheet = SpreadsheetApp.getActiveSheet();
-// Control Panel. Loaded based on grade
-var sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet('9')).getSheets()[0];
-// Variable initialization
-var settings = sheet.getRange(24,1,37,5).getValues();
-var peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
-var mods = sheet.getRange(2,1,5,16).getValues();
-var times = sheet.getRange(1,1,1,16).getValues();
-// When updating modnames don't forget to change the getModColor() function
-var modnames = sheet.getRange(8,1,15,2).getValues();
-// Get remote version
-var remoteversion = sheet.getRange(19, 10).getValue();
-// Current version
-var version = 1.6;
-// Variable for tracking whether grade is set or not
-var invalidGrade = false;
+ /*** Variables ***/
+ // Control Panel. Loaded based on grade
+ var sheet;
+ // Variable initialization
+ var settings;
+ var peoplenames;
+ var mods;
+ var times;
+ // When updating modnames don't forget to change the getModColor() function
+ var modnames;
+ // Get remote version
+ var remoteversion;
+ // Current version
+ var version = 1.6;
+ // Variable for tracking whether grade is set or not
+ var invalidGrade = false;
+ var grade = '9';
+
+ function createVariables(grade){
+	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(grade)).getSheets()[0];
+	// Variable initialization
+	settings = sheet.getRange(24,1,37,5).getValues();
+	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+	mods = sheet.getRange(2,1,5,16).getValues();
+	times = sheet.getRange(1,1,1,16).getValues();
+	// When updating modnames don't forget to change the getModColor() function
+	modnames = sheet.getRange(8,1,15,2).getValues();
+	// Get remote version
+	remoteversion = sheet.getRange(19, 10).getValue();
+ }
+
 
 function getParameterByName(name, url) {
     // Standardize strange capitalization
@@ -82,6 +94,8 @@ function processQuery(querystring) {
 
 function doGet(e) {
     // Function that runs when the page opens
+	var tempGrade = getParameterByName('grade', '?' + e.queryString);
+	createVariables(tempGrade);
     var html = processQuery(e.queryString);
     var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
     return htmlOutput;
