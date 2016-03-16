@@ -45,7 +45,7 @@ var version = 1.6;
 var invalidGrade = false;
 
 function getParameterByName(name, url) {
-	// Standardize strange capitalization
+    // Standardize strange capitalization
     url = url.toLowerCase();
     name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -56,40 +56,40 @@ function getParameterByName(name, url) {
 }
 
 function capitalizeFirstLetter(target) {
-	// Return a string with the first letter capitalized.
-	return target.substring(0,1).toUpperCase()+target.substring(1);
+    // Return a string with the first letter capitalized.
+    return target.substring(0,1).toUpperCase()+target.substring(1);
 }
 
 function processQuery(querystring) {
-	// Needed so the querystring parse won't choke
-	// It needs it in the format ?field1=data&field2=data&field3=data etc.
-	querystring = '?' + querystring;
-	// Get the first name
-	var firstName = getParameterByName('first', querystring);
-	// Get the last name
-	var lastName = getParameterByName('last', querystring);
-	// Resolve the name into an ID that we can use
-	var id = findPersonByName(firstName, lastName);
-	if (id != -1) {
-		// Return the normal data
-		return '<h1>' + capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + '</h1>' + getSchedule(id);
-	} else {
-		// Invalid user
-		// Return an error message
-		return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
-	}
+    // Needed so the querystring parse won't choke
+    // It needs it in the format ?field1=data&field2=data&field3=data etc.
+    querystring = '?' + querystring;
+    // Get the first name
+    var firstName = getParameterByName('first', querystring);
+    // Get the last name
+    var lastName = getParameterByName('last', querystring);
+    // Resolve the name into an ID that we can use
+    var id = findPersonByName(firstName, lastName);
+    if (id != -1) {
+        // Return the normal data
+        return '<h1>' + capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + '</h1>' + getSchedule(id);
+    } else {
+        // Invalid user
+        // Return an error message
+        return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
+    }
 }
 
 function doGet(e) {
-	// Function that runs when the page opens
+    // Function that runs when the page opens
     var html = processQuery(e.queryString);
-	var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
+    var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
     return htmlOutput;
 }
 
 function embedSchedule(){
-	// Embed the schedule spreadsheet into the page
-  	return '<iframe src="https://docs.google.com/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" width=1000 height=500></iframe>'
+    // Embed the schedule spreadsheet into the page
+	return '<iframe src="https://docs.google.com/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" width=1000 height=500></iframe>'
 }
 
 function getGradeSpreadsheet(target) {
