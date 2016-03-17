@@ -44,8 +44,14 @@
  var invalidGrade = false;
  var grade = '9';
 
- function createVariables(grade){
-	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(grade)).getSheets()[0];
+//for stylesheet
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+      .getContent();
+}
+
+ function createVariables(currentgrade){
+	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
 	// Variable initialization
 	settings = sheet.getRange(24,1,37,5).getValues();
 	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
@@ -55,8 +61,16 @@
 	modnames = sheet.getRange(8,1,15,2).getValues();
 	// Get remote version
 	remoteversion = sheet.getRange(19, 10).getValue();
+   grade=currentgrade;
  }
 
+function getParametersForPerson(id){
+  var string = '';
+  string = addParameter('first',peoplenames[id][0],string);
+    string = addParameter('last',peoplenames[id][1],string);
+    string = addParameter('grade',grade,string);
+  return string;
+}
 
 function getParameterByName(name, url) {
     // Standardize strange capitalization
@@ -67,6 +81,14 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function addParameter(name, value, string){
+  if(!string.startsWith('?'))string.concat('&');
+  string.concat(name);
+  string.concat('=');
+  string.concat(value);
+  return string;
 }
 
 function capitalizeFirstLetter(target) {
@@ -93,7 +115,8 @@ function viewLearnerSchedule(querystring){
 
 //if we ever want to make it look cooler
 function get404Page(){
-    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>';
+    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>'
+
 }
 
 function findGroup(groupnum){
@@ -108,7 +131,7 @@ function findGroup(groupnum){
 }
 
 function viewGroupSchedule(querystring){
-    var group = getParameterByName('group', querystring);
+    var group = getParameterByName('group',querystring);
     // Resolve the name into an ID that we can use
     var id = findGroup(group);
     if (id != -1) {
@@ -137,21 +160,18 @@ function processQuery(querystring) {
     // It needs it in the format ?field1=data&field2=data&field3=data etc.
     querystring = '?' + querystring;
     var type = getParameterByName('view',querystring);
-	if(type == VIEW_TYPE.LEARNER_SCHEDULE.toString()){
-	 	return viewLearnerSchedule(querystring);
-	} else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()) {
-		return viewGroupSchedule(querystring);
-	} else {
-		return get404Page();
-	}
+  if(type==VIEW_TYPE.LEARNER_SCHEDULE.toString()){
+     return viewLearnerSchedule(querystring);
+  }else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()){
+    return viewGroupSchedule(querystring);
+  }else {
+    return get404Page();
+  }
 }
 
 function doGet(e) {
     // Function that runs when the page opens
 	var tempGrade = getParameterByName('grade', '?' + e.queryString);
-	if (tempGrade != '9' || tempGrade != '10') {
-		tempGrade = '9';
-	}
 	createVariables(tempGrade);
     var html = processQuery(e.queryString);
     var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
@@ -186,7 +206,7 @@ function getFullModName(name) {
 
 function getHTMLPrepend() {
     // HTML header
-    return '<!DOCTYPE html><link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"><html><head><base target="_top"></head><body>';
+    return '<!DOCTYPE html>    <?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body>';
 }
 
 function getHTMLAppend() {
@@ -198,14 +218,12 @@ function constructHTML(data, width, height, title) {
     // title is undefined if one wasn't provided as an argument
     if (title == 'undefined') {
         // Title doesn't exist. Generate a message without it.
-        var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
-        .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+        var output = HtmlService.createTemplate(getHTMLPrepend() + data + getHTMLAppend()).evaluate()
         .setWidth(width)
         .setHeight(height);
     } else {
         // Title DOES exist. Set the title too
-        var output = HtmlService.createHtmlOutput(getHTMLPrepend() + data + getHTMLAppend())
-        .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+        var output = HtmlService.createTemplate(getHTMLPrepend() + data + getHTMLAppend()).evaluate()
         .setWidth(width)
         .setHeight(height)
         .setTitle(title);
