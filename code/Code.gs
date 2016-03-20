@@ -44,6 +44,7 @@
  var invalidGrade = false;
  var grade = '9';
 var url;
+var view;
 
  function createVariables(currentgrade){
 	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
@@ -128,7 +129,7 @@ function viewLearnerSchedule(querystring){
     if (id != -1) {
         // Return the normal data
       //pullBackground();
-      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule();
+      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><br><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
@@ -145,7 +146,7 @@ function viewPersonalizedSchedule(querystring){
     var id = findPersonByName(firstName, lastName);
     if (id != -1) {
         // Return the normal data
-      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><div class="personalized"><p><h1>Here\'s your schedule for today:</h1>' + getSchedule(id) + '</p></div>'+getQuoteOfTheDay()+'<br>' + embedSchedule();
+      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for today:</h1>' + getSchedule(id) + '</p></div>'+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
@@ -154,7 +155,7 @@ function viewPersonalizedSchedule(querystring){
 }
 
 function listAllPeople(){
-  var html = '<div id="name"><p>'+grade+'th grade</p></div><div>';
+  var html = '<div id="name"><p>'+grade+'th grade</p></div><br><div class="noanimation">';
   for(var i =0;i<peoplenames.length;i++){
     if(peoplenames[i][0]&&peoplenames[i][1]){
     html+=getHTMLButtonForPerson(i)+'<br>';
@@ -182,7 +183,7 @@ function viewGroupSchedule(querystring){
     var id = findGroup(group);
     if (id != -1) {
         // Return the normal data
-        return '<div id="name"><p>Group ' + group + '</p></div><div>' + getSchedule(id) + '</div><br>' + embedSchedule();
+        return '<div id="name"><p>Group ' + group + '</p></div><br><div>' + getSchedule(id) + '</div><br>' + embedSchedule()+'<br>'+getInfoButtonsForGroup(group);
     } else {
         // Invalid user
         // Return an error message
@@ -232,6 +233,10 @@ var VIEW_TYPE = {
   *When view=8, brings up a homepage
   */
   HOMEPAGE:8,
+    /**
+  *When view=9, shows the about page
+  */
+  ABOUT:9,
 };
 
 /**
@@ -246,11 +251,16 @@ var SEARCH_TYPE = {
   
 }
 
+function viewAboutPage(){
+  return '<?!= include("About"); ?>';
+}
+
 function processQuery(querystring) {
     // Needed so the querystring parse won't choke
     // It needs it in the format ?field1=data&field2=data&field3=data etc.
     querystring = '?' + querystring;
     var type = getParameterByName('view',querystring);
+  view=type;
   if(type==VIEW_TYPE.LEARNER_SCHEDULE.toString()){
      return viewLearnerSchedule(querystring);
   }else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()){
@@ -269,6 +279,8 @@ function processQuery(querystring) {
     return viewSearchTypes(querystring);
   }else if(type==VIEW_TYPE.HOMEPAGE.toString()){
     return viewHomepage();
+  }else if(type==VIEW_TYPE.ABOUT.toString()){
+    return viewAboutPage();
   }else {
     return getErrorPage(404, type+' is not a view');
   }
@@ -307,7 +319,7 @@ function searchAllIn(string){
   var searchterm = getParameterByName('term',string);
   if(searchtype&&searchterm){
     searchtype = Number(searchtype);
-    var out = '<div id="name">'+getSearchTypeName(searchtype)+':'+capitalizeFirstLetter(searchterm)+'</div><br><div>';
+    var out = '<div id="name">'+getSearchTypeName(searchtype)+':'+capitalizeFirstLetter(searchterm)+'</div><br><div class="noanimation">';
     for(var i =0;i<peoplenames.length;i++){
       if(peoplenames[i]&&peoplenames[i][searchtype].toString().toLowerCase()==searchterm.toString().toLowerCase()){
       out+=getHTMLButtonForPerson(i)+'<br>';
@@ -328,7 +340,7 @@ function searchAll(string){
   var searchtype = getParameterByName('type',string);
   if(searchtype){
     searchtype = Number(searchtype);
-        var out = '<div id="name">'+getSearchTypeName(searchtype)+' Lookup</div><br><div>';
+        var out = '<div id="name">'+getSearchTypeName(searchtype)+' Lookup</div><br><div class="noanimation">';
     var arr = filterOutDuplicates(peoplenames,searchtype);
     for(var i =0;i<arr.length;i++){
       if(arr[i]){
@@ -355,7 +367,8 @@ function getGradeSpreadsheet(target) {
 }
 
 function viewFullSchedule(){
-  return embedSchedule();
+  var date = new Date();
+  return '<div id="name">Schedule</div><br>'+embedSchedule();
 }
 
 function getFullModName(name) {
