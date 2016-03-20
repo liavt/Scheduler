@@ -10,6 +10,45 @@ function getURL(){
   return url;
 }
 
+function getStarButton(id){
+  if(view!=5){
+    return '<form action="'+url+'"class="infobuttonsform"><input type="hidden" name="first" value="'+peoplenames[id][0]+'" />   <input type="hidden" name="last" value="'+peoplenames[id][1]+'" />  <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden" name="view"value="5"/><input id="star"class="infobutton"type="submit"value="Special"></form>';
+  }else{
+        return '<form action="'+url+'"class="infobuttonsform"><input type="hidden" name="first" value="'+peoplenames[id][0]+'" />   <input type="hidden" name="last" value="'+peoplenames[id][1]+'" />  <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden" name="view"value="0"/><input id="unstar"class="infobutton"type="submit"value="Standard"></form>';
+  }
+}
+
+function getPeopleButtonForGroup(num){
+  return '<form action="'+url+'"class="infobuttonsform"> <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden" name="view"value="3"/><input type="hidden" name="type"value="'+SEARCH_TYPE.GROUP+'"/><input type="hidden" name="term"value="'+num+'"/><input id="personbutton"class="infobutton"type="submit"value="People"></form>';
+}
+
+function getCohortButtonForGroup(num){
+  return getCohortButtonForPerson(findGroup(num));
+}
+
+function getCohortButtonForPerson(id){
+  var cohort = peoplenames[id][SEARCH_TYPE.COHORT];
+  return '<form action="'+url+'"class="infobuttonsform"> <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden" name="view"value="3"/><input type="hidden" name="type"value="'+SEARCH_TYPE.COHORT+'"/><input type="hidden" name="term"value="'+cohort+'"/><input id="cohortsbutton"class="infobutton"type="submit"value="'+cohort+'"></form>';
+}
+
+function getGroupButtonForPerson(id){
+  var groupnum = peoplenames[id][SEARCH_TYPE.GROUP];
+        return '<form action="'+url+'"class="infobuttonsform"> <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden"name="group"value="'+groupnum+'"/><input type="hidden" name="view"value="1"/><input id="groupsbutton"class="infobutton"type="submit"value="Group '+groupnum+'"></form>';
+}
+
+function getLOTEButtonForPerson(id){
+    var lote = peoplenames[id][SEARCH_TYPE.LOTE];
+  return '<form action="'+url+'"class="infobuttonsform"> <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden" name="view"value="3"/><input type="hidden" name="type"value="'+SEARCH_TYPE.LOTE+'"/><input type="hidden" name="term"value="'+lote+'"/><input id="lotebutton"class="infobutton"type="submit"value="LOTE: '+lote+'"></form>';
+}
+
+function getInfoButtons(id){
+  return '<div id="infobuttons"class="noanimation">'+getStarButton(id)+getGroupButtonForPerson(id)+getCohortButtonForPerson(id)+getLOTEButtonForPerson(id)+'</div>';
+}
+
+function getInfoButtonsForGroup(groupnum){
+  return '<div id="infobuttons"class="noanimation">'+getCohortButtonForGroup(groupnum)+getPeopleButtonForGroup(groupnum)+'</div>';
+}
+
 function getQuoteOfTheDay() {
   return '<div><script language="javascript" src="https://www.quotationspage.com/data/1qotd.js"></script><dl><dt class="tqpQuote"></dt></dl><a class="tqpAuthor" target="_blank" href="http://www.quotationspage.com/quotes/Samuel_Butler"></a></div>';
 }
@@ -21,11 +60,19 @@ function pullBackground() {
 }
 
 function getHTMLButtonForType(searchtype, name){
+  if(searchtype!=SEARCH_TYPE.GROUP){
   return '<form action="'+url+'"><input type="hidden" name="view" value="3" />  <input type="hidden" name="grade" value="'+grade+'" /> <input type="hidden" name="type" value="'+searchtype+'" /> <input type="hidden" name="term" value="'+name+'" /> <input type="submit" value="'+name+'"></form>';
-}
+  }else{
+    return getHTMLButtonForGroup(name);
+  }
+  }
 
 function getHTMLButtonForPerson(id){
   return '<form action="'+url+'"><input type="hidden" name="view" value="0" />   <input type="hidden" name="first" value="'+peoplenames[id][0]+'" />   <input type="hidden" name="last" value="'+peoplenames[id][1]+'" />  <input type="hidden" name="grade" value="'+grade+'" />  <input type="submit" value="'+peoplenames[id][0]+' '+peoplenames[id][1]+'"></form>';
+}
+
+function getHTMLButtonForGroup(num){
+  return '<form action="'+url+'"><input type="hidden" name="view" value="1" />   <input type="hidden" name="grade" value="'+grade+'" /> <input type="hidden"name="group" value="'+num+'"> <input type="submit" value="'+num+'"></form>';
 }
 
 //overloading
@@ -89,7 +136,8 @@ function embedSchedule(){
 
 function getHTMLPrepend() {
     // HTML header
-    return '<!DOCTYPE html><?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body><?!= include("MenuBar"); ?>';
+    //important to inclkude the Reset stylesheet, to make sure that different browsers (cough cough IE) all look that same
+    return '<!DOCTYPE html><?!= include("Reset"); ?><?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body><?!= include("MenuBar"); ?>';
 }
 
 function getHTMLAppend() {
@@ -112,5 +160,5 @@ function constructHTML(data, width, height, title) {
         // Title DOES exist. Set the title too
         var output = HtmlService.createTemplate(outhtml).evaluate().setTitle(title);
     }
-    return output.setWidth(width).setHeight(height).setFaviconUrl('https://raw.githubusercontent.com/liavt/Scheduler/master/res/titan.png');
+    return output.setWidth(width).setHeight(height).setFaviconUrl('https://raw.githubusercontent.com/liavt/Scheduler/master/res/favicon.ico');
 }
