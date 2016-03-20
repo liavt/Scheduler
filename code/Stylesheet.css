@@ -3,43 +3,95 @@
 
 body{
 font-family: 'Roboto', sans-serif;
-	line-height: 26.4px;
+	line-height: 1.65em;
     text-align: center;
    color: black;
    background-color: #AAAAFF;
    float: top;
 }
 
+div, #menubar, .menuform, .menubutton, .infobutton,input[type="submit"]{
+          transition: all 0.3s ease 0s;
+}
+
+div, .infobutton{
+              box-shadow: 0.625em 0.625em 0.3125em rgba(0,0,0,0.19) !important;
+
+}
+
 div{
      opacity: 0.7 ;
-  border-radius: 0px;
+  border-radius: 0em;
   width:70%;
        margin: auto;
   background-color: white ;
-          transition: all 0.3s ease 0s;
-              box-shadow: 10px 10px 5px rgba(0,0,0,0.19);
 
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0.0625;
+    width:100%;
 }
 
 div:hover{
   opacity:1;
   width: 80%;
+  box-shadow: 0.9375em 0.9375em 0.3125em rgba(0,0,0,0.19);
 }
 
 p{
- padding: 1px;
+ padding:0.0625em;
 }
 
-/*
-This was originally for something, but failed.
-hr{
-color: red;
-width: 60;
-    display: inline;
-   margin: 0px;
-    border-style: inset;
-    border-width: 1px;
-}*/
+#infobuttons{
+background-color: rgba(0,0,0,0);
+box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+height:5em;
+width: 70% !important;
+opacity: 1 !important;
+}
+
+.infobuttonsform{
+height:100%;
+display: inline;
+}
+
+.infobutton{
+display: inline;
+width:6em !important;
+height: 100% !important;
+float: center;
+color: rgba(0,0,0,0);
+         background-repeat: no-repeat;
+    background-position: center; 
+    background-color: #BBBBBB;
+    border-style:none;
+    background-size: 4em;
+    text-align: right;
+}
+
+.infobutton:hover{
+background-position: left;
+width: 10em !important;
+color: white;
+}
+
+#star{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star.png);
+}
+
+#star:hover{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png);
+}
+
+#unstar{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png);
+}
+
+#unstar:hover{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star.png);
+}
 
 /*For having no animations on the page*/
 .noanimation{ 
@@ -48,26 +100,34 @@ width: 60;
   -o-animation: none !important; 
   -ms-animation: none !important; 
   animation: none !important; 
-
-  -webkit-transition: none !important; 
-  -moz-transition: none !important; 
-  -o-transition: none !important; 
-  -ms-transition: none !important; 
-  transition: none !important; 
 } 
+
+.noanimation:hover{ 
+    width:70%;
+} 
+
+input[type="submit"]{
+background-color: #CCC;
+    border-style:none; 
+    width: 20%;
+}
+
+input[type="submit"]:hover{
+ background-color: #ABABAB;
+ }
 
 #name{
   margin-top:5%;
-  font-size: 24px;
+  font-size: 1.5em;
   font-weight: bold;
   opacity:0.7 !important;
  width: 35% !important;
 }
 
 .imgdesc {
-position: absolute;
-left:0;
-bottom:0;
+position: fixed;
+left:0em;
+bottom:0em;
 margin: 0%;
 color: white;
 width: 25%;
@@ -85,26 +145,25 @@ color:black;
 z-index: 1000;
 margin-top:0%;
 position: fixed !important;
-top:0;
-left:0;
+top:0em;
+left:0em;
 width: 100%;
  opacity: 0.7 !important;
  height:5%;
-         transition: all 0.3s ease 0s;
-                       box-shadow: 0px 0px;
-
+ box-shadow: 0em 0em 1em 0.25em #888 !important;
 }
 
 #menubar:hover{
   opacity: 1 !important;
+  box-shadow: none !important;
 }
 
 .menuform{
     float: left;
     height:100%;
     width:5%;
+    top:0%;
     border-radius:0%;
-   transition: all 0.3s ease 0s;
 }
 
 .menuform:hover{
@@ -112,22 +171,21 @@ width: 100%;
  }
 
 .menubutton{
-    width:100%;
-    height:100%;
-    background-color: white;
-    border-style:none; 
-        transition: all 0.3s ease 0s;
-     background-color: #BBBBBB;
+    width:100% !important;
+    height:100% !important;
+     background-color: #BBBBBB !important;
          background-repeat: no-repeat;
     background-position: center; 
     color: rgba(1,1,1,0);
          text-align: center;
          vertical-align: text-bottom;
+    background-size: 1.25em, 1.25em;
+         
 }
 
 .menubutton:hover{
- box-shadow: inset 0px -20px 0px -5px #999;
- background-color: #ABABAB;
+ box-shadow: inset 0em -1.25em 0em -0.3125em #999 !important;
+ background-color: #ABABAB !important;
      background-position: center top; 
      color:white;
 }
@@ -159,6 +217,10 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 
 #lotebutton{
 background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/LOTE.png);
+}
+
+#schedulebutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/schedule.png);
 }
 
 @keyframes changebackground{
