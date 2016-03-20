@@ -43,12 +43,7 @@
  // Variable for tracking whether grade is set or not
  var invalidGrade = false;
  var grade = '9';
-
-//for stylesheet
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename)
-      .getContent();
-}
+var url;
 
  function createVariables(currentgrade){
 	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
@@ -62,7 +57,26 @@ function include(filename) {
 	// Get remote version
 	remoteversion = sheet.getRange(19, 10).getValue();
    grade=currentgrade;
+   url = ScriptApp.getService().getUrl();
  }
+
+function filterOutDuplicates(a,xindex) {
+	var result = [];
+	for (var i = 0; i < a.length; i++) {
+		if (result.indexOf(a[i][xindex]) == -1) {
+			result.push(a[i][xindex]);
+		}
+	}
+	return result;
+}
+
+function getGradeClassName(){
+  if(grade=='10'){
+    return 'Path'
+  }else{
+    return 'Cohort'
+  }
+}
 
 function getParametersForPerson(id){
   var string = '';
@@ -84,16 +98,24 @@ function getParameterByName(name, url) {
 }
 
 function addParameter(name, value, string){
-  if(!string.startsWith('?'))string.concat('&');
-  string.concat(name);
-  string.concat('=');
-  string.concat(value);
-  return string;
+  if(!string.startsWith('?'))string = string.concat('&');
+  return  string.concat(name,'=',value);
 }
 
 function capitalizeFirstLetter(target) {
     // Return a string with the first letter capitalized.
     return target.substring(0,1).toUpperCase()+target.substring(1);
+}
+
+function getGreeting(){
+  var d= new Date();
+  if(d.getHours()<12){
+     return 'Good morning';
+  } else if(d.getHours()<17){
+     return 'Good afternoon';
+  } else {
+     return 'Good evening';
+  }
 }
 
 function viewLearnerSchedule(querystring){
@@ -105,7 +127,8 @@ function viewLearnerSchedule(querystring){
     var id = findPersonByName(firstName, lastName);
     if (id != -1) {
         // Return the normal data
-        return '<h1>' + capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + '</h1>' + getSchedule(id);
+      //pullBackground();
+      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule();
     } else {
         // Invalid user
         // Return an error message
@@ -113,11 +136,34 @@ function viewLearnerSchedule(querystring){
     }
 }
 
-//if we ever want to make it look cooler
-function get404Page(){
-    return '<h1>404 page not found</h1><br><h2>We have some specialized monkeys on their way to help you out</h2>'
-
+function viewPersonalizedSchedule(querystring){
+   // Get the first name
+    var firstName = getParameterByName('first', querystring);
+    // Get the last name
+    var lastName = getParameterByName('last', querystring);
+    // Resolve the name into an ID that we can use
+    var id = findPersonByName(firstName, lastName);
+    if (id != -1) {
+        // Return the normal data
+      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><div class="personalized"><p><h1>Here\'s your schedule for today:</h1>' + getSchedule(id) + '</p></div>'+getQuoteOfTheDay()+'<br>' + embedSchedule();
+    } else {
+        // Invalid user
+        // Return an error message
+        return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
+    }
 }
+
+function listAllPeople(){
+  var html = '<div id="name"><p>'+grade+'th grade</p></div><div>';
+  for(var i =0;i<peoplenames.length;i++){
+    if(peoplenames[i][0]&&peoplenames[i][1]){
+    html+=getHTMLButtonForPerson(i)+'<br>';
+    }
+  }
+  html+='</div>';
+  return html;
+}
+
 
 function findGroup(groupnum){
     // Get the ID of a person in the group
@@ -136,7 +182,7 @@ function viewGroupSchedule(querystring){
     var id = findGroup(group);
     if (id != -1) {
         // Return the normal data
-        return '<h1>Group ' + group + '</h1>' + getSchedule(id);
+        return '<div id="name"><p>Group ' + group + '</p></div><div>' + getSchedule(id) + '</div><br>' + embedSchedule();
     } else {
         // Invalid user
         // Return an error message
@@ -150,10 +196,55 @@ function viewGroupSchedule(querystring){
 *@enum {number}
 */
 var VIEW_TYPE = {
+  /**
+  *When view=0, shows the learner schedule. Needs parameters first, last, and grade.
+  */
   LEARNER_SCHEDULE: 0,
+    /**
+  *When view=1, shows the group schedule. Needs parameters group and grade.
+  */
   GROUP_SCHEDULE: 1,
-  LIST_ALL: 2
+    /**
+  *When view=2, lists all of a a SEARCH_TYPE. Needs parameters type and grade.
+  */
+  LIST_ALL: 2,
+  /**
+  *When view=3, lists all people in a SEARCH_TYPE. Needs parameters type, term,  and grade.
+  */
+  LIST_ALL_IN: 3,
+  /**
+  *When view=4, lists everyone in the grade. Needs parameter grade.
+  */
+  LIST_PEOPLE: 4,
+  /**
+  *When view=5, views a learner's schedule, personalized for them. Needs parameter group, first, and last.
+  */
+  PERSONALIZED_SCHEDULE: 5,
+  /**
+  *When view=6, views the schedule as a spreadsheet
+  */
+  SCHEDULE:6,
+  /**
+  *When view=7, views everything that you can search
+  */
+  VIEW_SEARCH_TYPES: 7,
+    /**
+  *When view=8, brings up a homepage
+  */
+  HOMEPAGE:8,
 };
+
+/**
+*What to sort by when view=2, view=3, LIST_ALL_IN or LIST_ALL is chosen
+*@readonly
+*@enum {number}
+*/
+var SEARCH_TYPE = {
+  COHORT: 4,
+  LOTE: 2,
+  GROUP: 3,
+  
+}
 
 function processQuery(querystring) {
     // Needed so the querystring parse won't choke
@@ -164,24 +255,91 @@ function processQuery(querystring) {
      return viewLearnerSchedule(querystring);
   }else if(type==VIEW_TYPE.GROUP_SCHEDULE.toString()){
     return viewGroupSchedule(querystring);
+  }else if(type==VIEW_TYPE.LIST_ALL.toString()){
+    return searchAll(querystring);
+  }else if(type==VIEW_TYPE.LIST_ALL_IN.toString()){
+    return searchAllIn(querystring);
+  }else if (type==VIEW_TYPE.LIST_PEOPLE.toString()){
+    return listAllPeople();
+  }else if(type==VIEW_TYPE.PERSONALIZED_SCHEDULE.toString()){
+    return viewPersonalizedSchedule(querystring);
+  }else if(type==VIEW_TYPE.SCHEDULE.toString()){
+    return viewFullSchedule();
+  }else if(type==VIEW_TYPE.VIEW_SEARCH_TYPES.toString()){
+    return viewSearchTypes(querystring);
+  }else if(type==VIEW_TYPE.HOMEPAGE.toString()){
+    return viewHomepage();
   }else {
-    return get404Page();
+    return getErrorPage(404, type+' is not a view');
   }
+}
+
+function viewSearchTypes(string){
+  return '<?!= include("ViewSearchTypes"); ?>';
 }
 
 function doGet(e) {
     // Function that runs when the page opens
+  var html = '';
 	var tempGrade = getParameterByName('grade', '?' + e.queryString);
+  if(!tempGrade){
+    html = getErrorPage(422,'Parameter \'grade\' not found. <br>This happens when the URL is wrong');
+  }else{
 	createVariables(tempGrade);
-    var html = processQuery(e.queryString);
-    var htmlOutput = constructHTML('<div style="margin: 20px 20px 20px 20px">' + html + '<br>' + embedSchedule() + '</div>', 1000, 1000, 'Schedule');
+    html = processQuery(e.queryString);
+  }
+    var htmlOutput = constructHTML( html , 1000, 1000, 'Schedule');
     return htmlOutput;
 }
 
-function embedSchedule(){
-    // Embed the schedule spreadsheet into the page
-	// return '<iframe src="https://docs.google.com/spreadsheets/d/1s0HqXOHvvjrl1Rchg-e7i_TBYpVeOCDbXw2U5SmuB78/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false" width=1000 height=500></iframe>'
-	return '';
+function getSearchTypeName(num){
+  if(num==SEARCH_TYPE.COHORT){
+    return getGradeClassName();
+  }else if(num==SEARCH_TYPE.LOTE){
+    return 'LOTE';
+  }else if(num==SEARCH_TYPE.GROUP){
+    return 'Group';
+  }
+}
+
+function searchAllIn(string){
+  var searchtype = getParameterByName('type',string);
+  var searchterm = getParameterByName('term',string);
+  if(searchtype&&searchterm){
+    searchtype = Number(searchtype);
+    var out = '<div id="name">'+getSearchTypeName(searchtype)+':'+capitalizeFirstLetter(searchterm)+'</div><br><div>';
+    for(var i =0;i<peoplenames.length;i++){
+      if(peoplenames[i]&&peoplenames[i][searchtype].toString().toLowerCase()==searchterm.toString().toLowerCase()){
+      out+=getHTMLButtonForPerson(i)+'<br>';
+      }
+    }
+    out = out.concat('</div>');
+    return out;
+  }else{
+    return getErrorPage(422,'\'type\' or \'term\' not found. This usually happens when the URL is wrong.');
+  }
+}
+
+function viewHomepage(){
+  return '<?!= include("Homepage") ?>';
+}
+
+function searchAll(string){
+  var searchtype = getParameterByName('type',string);
+  if(searchtype){
+    searchtype = Number(searchtype);
+        var out = '<div id="name">'+getSearchTypeName(searchtype)+' Lookup</div><br><div>';
+    var arr = filterOutDuplicates(peoplenames,searchtype);
+    for(var i =0;i<arr.length;i++){
+      if(arr[i]){
+      out+=getHTMLButtonForType(searchtype,arr[i])+'<br>';
+      }
+    }
+    out = out.concat('</div>');
+    return out;
+  }else{
+    return getErrorPage(422,'\'type\' not found. This usually happens when the URL is wrong.');
+  }
 }
 
 function getGradeSpreadsheet(target) {
@@ -196,6 +354,10 @@ function getGradeSpreadsheet(target) {
     }
 }
 
+function viewFullSchedule(){
+  return embedSchedule();
+}
+
 function getFullModName(name) {
     for (var i = 0; i < modnames.length; i++) {
         if (modnames[i][0] == name) {
@@ -204,31 +366,12 @@ function getFullModName(name) {
     }
 }
 
-function getHTMLPrepend() {
-    // HTML header
-    return '<!DOCTYPE html>    <?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body>';
-}
-
-function getHTMLAppend() {
-    // HTML footer
-    return ' </body></html>';
-}
-
-function constructHTML(data, width, height, title) {
-    // title is undefined if one wasn't provided as an argument
-    if (title == 'undefined') {
-        // Title doesn't exist. Generate a message without it.
-        var output = HtmlService.createTemplate(getHTMLPrepend() + data + getHTMLAppend()).evaluate()
-        .setWidth(width)
-        .setHeight(height);
-    } else {
-        // Title DOES exist. Set the title too
-        var output = HtmlService.createTemplate(getHTMLPrepend() + data + getHTMLAppend()).evaluate()
-        .setWidth(width)
-        .setHeight(height)
-        .setTitle(title);
+function getModColor(name) {
+    for (var i = 0; i < modnames.length; i++) {
+        if (modnames[i][0] == name) {
+          return sheet.getRange(i+8, 1).getBackground();
+        }
     }
-    return output;
 }
 
 function parseLearnerSchedule(sched, person) {
@@ -331,7 +474,7 @@ function getSchedule(person) {
                     hours -= 12;
                 }
                 // Add new time to output
-                rows += hours + ':' + addZero(d.getMinutes()) + '&' + mods[row][i] + ';';
+                rows += hours + ':' + addZero(d.getMinutes());
                 // Current time
                 var currenttime = new Date();
                 if (getTime(currenttime) >= getTime(d)) {
@@ -345,6 +488,7 @@ function getSchedule(person) {
                         next = '<b>Next - ' + getFullModName(mods[row][i +1]) + '</b>';
                     }
                 }
+              rows+='&' + mods[row][i]+';';
             }
         }
     }
