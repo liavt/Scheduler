@@ -6,6 +6,11 @@
 </form>
   <form action="<?!= getURL(); ?>"class="menuform">
     <?!= getGradeAttribute(); ?>
+    <input type="hidden" name="view" value="6" />
+    <input type="submit" id="schedulebutton"class="menubutton"value="Schedule"/>
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+    <?!= getGradeAttribute(); ?>
     <input type="hidden" name="view" value="4" />
     <input type="submit" id="personbutton"class="menubutton"value="Learners"/>
 </form>
