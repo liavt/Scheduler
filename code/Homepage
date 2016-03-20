@@ -1,0 +1,65 @@
+<div id="name">
+Welcome!
+</div>
+<br>
+<div>
+Please select what you want to do.
+</div>
+<br>
+<div>
+<h1>Learner Lookup</h1><br>
+    <form  action="<?!=getURL(); ?>" method="get">
+        <?!= getGradeAttribute(); ?>
+     <!-- 
+ Add which type of page to appear. '0' means to show a student's schedule
+ /-->  
+   <input type="hidden" name="view" value="0" />  
+  First Name: <input name="first" type="text" /><br />  
+ Last Name: <input name="last" type="text" /><br />  
+ <input type="submit" value="Go!">    
+    </form>
+  </div> 
+  <br>
+  <div>
+    <h1>Group Lookup</h1><br>
+    <form  action="<?!=getURL(); ?>" method="get">
+
+     <!-- 
+ Add which type of page to appear. '1' means to show a group's schedule
+ /-->  
+   <input type="hidden" name="view" value="1" />  
+       <?!= getGradeAttribute(); ?>
+  Group Name: <input name="Group" type="text" /><br />  
+ <input type="submit" value="Go!">    
+    </form>
+  </div>
+  <br>
+<div>
+    <h1>View All Learners</h1><br>
+    <form  action="<?!=getURL(); ?>" method="get">
+    <?!= getGradeAttribute(); ?>
+     <!-- 
+ Add which type of page to appear. '4' means to list all people
+ /-->  
+   <input type="hidden" name="view" value="4" />  
+ <input type="submit" value="Go!">    
+    </form>
+  </div>
+<br>
+<div>
+    <h1>View All</h1><br>
+    <form  action="<?!=getURL(); ?>" method="get">
+    <?!= getGradeAttribute(); ?>
+     <!-- 
+ Add which type of page to appear. '4' means to list all people
+ /-->  
+   <input type="hidden" name="view" value="2" />  
+      What do you want to search?
+      <select name = "grade">
+    <option value="2">Lote</option>  
+    <option value="3">Group</option>  
+        <option value="4"><?!= getGradeClassName(); ?></option>  
+ </select><br>  
+ <input type="submit" value="Go!">    
+    </form>
+  </div>
