@@ -1,0 +1,35 @@
+<div id="menubar">
+  <form action="<?!= getURL(); ?>"class="menuform">
+    <?!= getGradeAttribute(); ?>
+    <input type="hidden" name="view" value="8" />
+    <input type="submit" id="homebutton"class="menubutton"value="Home"/>
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+    <?!= getGradeAttribute(); ?>
+    <input type="hidden" name="view" value="4" />
+    <input type="submit" id="personbutton"class="menubutton"value="Learners"/>
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+     <?!= getGradeAttribute(); ?>
+         <input type="hidden" name="view" value="2" />
+                  <input type="hidden" name="type" value="3" />
+    <input type="submit" id="groupsbutton"class="menubutton"value="Groups">
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+     <?!= getGradeAttribute(); ?>
+     <input type="hidden" name="view" value="2" />
+     <input type="hidden" name="type" value="2" />
+    <input type="submit" id="lotebutton"class="menubutton"value="LOTEs">
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+     <?!= getGradeAttribute(); ?>
+     <input type="hidden" name="view" value="2" />
+     <input type="hidden" name="type" value="4" />
+    <input type="submit" id="cohortsbutton"class="menubutton"value="<?!= getGradeClassName();?>s">
+</form>
+  <form action="<?!= getURL(); ?>"class="menuform">
+     <?!= getGradeAttribute(); ?>
+         <input type="hidden" name="view" value="7" />
+    <input type="submit" id="searchbutton"class="menubutton"value="Search">
+</form>
+</div>
