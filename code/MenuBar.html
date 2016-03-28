@@ -17,19 +17,19 @@
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getGradeAttribute(); ?>
          <input type="hidden" name="view" value="2" />
-                  <input type="hidden" name="type" value="3" />
+                  <input type="hidden" name="type" value="<?!=getGroupID();?>" />
     <input type="submit" id="groupsbutton"class="menubutton"value="Groups">
 </form>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getGradeAttribute(); ?>
      <input type="hidden" name="view" value="2" />
-     <input type="hidden" name="type" value="2" />
+     <input type="hidden" name="type" value="<?!=getLOTEID();?>" />
     <input type="submit" id="lotebutton"class="menubutton"value="LOTEs">
 </form>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getGradeAttribute(); ?>
      <input type="hidden" name="view" value="2" />
-     <input type="hidden" name="type" value="4" />
+     <input type="hidden" name="type" value="<?!=getCohortID();?>" />
     <input type="submit" id="cohortsbutton"class="menubutton"value="<?!= getGradeClassName();?>s">
 </form>
   <form action="<?!= getURL(); ?>"class="menuform">
