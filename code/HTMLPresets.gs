@@ -56,7 +56,7 @@ function getQuoteOfTheDay() {
 function pullBackground() {
   var response = UrlFetchApp.fetch("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"); var json = JSON.parse(response.getContentText());
   var url = 'https://www.bing.com'+json.images[0].url;
-  return '<style>body{background-image: url("'+url+'")}</style><div class="imgdesc personalized">'+json.images[0].copyright+' - Bing</div>';
+  return '<style>body{background-image: url("'+url+'");}</style><div class="imgdesc">'+json.images[0].copyright+' - Bing</div>';
 }
 
 function getHTMLButtonForType(searchtype, name){
@@ -95,7 +95,7 @@ function getErrorPage(code,message){
 
     // Embed the schedule spreadsheet into the page
 function embedSchedule(){
-  var out = '<div class="personalized"><table><tr>';
+  var out = '<div class="noanimation"><table><tr>';
   for(var i =0;i<times[0].length;i++){
     if(times[0][i]){
       if(times[0][i]=='KEY'){
