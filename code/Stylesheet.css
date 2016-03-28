@@ -8,6 +8,10 @@ font-family: 'Roboto', sans-serif;
    color: black;
    background-color: #AAAAFF;
    float: top;
+    -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 div, #menubar, .menuform, .menubutton, .infobutton,input[type="submit"]{
@@ -15,7 +19,7 @@ div, #menubar, .menuform, .menubutton, .infobutton,input[type="submit"]{
 }
 
 div, .infobutton{
-              box-shadow: 0.625em 0.625em 0.3125em rgba(0,0,0,0.19) !important;
+              box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
 
 }
 
@@ -31,8 +35,14 @@ div{
 table {
 	border-collapse: collapse;
 	border-spacing: 0.0625;
-    width:100%;
+    width: 100%;
+    table-layout:fixed;
 }
+
+td, tr, table{
+word-wrap: break-word;
+overflow: auto; 
+    }
 
 div:hover{
   opacity:1;
@@ -117,7 +127,7 @@ input[type="submit"]:hover{
  }
 
 #name{
-  margin-top:5%;
+  margin-top:5em;
   font-size: 1.5em;
   font-weight: bold;
   opacity:0.7 !important;
@@ -133,9 +143,12 @@ color: white;
 width: 25%;
 background-color: rgba(255,255,255,0) !important;
 opacity: 1 !important;
+z-index: 0;
+box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
 }
 
 .imgdesc:hover{
+z-index: 0;
 background-color: rgba(255,255,255,200) !important;
 width:100%;
 color:black;
@@ -149,7 +162,7 @@ top:0em;
 left:0em;
 width: 100%;
  opacity: 0.7 !important;
- height:5%;
+ height:5em;
  box-shadow: 0em 0em 1em 0.25em #888 !important;
 }
 
