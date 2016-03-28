@@ -50,7 +50,7 @@ var view;
 	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
 	// Variable initialization
 	settings = sheet.getRange(24,1,37,5).getValues();
-	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,5).getValues().sort();
+	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,10).getValues().sort();
 	mods = sheet.getRange(2,1,5,16).getValues();
 	times = sheet.getRange(1,1,1,16).getValues();
 	// When updating modnames don't forget to change the getModColor() function
@@ -169,7 +169,7 @@ function listAllPeople(){
 function findGroup(groupnum){
     // Get the ID of a person in the group
     for (var i = 0;i < peoplenames.length; i++) {
-        if (peoplenames[i][3]==groupnum) {
+        if (peoplenames[i][SEARCH_TYPE.GROUP]==groupnum) {
             return i;
         }
     }
@@ -245,7 +245,7 @@ var VIEW_TYPE = {
 *@enum {number}
 */
 var SEARCH_TYPE = {
-  COHORT: 4,
+  COHORT: 6,
   LOTE: 2,
   GROUP: 3,
   
@@ -334,6 +334,18 @@ function searchAllIn(string){
 
 function viewHomepage(){
   return '<?!= include("Homepage") ?>';
+}
+
+function getCohortID(){
+  return SEARCH_TYPE.COHORT;
+}
+
+function getLOTEID(){
+  return SEARCH_TYPE.LOTE;
+}
+
+function getGroupID(){
+  return SEARCH_TYPE.GROUP;
 }
 
 function searchAll(string){
@@ -465,13 +477,13 @@ function getSchedule(person) {
                     if (mods[y][i] != 'NULL' || mods[y][i]) {
                         //check key type
                         if (mods[y][i].substring(0,1) == 'c') {
-                            if (mods[y][i].substring(1) == peoplenames[(person)][4]) {
+                            if (mods[y][i].substring(1) == peoplenames[(person)][SEARCH_TYPE.COHORT]) {
                                 row = y;
                                 break;
                             }
                         } else if (mods[y][i].substring(0,1) == 'g') {
                             var range = mods[y][i].substring(1).split('-');
-                            if (peoplenames[person][3] >= range[0] && peoplenames[person][3] <= range[1]) {
+                            if (peoplenames[person][SEARCH_TYPE.GROUP] >= range[0] && peoplenames[person][SEARCH_TYPE.GROUP] <= range[1]) {
                                 row = y;
                                 break;
                             }
