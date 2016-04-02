@@ -1,10 +1,11 @@
 //tinyurl.com/ahsscheduler
+//https://github.com/liavt/Scheduler
 
 /*
  * Hey
  * Congrats on finding the source
  *
- * I know it sucks
+ * I know it is bad
  * I know it is redudant
  * I know it is messy
  * I know it is undocumented
@@ -117,6 +118,14 @@ function getGreeting(){
   } else {
      return 'Good evening';
   }
+  //april fools
+//  if(d.getHours()<12){
+//     return 'Top of da morning';
+//  } else if(d.getHours()<17){
+//     return 'Nooning after';
+//  } else {
+//     return 'Good odding';
+//  }
 }
 
 function viewLearnerSchedule(querystring){
@@ -245,7 +254,7 @@ var VIEW_TYPE = {
 *@enum {number}
 */
 var SEARCH_TYPE = {
-  COHORT: 6,
+  COHORT: 4,
   LOTE: 2,
   GROUP: 3,
   
