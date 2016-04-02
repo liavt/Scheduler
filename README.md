@@ -1,5 +1,3 @@
-# NOTICE: This is currently under review for use by school
-
 ##You can find this live at tinyurl.com/ahsscheduler
 
 # Scheduler
