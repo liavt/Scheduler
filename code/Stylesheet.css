@@ -2,7 +2,7 @@
 
 
 body{
-font-family: 'Roboto', sans-serif;
+font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included elsewhere*/
 	line-height: 1.65em;
     text-align: center;
    color: black;
@@ -264,5 +264,4 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 
 
 </style>
-
 
