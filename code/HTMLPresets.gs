@@ -1,6 +1,8 @@
 //This file is for functions that deal with primarily HTML
 
-//for css stylesheet
+/**
+*This function returns an HTML file's content as a string. Can be used with JQuery or scriptlets to include other HTML files dynamically without <script src>
+*/
 function include(filename) {
   return HtmlService.createTemplateFromFile(filename).evaluate()
       .getContent();
@@ -33,6 +35,7 @@ function getCohortButtonForPerson(id){
 
 function getGroupButtonForPerson(id){
   var groupnum = peoplenames[id][SEARCH_TYPE.GROUP];
+  if(!groupnum) return '';
         return '<form action="'+url+'"class="infobuttonsform"> <input type="hidden" name="grade" value="'+grade+'" /><input type="hidden"name="group"value="'+groupnum+'"/><input type="hidden" name="view"value="1"/><input id="groupsbutton"class="infobutton"type="submit"value="Group '+groupnum+'"></form>';
 }
 
@@ -49,8 +52,8 @@ function getInfoButtonsForGroup(groupnum){
   return '<div id="infobuttons"class="noanimation">'+getCohortButtonForGroup(groupnum)+getPeopleButtonForGroup(groupnum)+'</div>';
 }
 
-function getQuoteOfTheDay() {
-  return '<div><script language="javascript" src="https://www.quotationspage.com/data/1qotd.js"></script><dl><dt class="tqpQuote"></dt></dl><a class="tqpAuthor" target="_blank" href="http://www.quotationspage.com/quotes/Samuel_Butler"></a></div>';
+function getQuoteOfTheDay() {  
+  return '';
 }
 
 function pullBackground() {
@@ -84,11 +87,11 @@ function getErrorPage(code){
 function getErrorPage(code,message){
   var string = '<div id="name">';
   if(code==404){
-    string = '<h1>404 page not found :(</h1>';
+    string += '<h1>404 page not found :(</h1>';
   }else if(code==422){
-    string =  '<h1>422 invalid syntax. :(</h1>';
+    string +=  '<h1>422 invalid syntax. :(</h1>';
   }else{
-    string =code+' an error occured. :(';
+    string +=code+' an error occured. :(';
   }
   return string + '</div><br><div><h3>'+message+'<br></h3><br><h2>We have some specialized monkeys on their way to help you out</h2></div>';
 }
@@ -99,7 +102,7 @@ function embedSchedule(){
   for(var i =0;i<times[0].length;i++){
     if(times[0][i]){
       if(times[0][i]=='KEY'){
-              out+='<td bgcolor="#AAAAAA"width=6%></th>';
+        out+='<td bgcolor="#888"width=6% style="background-color:rgba(0,0,0,0) !important;"></th>';
       }else{
         var time = new Date(times[0][i]);
         var hours = parseInt(time.getHours());
@@ -107,7 +110,7 @@ function embedSchedule(){
            // Convert to AM/PM from military time
            hours -= 12;
         }
-        out+='<td bgcolor="#AAAAAA"width=6%>'+hours+':'+addZero(time.getMinutes())+'</th>';
+        out+='<td bgcolor="#AAA"width=6%>'+hours+':'+addZero(time.getMinutes())+'</th>';
       }
     }
   }
@@ -119,8 +122,8 @@ function embedSchedule(){
         var modname = mods[y][x];
         var color;
         if(!times[0][x]||times[0][x]=='KEY'){
-          modname = modname.substring(1);
-          color = "#AAAAAA";
+          modname = modname.substring(1).replace("c"," & ");
+          color = "#AAA";
         }else{
           modname = getFullModName(modname);
           color = getModColor(mods[y][x]);
