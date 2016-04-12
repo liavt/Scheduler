@@ -50,16 +50,22 @@ var view;
  function createVariables(currentgrade){
 	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
 	// Variable initialization
-	settings = sheet.getRange(24,1,37,5).getValues();
+	settings = sheet.getRange(34,1,37,5).getValues();
 	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,10).getValues().sort();
-	mods = sheet.getRange(2,1,5,16).getValues();
+	mods = sheet.getRange(2,1,15,16).getValues();
 	times = sheet.getRange(1,1,1,16).getValues();
 	// When updating modnames don't forget to change the getModColor() function
-	modnames = sheet.getRange(8,1,15,2).getValues();
+	modnames = sheet.getRange(18,1,15,2).getValues();
 	// Get remote version
 	remoteversion = sheet.getRange(19, 10).getValue();
    grade=currentgrade;
    url = ScriptApp.getService().getUrl();
+   
+   if(grade=='9'||grade=='8'){
+     SEARCH_TYPE.LOTE=2;
+     SEARCH_TYPE.COHORT=3;
+     SEARCH_TYPE.GROUP=4;
+   }
  }
 
 function filterOutDuplicates(a,xindex) {
@@ -74,7 +80,7 @@ function filterOutDuplicates(a,xindex) {
 
 function getGradeClassName(){
   if(grade=='10'){
-    return 'Path'
+    return 'Topic'
   }else{
     return 'Cohort'
   }
@@ -250,7 +256,6 @@ var VIEW_TYPE = {
 
 /**
 *What to sort by when view=2, view=3, LIST_ALL_IN or LIST_ALL is chosen
-*@readonly
 *@enum {number}
 */
 var SEARCH_TYPE = {
@@ -304,13 +309,14 @@ function doGet(e) {
   var html = '';
 	var tempGrade = getParameterByName('grade', '?' + e.queryString);
   if(!tempGrade){
-    html = getErrorPage(422,'Parameter \'grade\' not found. <br>This happens when the URL is wrong');
+    html = getErrorPage(422,'Parameter \'grade\' not found. <br>This happens when the URL is wrong.');
   }else{
 	createVariables(tempGrade);
     html = processQuery(e.queryString);
   }
     var htmlOutput = constructHTML( html , 1000, 1000, 'Schedule');
-    return htmlOutput;
+ // return HtmlService.createHtmlOutput('You must be signed in as a mypisd.net account to access the schedule.');
+   return htmlOutput;
 }
 
 function getSearchTypeName(num){
@@ -363,6 +369,9 @@ function searchAll(string){
     searchtype = Number(searchtype);
         var out = '<div id="name">'+getSearchTypeName(searchtype)+' Lookup</div><br><div class="noanimation">';
     var arr = filterOutDuplicates(peoplenames,searchtype);
+    if(!arr||arr.length<=1){
+      return 'There are no '+getSearchTypeName(searchtype).toLowerCase()+'s this project';
+    }
     for(var i =0;i<arr.length;i++){
       if(arr[i]){
       out+=getHTMLButtonForType(searchtype,arr[i])+'<br>';
@@ -384,6 +393,9 @@ function getGradeSpreadsheet(target) {
         // 10th grade spreadsheets
         // This will need to be updated when actually deploying it
         return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1HsbA9Sjj2qTzKikSJBsH9wPZCZlQnxQyvp00v2QSbJo/edit?usp=sharing';
+    } else if(target=='8'){
+      //for debugging
+      return 'https://docs.google.com/spreadsheets/d/1I1tOOUHjoeqWRTUcbDeO5WXNDBERg9mH3EWMa1X9cNg/edit#gid=0';
     }
 }
 
@@ -403,7 +415,7 @@ function getFullModName(name) {
 function getModColor(name) {
     for (var i = 0; i < modnames.length; i++) {
         if (modnames[i][0] == name) {
-          return sheet.getRange(i+8, 1).getBackground();
+          return sheet.getRange(i+18, 1).getBackground();
         }
     }
 }
@@ -466,6 +478,7 @@ function getTime(date) {
 }
 
 
+//don't even try understanding this. I basically wrote a O(n) algorithim to parse the schedule. It is extremely complicated.
 function getSchedule(person) {
     // TODO: Rename one of them
     var row = 0;
@@ -492,9 +505,22 @@ function getSchedule(person) {
                             }
                         } else if (mods[y][i].substring(0,1) == 'g') {
                             var range = mods[y][i].substring(1).split('-');
-                            if (peoplenames[person][SEARCH_TYPE.GROUP] >= range[0] && peoplenames[person][SEARCH_TYPE.GROUP] <= range[1]) {
+                            var cindex = range[1].indexOf('c');
+                          if(cindex<=0){
+                            cindex = range[1].length;
+                          }
+                            if (peoplenames[person][SEARCH_TYPE.GROUP] >= range[0] && peoplenames[person][SEARCH_TYPE.GROUP] <= range[1].substring(0,cindex)) {
+                              if(cindex>0&&cindex!=range[1].length){
+                                  if(peoplenames[person][SEARCH_TYPE.COHORT]==range[1].substring(cindex+1)){
+                                    row=y;
+                                    break;
+                                  }else{
+                                    continue;
+                                  }
+                                }else{
                                 row = y;
                                 break;
+                                }
                             }
                         }
                     }
