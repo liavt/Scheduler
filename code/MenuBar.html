@@ -14,12 +14,14 @@
     <input type="hidden" name="view" value="4" />
     <input type="submit" id="personbutton"class="menubutton"value="Learners"/>
 </form>
+<?     var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.GROUP);if(arr.length>1){?>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getGradeAttribute(); ?>
          <input type="hidden" name="view" value="2" />
                   <input type="hidden" name="type" value="<?!=getGroupID();?>" />
     <input type="submit" id="groupsbutton"class="menubutton"value="Groups">
 </form>
+<? } ?>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getGradeAttribute(); ?>
      <input type="hidden" name="view" value="2" />
