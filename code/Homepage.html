@@ -2,11 +2,20 @@
 Welcome!
 </div>
 <br>
-<div class="noanimation">
+<div>
 Please select what you want to do.
 </div>
 <br>
 <div>
+<h1>Instructions</h1>
+1. Search up your name<br>
+2. Scroll down on your page<br>
+3. Click on the star labelled 'Special'<br>
+4. Bookmark the new page<br>
+5. Reloading the page gives you your schedule!<br>
+</div>
+<br>
+<div class="noanimation">
 <h1>Learner Lookup</h1><br>
     <form  action="<?!=getURL(); ?>" method="get">
         <?!= getGradeAttribute(); ?>
@@ -20,7 +29,7 @@ Please select what you want to do.
     </form>
   </div> 
   <br>
-  <div>
+  <div class="noanimation">
     <h1>Group Lookup</h1><br>
     <form  action="<?!=getURL(); ?>" method="get">
 
@@ -29,12 +38,12 @@ Please select what you want to do.
  /-->  
    <input type="hidden" name="view" value="1" />  
        <?!= getGradeAttribute(); ?>
-  Group Name: <input name="Group" type="text" /><br />  
+  Group: <input name="Group" type="text" /><br />  
  <input type="submit" value="Go!">    
     </form>
   </div>
   <br>
-<div>
+<div class="noanimation">
     <h1>View All Learners</h1><br>
     <form  action="<?!=getURL(); ?>" method="get">
     <?!= getGradeAttribute(); ?>
@@ -46,7 +55,7 @@ Please select what you want to do.
     </form>
   </div>
   <br>
-  <div>
+  <div class="noanimation">
     <h1>About</h1><br>
     <form  action="<?!=getURL(); ?>" method="get">
     <?!= getGradeAttribute(); ?>
