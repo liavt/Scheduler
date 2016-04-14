@@ -24,6 +24,11 @@ div, .infobutton{
 
 }
 
+#titanhead{
+background: rgba(0,0,0,0) url(https://www.placekitten.com/320/160);
+
+}
+
 div{
      opacity: 0.7 ;
   border-radius: 0em;
@@ -82,6 +87,7 @@ color: rgba(0,0,0,0);
     text-align: right;
 }
 
+
 .infobutton:hover{
 background-position: left;
 width: 10em !important;
@@ -133,24 +139,27 @@ input[type="submit"]:hover{
   opacity:0.7 !important;
  width: 35% !important;
 }
-
 .imgdesc {
 position: fixed;
-left:0em;
-bottom:0em;
+right:0em;
+top:0em;
 margin: 0%;
-color: white;
-width: 25%;
+color: black;
+width: 25%; 
+height: 1.5em;
 background-color: rgba(255,255,255,0) !important;
 opacity: 1 !important;
-z-index: 0;
 box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+word-wrap: break-word;
+overflow: hidden;
+z-index: 1000;
 }
 
 .imgdesc:hover{
-z-index: 0;
-background-color: rgba(255,255,255,200) !important;
-width:100%;
+background-color: rgba(255,255,255,100) !important;
+width:95%;
+height:5em;
+         vertical-align: middle;
 color:black;
 }
 
@@ -260,8 +269,5 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
   from{background-color: white; }
   to{ background-color: lightskyblue; }
 }
-
-
-
 </style>
 
