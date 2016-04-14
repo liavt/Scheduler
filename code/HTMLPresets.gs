@@ -70,6 +70,11 @@ function getHTMLButtonForType(searchtype, name){
   }
   }
 
+function getUpdateScript(id){
+  return '';
+  //return '<script>var i = 0;setInterval(function(){ var html = google.script.run.getUpdatedSchedule("'+grade+'",'+id+'); i++;document.getElementById("personalized-schedule").innerHTML=google.script.run.blah();},1000);</script>';
+}
+
 function getHTMLButtonForPerson(id){
   return '<form action="'+url+'"><input type="hidden" name="view" value="0" />   <input type="hidden" name="first" value="'+peoplenames[id][0]+'" />   <input type="hidden" name="last" value="'+peoplenames[id][1]+'" />  <input type="hidden" name="grade" value="'+grade+'" />  <input type="submit" value="'+peoplenames[id][0]+' '+peoplenames[id][1]+'"></form>';
 }
@@ -98,7 +103,7 @@ function getErrorPage(code,message){
 
     // Embed the schedule spreadsheet into the page
 function embedSchedule(){
-  var out = '<div class="noanimation"><table><tr>';
+  var out = '<div class="noanimation"id="schedule"><table><tr>';
   for(var i =0;i<times[0].length;i++){
     if(times[0][i]){
       if(times[0][i]=='KEY'){
@@ -145,7 +150,7 @@ function getHTMLPrepend() {
 
 function getHTMLAppend() {
     // HTML footer
-    return ' </body></html>';
+  return ' </body></html>';
 }
 
 function getGradeAttribute(){
@@ -155,6 +160,7 @@ function getGradeAttribute(){
 function constructHTML(data, width, height, title) {
 //  var outhtml = replaceAll(replaceAll((,'%%url%%',url)),'%%grade%%',grade);
   var outhtml = getHTMLPrepend() + data + getHTMLAppend();
+   
       // title is undefined if one wasn't provided as an argument
     if (title == 'undefined') {
         // Title doesn't exist. Generate a message without it.
