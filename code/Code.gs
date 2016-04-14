@@ -48,6 +48,7 @@ var url;
 var view;
 
  function createVariables(currentgrade){
+   Logger.log("Created variables");
 	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
 	// Variable initialization
 	settings = sheet.getRange(34,1,37,5).getValues();
@@ -80,7 +81,7 @@ function filterOutDuplicates(a,xindex) {
 
 function getGradeClassName(){
   if(grade=='10'){
-    return 'Topic'
+    return 'Path'
   }else{
     return 'Cohort'
   }
@@ -121,8 +122,10 @@ function getGreeting(){
      return 'Good morning';
   } else if(d.getHours()<17){
      return 'Good afternoon';
-  } else {
-     return 'Good evening';
+  }else if(d.getHours()<20){
+    return 'Good evening'; 
+}else {
+     return 'Good night';
   }
   //april fools
 //  if(d.getHours()<12){
@@ -148,7 +151,7 @@ function viewLearnerSchedule(querystring){
     } else {
         // Invalid user
         // Return an error message
-        return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
+        return '<div id="name">'+capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. </div><br><div>Please enter a valid name.<br>If this continues to happen, try clicking on the \'Learners\' tab above.</div>';
     }
 }
 
@@ -161,11 +164,11 @@ function viewPersonalizedSchedule(querystring){
     var id = findPersonByName(firstName, lastName);
     if (id != -1) {
         // Return the normal data
-      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for today:</h1>' + getSchedule(id) + '</p></div>'+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
+      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for today:</h1><p id="personalized-schedule">' + getSchedule(id) + '</p></p></div>'+getUpdateScript(id)+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
-        return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found. Please enter a valid name.';
+        return '<div id="name">'+capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found.</div><br><div>You shouldn\'t have gotten here anyways. Unless you\'re a hacker.</div>';
     }
 }
 
@@ -184,7 +187,7 @@ function listAllPeople(){
 function findGroup(groupnum){
     // Get the ID of a person in the group
     for (var i = 0;i < peoplenames.length; i++) {
-        if (peoplenames[i][SEARCH_TYPE.GROUP]==groupnum) {
+        if (peoplenames[i][SEARCH_TYPE.GROUP].toString().toLowerCase()==groupnum.toString().toLowerCase()) {
             return i;
         }
     }
@@ -313,6 +316,10 @@ function doGet(e) {
   }else{
 	createVariables(tempGrade);
     html = processQuery(e.queryString);
+  }
+     var style = getParameterByName('style',e.queryString);
+  if(style){
+    html+='<?!= include("'+style+'"); ?>';
   }
     var htmlOutput = constructHTML( html , 1000, 1000, 'Schedule');
  // return HtmlService.createHtmlOutput('You must be signed in as a mypisd.net account to access the schedule.');
@@ -481,7 +488,7 @@ function getTime(date) {
 //don't even try understanding this. I basically wrote a O(n) algorithim to parse the schedule. It is extremely complicated.
 function getSchedule(person) {
     // TODO: Rename one of them
-    var row = 0;
+    var row = -1;
     var rows = '';
     // HTML output variable
     var out = '';
@@ -495,7 +502,7 @@ function getSchedule(person) {
             // Iff it is a criteria key
             if (times[0][i] == 'KEY') {
                 // Check all the mod names
-                for (var y = 0; y < 5; y++) {
+                for (var y = 0; y < 15; y++) {
                     if (mods[y][i] != 'NULL' || mods[y][i]) {
                         //check key type
                         if (mods[y][i].substring(0,1) == 'c') {
@@ -537,7 +544,7 @@ function getSchedule(person) {
                 rows += hours + ':' + addZero(d.getMinutes());
                 // Current time
                 var currenttime = new Date();
-                if (getTime(currenttime) >= getTime(d)) {
+                if (getTime(currenttime) >= getTime(d)&&row>=0) {
                     // Get display name of current class
                     current = '<b>Currently at - ' + getFullModName(mods[row][i]) + '</b>';
                     if (typeof getFullModName(mods[row][i + 1]) == 'undefined') {
@@ -548,10 +555,15 @@ function getSchedule(person) {
                         next = '<b>Next - ' + getFullModName(mods[row][i +1]) + '</b>';
                     }
                 }
+              if(row>=0){
               rows+='&' + mods[row][i]+';';
+              }
             }
         }
     }
+  if(row<0){
+    return 'Oops! Your personalized schedule wasn\'t found!';
+  }
     rows = rows.split(';');
     for (var i =0; i < rows.length; i++) {
         if (rows[i]) {
@@ -572,4 +584,15 @@ function addZero(i) {
         i = "0" + i;
     }
     return i;
+}
+
+function blah(){
+  return "hey";
+}
+
+/**for updating the schedule*/
+function getUpdatedSchedule(grade,id){
+    return "hi";
+//  createVariables(grade);
+//  return getSchedule(id);
 }
