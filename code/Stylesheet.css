@@ -40,7 +40,7 @@ div{
 
 table {
 	border-collapse: collapse;
-	border-spacing: 0.0625;
+	border-spacing: 0.5em;
     width: 100%;
     table-layout:fixed;
 }
@@ -48,7 +48,13 @@ table {
 td, tr, table{
 word-wrap: break-word;
 overflow: auto; 
-    }
+border: solid;
+border-width: 0.2em 0.01em;
+}
+    
+table tr:last-child { 
+    border-bottom: none; 
+}
 
 div:hover{
   opacity:1;
