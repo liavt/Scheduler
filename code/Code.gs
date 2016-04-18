@@ -122,10 +122,8 @@ function getGreeting(){
      return 'Good morning';
   } else if(d.getHours()<17){
      return 'Good afternoon';
-  }else if(d.getHours()<20){
-    return 'Good evening'; 
-}else {
-     return 'Good night';
+  }else {
+     return 'Good evening';
   }
   //april fools
 //  if(d.getHours()<12){
@@ -147,7 +145,7 @@ function viewLearnerSchedule(querystring){
     if (id != -1) {
         // Return the normal data
       //pullBackground();
-      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><br><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule()+'<br>'+getInfoButtons(id);
+      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><br><div class="noanimation"><img src="https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png"width="20em"height="100%">Is this you? If so, for a more personalized experience, click the star at the bottom of the page</div><br><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
@@ -586,6 +584,7 @@ function addZero(i) {
     return i;
 }
 
+//removing this function distrupts the balance
 function blah(){
   return "hey";
 }
