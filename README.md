@@ -4,7 +4,7 @@
 Scheduler for school. 
 
 #WHAT?
-Yep, the school now runs this.
+Yep, the school now runs this for 9th grade (10th grade is ready, under review)
 
 #Can I fix it
 Sure. Make a pull request. Make sure it works perfectly, as remember the school uses this. It must be reliable.
