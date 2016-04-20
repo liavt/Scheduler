@@ -46,27 +46,118 @@
  var grade = '9';
 var url;
 var view;
+var day;
+var y;
+var style;
 
- function createVariables(currentgrade){
-   Logger.log("Created variables");
-	sheet = SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade)).getSheets()[0];
+/**
+*What to show, based on GET query
+*@readonly
+*@enum {number}
+*/
+var VIEW_TYPE = {
+  /**
+  *When view=0, shows the learner schedule. Needs parameters first, last, and grade.
+  */
+  LEARNER_SCHEDULE: 0,
+    /**
+  *When view=1, shows the group schedule. Needs parameters group and grade.
+  */
+  GROUP_SCHEDULE: 1,
+    /**
+  *When view=2, lists all of a a SEARCH_TYPE. Needs parameters type and grade.
+  */
+  LIST_ALL: 2,
+  /**
+  *When view=3, lists all people in a SEARCH_TYPE. Needs parameters type, term,  and grade.
+  */
+  LIST_ALL_IN: 3,
+  /**
+  *When view=4, lists everyone in the grade. Needs parameter grade.
+  */
+  LIST_PEOPLE: 4,
+  /**
+  *When view=5, views a learner's schedule, personalized for them. Needs parameter group, first, and last.
+  */
+  PERSONALIZED_SCHEDULE: 5,
+  /**
+  *When view=6, views the schedule as a spreadsheet
+  */
+  SCHEDULE:6,
+  /**
+  *When view=7, views everything that you can search
+  */
+  VIEW_SEARCH_TYPES: 7,
+    /**
+  *When view=8, brings up a homepage
+  */
+  HOMEPAGE:8,
+    /**
+  *When view=9, shows the about page
+  */
+  ABOUT:9,
+};
+
+/**
+*What to sort by when view=2, view=3, LIST_ALL_IN or LIST_ALL is chosen
+*@enum {number}
+*/
+var SEARCH_TYPE = {
+  COHORT: 4,
+  LOTE: 2,
+  GROUP: 3,
+  
+}
+
+/**
+*Dimensions for certain stuff in the spreadsheet
+*@enum {number}
+*/
+var DIMENSIONS = {
+  SCHEDULE_WIDTH:16,
+  SCHEDULE_HEIGHT:16,
+  MOD_WIDTH:4,
+  MOD_HEIGHT: 16,
+  SCHEDULE_XOFFSET:5,
+  TITLE_OFFSET:2,
+}
+
+//function createVariables(currentgrade){
+//  createVariables(currentgrade,new Date().getDay());
+//}
+
+ function createVariables(currentgrade,dayofweek){
+   if(!dayofweek){
+     dayofweek = new Date().getDay();
+   }
+   day = dayofweek-1;
+   Logger.log("Creating variables...");
+   Logger.log("Current day of the week is "+dayofweek+", which has been converted to "+day);
+   Logger.log("Schedule dimensions: "+DIMENSIONS.SCHEDULE_WIDTH+"x"+DIMENSIONS.SCHEDULE_HEIGHT+", located at column "+DIMENSIONS.SCHEDULE_XOFFSET);
+      Logger.log("Mod names dimensions: "+DIMENSIONS.MOD_WIDTH+"x"+DIMENSIONS.MOD_HEIGHT);
+   var spreadsheet=SpreadsheetApp.openByUrl(getGradeSpreadsheet(currentgrade));
+	sheet = spreadsheet.getSheetByName("Schedule");
 	// Variable initialization
-	settings = sheet.getRange(34,1,37,5).getValues();
+	settings = spreadsheet.getSheetByName("Settings").getRange(1,1,37,5).getValues();
 	peoplenames = SpreadsheetApp.openByUrl(settings[1][0]).getActiveSheet().getRange(2,1,135,10).getValues().sort();
-	mods = sheet.getRange(2,1,15,16).getValues();
-	times = sheet.getRange(1,1,1,16).getValues();
+   y = Math.ceil(((DIMENSIONS.SCHEDULE_HEIGHT+1)*day)+(DIMENSIONS.TITLE_OFFSET))//get where the schedule is on the spreadsheet
+   Logger.log("Y value for day "+day+" is "+y);
+	mods = sheet.getRange(y+1,DIMENSIONS.SCHEDULE_XOFFSET,parseInt(DIMENSIONS.SCHEDULE_HEIGHT)-1,parseInt(DIMENSIONS.SCHEDULE_WIDTH)).getValues();
+	times = sheet.getRange(y,DIMENSIONS.SCHEDULE_XOFFSET,1,DIMENSIONS.SCHEDULE_WIDTH).getValues();
 	// When updating modnames don't forget to change the getModColor() function
-	modnames = sheet.getRange(18,1,15,2).getValues();
+	modnames = sheet.getRange(y,1,DIMENSIONS.MOD_HEIGHT,DIMENSIONS.MOD_WIDTH).getValues();
 	// Get remote version
 	remoteversion = sheet.getRange(19, 10).getValue();
    grade=currentgrade;
    url = ScriptApp.getService().getUrl();
-   
+   Logger.log("Current URL is "+url);
+   Logger.log("Current grade is "+grade);
    if(grade=='9'||grade=='8'){
      SEARCH_TYPE.LOTE=2;
      SEARCH_TYPE.COHORT=3;
      SEARCH_TYPE.GROUP=4;
    }
+   Logger.log("Variables have been created");
  }
 
 function filterOutDuplicates(a,xindex) {
@@ -199,7 +290,7 @@ function viewGroupSchedule(querystring){
     var id = findGroup(group);
     if (id != -1) {
         // Return the normal data
-        return '<div id="name"><p>Group ' + group + '</p></div><br><div>' + getSchedule(id) + '</div><br>' + embedSchedule()+'<br>'+getInfoButtonsForGroup(group);
+      return '<div id="name"><p>Group ' + group + '</p></div><br><div class="noanimation"><i>Note: This schedule is an estimate and may not be accurate for all people in the group. For a more accurate one, view an individual learner\'s schedule.</i></div><br><div>' + getSchedule(id) + '</div><br>' + embedSchedule()+'<br>'+getInfoButtonsForGroup(group);
     } else {
         // Invalid user
         // Return an error message
@@ -207,64 +298,6 @@ function viewGroupSchedule(querystring){
     }
 }
 
-/**
-*What to show, based on GET query
-*@readonly
-*@enum {number}
-*/
-var VIEW_TYPE = {
-  /**
-  *When view=0, shows the learner schedule. Needs parameters first, last, and grade.
-  */
-  LEARNER_SCHEDULE: 0,
-    /**
-  *When view=1, shows the group schedule. Needs parameters group and grade.
-  */
-  GROUP_SCHEDULE: 1,
-    /**
-  *When view=2, lists all of a a SEARCH_TYPE. Needs parameters type and grade.
-  */
-  LIST_ALL: 2,
-  /**
-  *When view=3, lists all people in a SEARCH_TYPE. Needs parameters type, term,  and grade.
-  */
-  LIST_ALL_IN: 3,
-  /**
-  *When view=4, lists everyone in the grade. Needs parameter grade.
-  */
-  LIST_PEOPLE: 4,
-  /**
-  *When view=5, views a learner's schedule, personalized for them. Needs parameter group, first, and last.
-  */
-  PERSONALIZED_SCHEDULE: 5,
-  /**
-  *When view=6, views the schedule as a spreadsheet
-  */
-  SCHEDULE:6,
-  /**
-  *When view=7, views everything that you can search
-  */
-  VIEW_SEARCH_TYPES: 7,
-    /**
-  *When view=8, brings up a homepage
-  */
-  HOMEPAGE:8,
-    /**
-  *When view=9, shows the about page
-  */
-  ABOUT:9,
-};
-
-/**
-*What to sort by when view=2, view=3, LIST_ALL_IN or LIST_ALL is chosen
-*@enum {number}
-*/
-var SEARCH_TYPE = {
-  COHORT: 4,
-  LOTE: 2,
-  GROUP: 3,
-  
-}
 
 function viewAboutPage(){
   return '<?!= include("About"); ?>';
@@ -309,13 +342,14 @@ function doGet(e) {
     // Function that runs when the page opens
   var html = '';
 	var tempGrade = getParameterByName('grade', '?' + e.queryString);
+  	var tempDay = getParameterByName('day', '?' + e.queryString);
   if(!tempGrade){
     html = getErrorPage(422,'Parameter \'grade\' not found. <br>This happens when the URL is wrong.');
   }else{
-	createVariables(tempGrade);
+	createVariables(tempGrade,tempDay);
     html = processQuery(e.queryString);
   }
-     var style = getParameterByName('style',e.queryString);
+     style = getParameterByName('style',e.queryString);
   if(style){
     html+='<?!= include("'+style+'"); ?>';
   }
@@ -404,9 +438,17 @@ function getGradeSpreadsheet(target) {
     }
 }
 
+/**
+*Because the schedule isn't always for the current day (you can view tommorow's schedule for example,) we need a method to get what day the schedule is for.
+*/
+function getDayOfTheMonth(){
+var date = new Date();
+  return ((date.getDate()-((date.getDay()-day))+1)/*find the difference for the actual date*/);
+}
+
 function viewFullSchedule(){
   var date = new Date();
-  return '<div id="name">Schedule</div><br>'+embedSchedule();
+  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+embedSchedule();
 }
 
 function getFullModName(name) {
@@ -415,14 +457,16 @@ function getFullModName(name) {
           return modnames[i][1];
         }
     }
+  return '<i> Unknown mod '+name+'</i>';
 }
 
 function getModColor(name) {
     for (var i = 0; i < modnames.length; i++) {
         if (modnames[i][0] == name) {
-          return sheet.getRange(i+18, 1).getBackground();
+          return sheet.getRange(i+y, 1).getBackground();
         }
     }
+  return '#FFF';
 }
 
 function parseLearnerSchedule(sched, person) {
@@ -544,7 +588,9 @@ function getSchedule(person) {
                 var currenttime = new Date();
                 if (getTime(currenttime) >= getTime(d)&&row>=0) {
                     // Get display name of current class
-                    current = '<b>Currently at - ' + getFullModName(mods[row][i]) + '</b>';
+                  var modname = getFullModName(mods[row][i]);
+                  if(!modname)modname='Unknown mod';
+                    current = '<b>Currently at - ' + modname + '</b>';
                     if (typeof getFullModName(mods[row][i + 1]) == 'undefined') {
                         // Since the next mod is undefined, we can safely assume that school is over
                         next = '<b>Next - End of school </b>';
@@ -554,6 +600,8 @@ function getSchedule(person) {
                     }
                 }
               if(row>=0){
+                var modname = mods[row][i];
+                if(!modname)modname='<i>Unknown mod</i>';
               rows+='&' + mods[row][i]+';';
               }
             }
