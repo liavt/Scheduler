@@ -127,11 +127,15 @@ function embedSchedule(){
         var modname = mods[y][x];
         var color;
         if(!times[0][x]||times[0][x]=='KEY'){
-          modname = modname.substring(1).replace("c"," & ");
+          if(modname.substring(0,1)=='g') modname = modname.replace("c"," & ");
+                    modname=modname.substring(1);
           color = "#AAA";
         }else{
           modname = getFullModName(modname);
           color = getModColor(mods[y][x]);
+          if(!modname){
+            modname = '<i>'+modname+' is not a valid mod</i>';
+          }
         }
         out+='<td bgcolor="'+color+'">'+modname+'</td>';
       }
@@ -144,17 +148,21 @@ function embedSchedule(){
 
 function getHTMLPrepend() {
     // HTML header
-    //important to inclkude the Reset stylesheet, to make sure that different browsers (cough cough IE) all look that same
+    //important to include the Reset stylesheet, to make sure that different browsers (cough cough IE) all look that same
     return '<!DOCTYPE html><?!= include("Reset"); ?><?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body><?!= include("MenuBar"); ?>';
 }
 
 function getHTMLAppend() {
     // HTML footer
-  return ' </body></html>';
+  return '<br></body></html>';//the extra line break (<br>) is so the elements don't go off the screen and show the bottom of them.
 }
 
-function getGradeAttribute(){
-  return     '<input type="hidden" name="grade" value="'+grade+'" />';
+function getCurrentAttribute(){
+  var out = '<input type="hidden" name="grade" value="'+grade+'" />';
+  if(style){
+    out+='<input type="hidden" name="style" value="'+style+'" />';
+  }
+  return out;
 }
 
 function constructHTML(data, width, height, title) {
