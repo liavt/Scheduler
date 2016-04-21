@@ -96,6 +96,10 @@ var VIEW_TYPE = {
   *When view=9, shows the about page
   */
   ABOUT:9,
+    /**
+  *When view=10, shows the info for a mod
+  */
+  MOD:10,
 };
 
 /**
@@ -160,72 +164,6 @@ var DIMENSIONS = {
    Logger.log("Variables have been created");
  }
 
-function filterOutDuplicates(a,xindex) {
-	var result = [];
-	for (var i = 0; i < a.length; i++) {
-		if (result.indexOf(a[i][xindex]) == -1) {
-			result.push(a[i][xindex]);
-		}
-	}
-	return result;
-}
-
-function getGradeClassName(){
-  if(grade=='10'){
-    return 'Path'
-  }else{
-    return 'Cohort'
-  }
-}
-
-function getParametersForPerson(id){
-  var string = '';
-  string = addParameter('first',peoplenames[id][0],string);
-    string = addParameter('last',peoplenames[id][1],string);
-    string = addParameter('grade',grade,string);
-  return string;
-}
-
-function getParameterByName(name, url) {
-    // Standardize strange capitalization
-    url = url.toLowerCase();
-    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-function addParameter(name, value, string){
-  if(!string.startsWith('?'))string = string.concat('&');
-  return  string.concat(name,'=',value);
-}
-
-function capitalizeFirstLetter(target) {
-    // Return a string with the first letter capitalized.
-    return target.substring(0,1).toUpperCase()+target.substring(1);
-}
-
-function getGreeting(){
-  var d= new Date();
-  if(d.getHours()<12){
-     return 'Good morning';
-  } else if(d.getHours()<17){
-     return 'Good afternoon';
-  }else {
-     return 'Good evening';
-  }
-  //april fools
-//  if(d.getHours()<12){
-//     return 'Top of da morning';
-//  } else if(d.getHours()<17){
-//     return 'Nooning after';
-//  } else {
-//     return 'Good odding';
-//  }
-}
-
 function viewLearnerSchedule(querystring){
    // Get the first name
     var firstName = getParameterByName('first', querystring);
@@ -272,18 +210,6 @@ function listAllPeople(){
   return html;
 }
 
-
-function findGroup(groupnum){
-    // Get the ID of a person in the group
-    for (var i = 0;i < peoplenames.length; i++) {
-        if (peoplenames[i][SEARCH_TYPE.GROUP].toString().toLowerCase()==groupnum.toString().toLowerCase()) {
-            return i;
-        }
-    }
-    // Didn't find it. Return -1
-    return -1;
-}
-
 function viewGroupSchedule(querystring){
     var group = getParameterByName('group',querystring);
     // Resolve the name into an ID that we can use
@@ -298,6 +224,13 @@ function viewGroupSchedule(querystring){
     }
 }
 
+function viewModSchedule(query){
+  var mod = getParameterByName('mod',query);
+  if(!mod){
+    return getErrorPage(404,'\'mod\' parameter not found in URL');
+  }
+  return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div>';
+}
 
 function viewAboutPage(){
   return '<?!= include("About"); ?>';
@@ -329,6 +262,8 @@ function processQuery(querystring) {
     return viewHomepage();
   }else if(type==VIEW_TYPE.ABOUT.toString()){
     return viewAboutPage();
+  }else if(type==VIEW_TYPE.MOD.toString()){
+    return viewModSchedule(querystring);
   }else {
     return getErrorPage(404, type+' is not a view');
   }
@@ -358,16 +293,6 @@ function doGet(e) {
    return htmlOutput;
 }
 
-function getSearchTypeName(num){
-  if(num==SEARCH_TYPE.COHORT){
-    return getGradeClassName();
-  }else if(num==SEARCH_TYPE.LOTE){
-    return 'LOTE';
-  }else if(num==SEARCH_TYPE.GROUP){
-    return 'Group';
-  }
-}
-
 function searchAllIn(string){
   var searchtype = getParameterByName('type',string);
   var searchterm = getParameterByName('term',string);
@@ -390,18 +315,6 @@ function viewHomepage(){
   return '<?!= include("Homepage") ?>';
 }
 
-function getCohortID(){
-  return SEARCH_TYPE.COHORT;
-}
-
-function getLOTEID(){
-  return SEARCH_TYPE.LOTE;
-}
-
-function getGroupID(){
-  return SEARCH_TYPE.GROUP;
-}
-
 function searchAll(string){
   var searchtype = getParameterByName('type',string);
   if(searchtype){
@@ -421,52 +334,6 @@ function searchAll(string){
   }else{
     return getErrorPage(422,'\'type\' not found. This usually happens when the URL is wrong.');
   }
-}
-
-function getGradeSpreadsheet(target) {
-    // Return spreadsheet based on grade
-    if (target == '9') {
-        // 9th grade spreadsheet
-        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1MiMdKA9BW-BVG1UnDOW58kF1Btd2YBVs6fueGOM6TbM/edit?usp=sharing';
-    } else if (target == '10') {
-        // 10th grade spreadsheets
-        // This will need to be updated when actually deploying it
-        return 'https://docs.google.com/a/pisd.edu/spreadsheets/d/1HsbA9Sjj2qTzKikSJBsH9wPZCZlQnxQyvp00v2QSbJo/edit?usp=sharing';
-    } else if(target=='8'){
-      //for debugging
-      return 'https://docs.google.com/spreadsheets/d/1I1tOOUHjoeqWRTUcbDeO5WXNDBERg9mH3EWMa1X9cNg/edit#gid=0';
-    }
-}
-
-/**
-*Because the schedule isn't always for the current day (you can view tommorow's schedule for example,) we need a method to get what day the schedule is for.
-*/
-function getDayOfTheMonth(){
-var date = new Date();
-  return ((date.getDate()-((date.getDay()-day))+1)/*find the difference for the actual date*/);
-}
-
-function viewFullSchedule(){
-  var date = new Date();
-  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+embedSchedule();
-}
-
-function getFullModName(name) {
-    for (var i = 0; i < modnames.length; i++) {
-        if (modnames[i][0] == name) {
-          return modnames[i][1];
-        }
-    }
-  return '<i> Unknown mod '+name+'</i>';
-}
-
-function getModColor(name) {
-    for (var i = 0; i < modnames.length; i++) {
-        if (modnames[i][0] == name) {
-          return sheet.getRange(i+y, 1).getBackground();
-        }
-    }
-  return '#FFF';
 }
 
 function parseLearnerSchedule(sched, person) {
@@ -491,42 +358,6 @@ function parseLearnerSchedule(sched, person) {
     return out;
 }
 
-function replaceAll(string, search, replacement) {
-    // Replace the requested item with the replacement
-    return string.replace(new RegExp(search, 'g'), replacement);
-};
-
-function parseGroupSchedule(sched, person) {
-    return replaceAll(sched,'%HD','<i> or ' + settings[11][0] + '</i>');
-}
-
-function filterOutDuplicates(a,xindex) {
-    var result = [];
-    for (var i = 0; i < a.length; i++) {
-        if (result.indexOf(a[i][xindex]) == -1) {
-            result.push(a[i][xindex]);
-        }
-    }
-    return result;
-}
-
-function findPersonByName(first,last) {
-    // Get the ID of the personS
-    for (var i = 0;i < peoplenames.length; i++) {
-        if (peoplenames[i][0].toLowerCase() === first && peoplenames[i][1].toLowerCase() === last) {
-            return i;
-        }
-    }
-    // Didn't find it. Return -1
-    return -1;
-}
-
-function getTime(date) {
-    // Only check for current day
-    return (date.getHours() * 60) + date.getMinutes();
-}
-
-
 //don't even try understanding this. I basically wrote a O(n) algorithim to parse the schedule. It is extremely complicated.
 function getSchedule(person) {
     // TODO: Rename one of them
@@ -539,12 +370,12 @@ function getSchedule(person) {
     var next = '';
     // I have no idea what's going on here - Jason
     // Check every time
-    for (var i = 0; i<16; i++) {
+    for (var i = 0; i<DIMENSIONS.SCHEDULE_WIDTH; i++) {
         if (times[0][i]) {
             // Iff it is a criteria key
             if (times[0][i] == 'KEY') {
                 // Check all the mod names
-                for (var y = 0; y < 15; y++) {
+                for (var y = 0; y < DIMENSIONS.SCHEDULE_HEIGHT-1; y++) {
                     if (mods[y][i] != 'NULL' || mods[y][i]) {
                         //check key type
                         if (mods[y][i].substring(0,1) == 'c') {
@@ -575,6 +406,7 @@ function getSchedule(person) {
                     }
                 }
             } else {
+                            if(row>=0){
                 // Check actual times
                 var d = new Date(times[0][i]);
                 var hours = parseInt(d.getHours());
@@ -599,7 +431,6 @@ function getSchedule(person) {
                         next = '<b>Next - ' + getFullModName(mods[row][i +1]) + '</b>';
                     }
                 }
-              if(row>=0){
                 var modname = mods[row][i];
                 if(!modname)modname='<i>Unknown mod</i>';
               rows+='&' + mods[row][i]+';';
@@ -623,13 +454,56 @@ function getSchedule(person) {
     return out;
 }
 
-function addZero(i) {
-    // Add a leading zero if the number is a single digit
-    if (i < 10) {
-        // Implicit cast
-        i = "0" + i;
+function getScheduleForMod(name){
+    // HTML output variable
+    var out = '';
+  var key=-1;
+    // Current represents where the person is currently
+    var current = '<b>Currently before school</b>';;
+    // I have no idea what's going on here - Jason
+    // Check every time
+    for (var x = 0; x<DIMENSIONS.SCHEDULE_WIDTH; x++) {
+        if (times[0][x]) {
+          if(times[0][x]=='KEY'){
+            key = x;
+          }else{
+          for(var y=0;y<DIMENSIONS.SCHEDULE_HEIGHT-1;y++){
+            var modname = getFullModName(mods[y][x]);
+            if(modname.toLowerCase()==name.toLowerCase()){
+               var d = new Date(times[0][x]);
+                var hours = parseInt(d.getHours());
+                if (hours > 12) {
+                    // Convert to AM/PM from military time
+                    hours -= 12;
+                }
+              var currenttime = new Date();
+              if (getTime(currenttime) >= getTime(d)&&y>=0) {
+                    // Get display name of current class
+                  var modname = getFriendlyKeyName(mods[y][key]);
+                  if(!modname)modname='Unknown mod';
+                    current = '<b>Currently with ' + modname + '</b>';
+                }
+                // Add new time to output
+                out+=hours + ':' + addZero(d.getMinutes());
+              if(x<=DIMENSIONS.SCHEDULE_WIDTH-1){
+                 var d = new Date(times[0][x+1]);
+                var hours = parseInt(d.getHours());
+                if (hours > 12) {
+                    // Convert to AM/PM from military time
+                    hours -= 12;
+                }
+                // Add new time to output
+                out+=' - '+hours + ':' + addZero(d.getMinutes());;
+              }
+              out+=' --- '+getFriendlyKeyName(mods[y][key])+'<br>';
+            }
+          }
+          }
+        }
     }
-    return i;
+ 
+    out += '<br>' + current;
+    return out;
 }
 
 //removing this function distrupts the balance
