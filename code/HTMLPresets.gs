@@ -127,8 +127,7 @@ function embedSchedule(){
         var modname = mods[y][x];
         var color;
         if(!times[0][x]||times[0][x]=='KEY'){
-          if(modname.substring(0,1)=='g') modname = modname.replace("c"," & ");
-                    modname=modname.substring(1);
+          modname = getFriendlyKeyName(modname);
           color = "#AAA";
         }else{
           modname = getFullModName(modname);
