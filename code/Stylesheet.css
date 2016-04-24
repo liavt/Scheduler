@@ -21,7 +21,6 @@ div, #menubar, .menuform, .menubutton, .infobutton,input[type="submit"]{
 
 div, .infobutton{
               box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
-
 }
 
 #titanhead{
@@ -222,6 +221,10 @@ width: 100%;
      color:white;
 }
 
+#schedule{
+opacity: 1 !important;
+}
+
 #homebutton{
 background-color: #CCCCCC!important;
 background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/home.png);
@@ -252,35 +255,10 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 }
 
 #schedulebutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/clock.png);
+}
+
+#modsbutton{
 background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/schedule.png);
 }
-
-@keyframes changebackground{
-  from{background-color: white;}
-  to{ background-color: lightskyblue; }
-}
-
-@-moz-keyframes changebackground{
-  from{background-color: white; }
-  to{ background-color: lightskyblue; }
-}
-
-@-webkit-keyframes changebackground{
-  from{background-color: white; }
-  to{ background-color: lightskyblue; }
-}
-
-@-ms-keyframes changebackground{
-  from{background-color: white; }
-  to{ background-color: lightskyblue; }
-}
-
-@-o-keyframes changebackground{
-  from{background-color: white; }
-  to{ background-color: lightskyblue; }
-}
 </style>
-<noscript>
-Woah! You have your Javascript disabled! This website needs Javascript to run, so please enable it.
-</noscript>
-
