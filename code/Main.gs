@@ -1,6 +1,16 @@
 //tinyurl.com/ahsscheduler
 //https://github.com/liavt/Scheduler
 
+//holidays to work on:
+/*
+Shakespeare's Birthday (4/22)
+Christmas/Hannukah
+Halloween
+New Years
+Thanksgiving
+Last day of school
+*/
+
 /*
  * Hey
  * Congrats on finding the source
@@ -35,6 +45,7 @@
  var peoplenames;
  var mods;
  var times;
+var modcolors;
  // When updating modnames don't forget to change the getModColor() function
  var modnames;
  // Get remote version
@@ -100,6 +111,10 @@ var VIEW_TYPE = {
   *When view=10, shows the info for a mod
   */
   MOD:10,
+   /**
+  *When view=11, shows the special mod selection schedule.
+  */
+  MOD_SELECTOR:11,
 };
 
 /**
@@ -150,6 +165,7 @@ var DIMENSIONS = {
 	times = sheet.getRange(y,DIMENSIONS.SCHEDULE_XOFFSET,1,DIMENSIONS.SCHEDULE_WIDTH).getValues();
 	// When updating modnames don't forget to change the getModColor() function
 	modnames = sheet.getRange(y,1,DIMENSIONS.MOD_HEIGHT,DIMENSIONS.MOD_WIDTH).getValues();
+   	modcolors = sheet.getRange(y,1,DIMENSIONS.MOD_HEIGHT,DIMENSIONS.MOD_WIDTH).getBackgrounds();
 	// Get remote version
 	remoteversion = sheet.getRange(19, 10).getValue();
    grade=currentgrade;
@@ -229,11 +245,15 @@ function viewModSchedule(query){
   if(!mod){
     return getErrorPage(404,'\'mod\' parameter not found in URL');
   }
-  return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div>';
+  return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div><br>'+embedSchedule(EMBED_TYPE.MOD,mod)+'<br>'+getEmbeddedScheduleButtons();
 }
 
 function viewAboutPage(){
   return '<?!= include("About"); ?>';
+}
+
+function viewModSelection(){
+  return '<div id="name">Click on a mod cell to view info about it.</div><br>'+embedSchedule()+'<br>'+getEmbeddedScheduleButtons();
 }
 
 function processQuery(querystring) {
@@ -264,6 +284,8 @@ function processQuery(querystring) {
     return viewAboutPage();
   }else if(type==VIEW_TYPE.MOD.toString()){
     return viewModSchedule(querystring);
+  }else if(type==VIEW_TYPE.MOD_SELECTOR.toString()){
+    return viewModSelection(querystring);
   }else {
     return getErrorPage(404, type+' is not a view');
   }
@@ -300,7 +322,7 @@ function searchAllIn(string){
     searchtype = Number(searchtype);
     var out = '<div id="name">'+getSearchTypeName(searchtype)+':'+capitalizeFirstLetter(searchterm)+'</div><br><div class="noanimation">';
     for(var i =0;i<peoplenames.length;i++){
-      if(peoplenames[i]&&peoplenames[i][searchtype].toString().toLowerCase()==searchterm.toString().toLowerCase()){
+      if(peoplenames[i]&&peoplenames[i][searchtype].toString().toUpperCase()==searchterm.toString().toUpperCase()){
       out+=getHTMLButtonForPerson(i)+'<br>';
       }
     }
@@ -322,7 +344,7 @@ function searchAll(string){
         var out = '<div id="name">'+getSearchTypeName(searchtype)+' Lookup</div><br><div class="noanimation">';
     var arr = filterOutDuplicates(peoplenames,searchtype);
     if(!arr||arr.length<=1){
-      return 'There are no '+getSearchTypeName(searchtype).toLowerCase()+'s this project';
+      return 'There are no '+getSearchTypeName(searchtype).toUpperCase()+'s this project';
     }
     for(var i =0;i<arr.length;i++){
       if(arr[i]){
@@ -469,7 +491,7 @@ function getScheduleForMod(name){
           }else{
           for(var y=0;y<DIMENSIONS.SCHEDULE_HEIGHT-1;y++){
             var modname = getFullModName(mods[y][x]);
-            if(modname.toLowerCase()==name.toLowerCase()){
+            if(modname.toUpperCase()==name.toUpperCase()){
                var d = new Date(times[0][x]);
                 var hours = parseInt(d.getHours());
                 if (hours > 12) {
@@ -477,11 +499,12 @@ function getScheduleForMod(name){
                     hours -= 12;
                 }
               var currenttime = new Date();
-              if (getTime(currenttime) >= getTime(d)&&y>=0) {
+              var currentlyThere = getTime(currenttime) >= getTime(d)&&y>=0;
+              if (currentlyThere) {
                     // Get display name of current class
                   var modname = getFriendlyKeyName(mods[y][key]);
                   if(!modname)modname='Unknown mod';
-                    current = '<b>Currently with ' + modname + '</b>';
+                    current = '<b>Currently with ' + modname+'</b>';
                 }
                 // Add new time to output
                 out+=hours + ':' + addZero(d.getMinutes());
@@ -506,14 +529,13 @@ function getScheduleForMod(name){
     return out;
 }
 
+
+function viewFullSchedule(){
+  var date = new Date();
+  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+embedSchedule()+'<br><div id="infobuttons"class="noanimation">'+getEmbeddedScheduleButtons()+'</div>';
+}
+
 //removing this function distrupts the balance
 function blah(){
   return "hey";
-}
-
-/**for updating the schedule*/
-function getUpdatedSchedule(grade,id){
-    return "hi";
-//  createVariables(grade);
-//  return getSchedule(id);
 }
