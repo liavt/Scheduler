@@ -16,6 +16,12 @@ function getFriendlyKeyName(key){
   return out;
 }
 
+//function getTimes(){
+//  var out;
+//  for(var i : out){
+//    
+//  }
+//}
 
 function replaceAll(string, search, replacement) {
     // Replace the requested item with the replacement
@@ -61,11 +67,6 @@ var date = new Date();
   return ((date.getDate()-((date.getDay()-day))+1)/*find the difference for the actual date*/);
 }
 
-function viewFullSchedule(){
-  var date = new Date();
-  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+embedSchedule();
-}
-
 function getFullModName(name) {
     for (var i = 0; i < modnames.length; i++) {
         if (modnames[i][0] == name) {
@@ -75,10 +76,16 @@ function getFullModName(name) {
   return '<i> Unknown mod '+name+'</i>';
 }
 
-function getModColor(name) {
+function getModColor(name,modnamesarr,modcolorsarr) {
+  if(!modnames){
+    modnames=modnamesarr;
+  }
+  if(!modcolors){
+    modcolors=modcolorsarr;
+  }
     for (var i = 0; i < modnames.length; i++) {
         if (modnames[i][0] == name) {
-          return sheet.getRange(i+y, 1).getBackground();
+          return modcolors[i][0];
         }
     }
   return '#FFF';
@@ -195,5 +202,23 @@ function addParameter(name, value, string){
 
 function capitalizeFirstLetter(target) {
     // Return a string with the first letter capitalized.
-    return target.substring(0,1).toUpperCase()+target.substring(1);
+    return target.substring(0,1).toLowerCase()+target.substring(1);
+}
+
+function clone(src) {
+  var out = '[';
+  for(var x =0;x<src.length;x++){
+    out+='[';
+    for(var y = 0;y<src[x].length;y++){
+      out+='\''+src[x][y]+'\',';
+    }
+    out+=']';
+    if(x<src.length-1)out+=',';
+  }
+  out+=']';
+  return out;
+}
+
+function getSheet(){
+return sheet;
 }
