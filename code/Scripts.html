@@ -1,0 +1,127 @@
+<!--This file is for Javascript functions that need HTML (like DOM manipulation)-->
+<noscript>
+<div id="name">No Javascript :(</div><br><div>This website needs Javascript. Please re-enable it.</div>
+</noscript>
+<!-- Define functions -->
+<script>
+//this variable is to stop it from making redudent calculations (only updates html when it is acutally changing something)
+var currentview ='';
+//the decoder is to replace text entities with their corresponding letter (for example &amp with &)
+var decoder = document.createElement('textarea');
+
+
+function embedDynamicSchedule(elem,type,times,mods,modnames,modcolors){
+var key = decoder.value;
+if(elem){
+decoder.innerHTML = elem.innerHTML;
+key =decoder.value
+}else{
+key=null;
+}
+google.script.run.withSuccessHandler(
+function(result){
+if(currentview!=key){
+var schedule = document.getElementById('schedule');
+schedule.outerHTML=result;
+currentview = key;
+execute();
+}
+}
+).embedSchedule(type,key,times,mods,modnames,modcolors);
+}
+
+//for the dynamic schedule where it displays what you are hovering over.
+function addDynamicSchedule(){
+var schedule = document.getElementById('schedule');
+if(schedule){
+var keys = document.getElementsByClassName('key');
+var modcells = document.getElementsByClassName('mod');
+var empties = document.getElementsByClassName('empty');
+var timecells = document.getElementsByClassName('time');
+
+var times = <?!=clone(times);?>;
+var mods = <?!=clone(mods);?>;
+var modnames = <?!=clone(modnames);?>;
+var modcolors = <?!=clone(modcolors);?>;
+for(var i =0;i<keys.length;i++){
+var elem = keys[i];
+//console.log(keys[i]+' '+i+' '+elem.innerHTML);
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+//freaking ie
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.KEY;?>,times,mods,modnames,modcolors);};//
+}
+for(var i =0;i<modcells.length;i++){
+var elem = modcells[i];
+//console.log(keys[i]+' '+i+' '+elem.innerHTML);
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+//freaking ie
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.MOD;?>,times,mods,modnames,modcolors);};//
+}
+for(var i =0;i<timecells.length;i++){
+var elem = timecells[i];
+//console.log(keys[i]+' '+i+' '+elem.innerHTML);
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+//freaking ie
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.TIME;?>,times,mods,modnames,modcolors);};//
+}
+schedule.onmousedown=function(event){embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.ALL;?>,times,mods,modnames,modcolors);};
+}
+}
+
+
+function addModSelector(){
+var schedule = document.getElementById('schedule');
+if(schedule){
+var keys = document.getElementsByClassName('key');
+var modcells = document.getElementsByClassName('mod');
+var empties = document.getElementsByClassName('empty');
+var timecells = document.getElementsByClassName('time');
+
+for(var i =0;i<modcells.length;i++){
+var elem = modcells[i];
+addModReference(elem);
+}
+}
+}
+
+function decode(name){
+decoder.innerHTML = name;
+return decoder.value;
+}
+
+function addModReference(elem){
+var attributes = '<?!= getCurrentAttribute(); ?>';
+var mod = elem.innerHTML;
+var form = '<form class="'+mod+'"action="<?!=getURL();?>"><?!= getCurrentAttribute(); ?><input type="hidden"name="view"value="10"/><input type="hidden"name="mod"value="'+mod+'"/></form>';
+elem.innerHTML = mod+form;
+elem.onmousedown=function(){console.log(mod);document.getElementsByClassName(decode(mod))[0].submit();};
+}
+
+function execute(){
+<? if(view.toString()==VIEW_TYPE.MOD_SELECTOR.toString()){?>
+addModSelector();
+<? }else{?>
+addDynamicSchedule();
+<?}?>
+}
+</script>
+<!-- Run all the functions-->
+<script>
+//addDynamicSchedule();
+execute();
+</script>
