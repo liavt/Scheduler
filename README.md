@@ -18,3 +18,6 @@ Google scripts has a feature, like JQuery, where you can run functions from java
 
 #Can I add a feature that everyone will get?
 If it's good enough, I will add it to main branch, and add it to the live.
+
+#This formatting is trash! Do you not know what indentation is?
+I love indentation, and I agree, the formatting is trash. However, sadly, the Google Apps Script IDE, which is forced onto you, is terrible with indentation.
