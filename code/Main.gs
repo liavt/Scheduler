@@ -11,32 +11,6 @@ Thanksgiving
 Last day of school
 */
 
-/*
- * Hey
- * Congrats on finding the source
- *
- * I know it is bad
- * I know it is redudant
- * I know it is messy
- * I know it is undocumented
- *
- * I don't care enough to fix any of it. It works, it's happens basically instantly on chromebooks (the window delay is google's fault)
- *
- * Also why does Google scripts not have OOP? That would make this task so much easier on so many levels.
- * And autocomplete might be nice
- * How about an actually competetant formatter?
- * And also MAYBE A DEVELOPER CONSOLE
- *
- * Basically if the API was better this could be much better, but sadly, this is how it has to be.
- *
- * Also if you want to edit or view the code, go to https://github.com/liavt/Scheduler
- * It's there, I promise. If you want to add a feature that will make it into the final version, just make a pull request. I will review it, and if it's
- * good enough, I will add it to the master branch
- * -Liav
- *
- * PS: If you find this message, come up to me and say the word 'cucumber' to my face.
- */
-
  /*** Variables ***/
  // Control Panel. Loaded based on grade
  var sheet;
@@ -60,6 +34,7 @@ var view;
 var day;
 var y;
 var style;
+var query;
 
 /**
 *What to show, based on GET query
@@ -207,7 +182,7 @@ function viewPersonalizedSchedule(querystring){
     var id = findPersonByName(firstName, lastName);
     if (id != -1) {
         // Return the normal data
-      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for today:</h1><p id="personalized-schedule">' + getSchedule(id) + '</p></p></div>'+getUpdateScript(id)+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
+      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for '+getDayNoun(day)+':</h1><p id="personalized-schedule">' + getSchedule(id) + '</p></p></div>'+getUpdateScript(id)+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
@@ -249,7 +224,7 @@ function viewModSchedule(query){
 }
 
 function viewAboutPage(){
-  return '<?!= include("About"); ?>';
+  return '<?!= include("About.html"); ?>';
 }
 
 function viewModSelection(){
@@ -292,23 +267,30 @@ function processQuery(querystring) {
 }
 
 function viewSearchTypes(string){
-  return '<?!= include("ViewSearchTypes"); ?>';
+  return '<?!= include("ViewSearchTypes.html"); ?>';
 }
 
 function doGet(e) {
     // Function that runs when the page opens
   var html = '';
-	var tempGrade = getParameterByName('grade', '?' + e.queryString);
-  	var tempDay = getParameterByName('day', '?' + e.queryString);
+  query = '?'+e.queryString;
+	var tempGrade = getParameterByName('grade', query);
+  	var tempDay = getParameterByName('day', query);
+    
   if(!tempGrade){
     html = getErrorPage(422,'Parameter \'grade\' not found. <br>This happens when the URL is wrong.');
   }else{
+    var currentday = new Date().getDay();
+    if((currentday<=0||currentday>5)||(tempDay&&(tempDay<=0||tempDay>5))){
+      html=getErrorPage(416,'Silly you. There isn\'t school today!');
+    }else{
 	createVariables(tempGrade,tempDay);
     html = processQuery(e.queryString);
-  }
-     style = getParameterByName('style',e.queryString);
-  if(style){
-    html+='<?!= include("'+style+'"); ?>';
+      style = getParameterByName('style',e.queryString);
+      if(style){
+        html+='<style><?!= include("themes/'+style+'.css"); ?></style>';
+      }
+    }
   }
     var htmlOutput = constructHTML( html , 1000, 1000, 'Schedule');
  // return HtmlService.createHtmlOutput('You must be signed in as a mypisd.net account to access the schedule.');
@@ -334,7 +316,7 @@ function searchAllIn(string){
 }
 
 function viewHomepage(){
-  return '<?!= include("Homepage") ?>';
+  return '<?!= include("Homepage.html") ?>';
 }
 
 function searchAll(string){
