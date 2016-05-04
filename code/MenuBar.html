@@ -1,3 +1,9 @@
+<!--
+This file defines the top menu selector with the cool CSS buttons. A lot of scriplets for communication
+with the server are used here.
+-->
+
+<!--Actual menu bar-->
 <div id="menubar">
   <form action="<?!= getURL(); ?>"class="menuform">
     <?!= getCurrentAttribute(); ?>
@@ -14,14 +20,15 @@
     <input type="hidden" name="view" value="4" />
     <input type="submit" id="personbutton"class="menubutton"value="Learners"/>
 </form>
-<?     var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.GROUP);if(arr.length>1){?>
+<!-- If there are no groups, don't show the group button -->
+<?    if(peoplenames){ var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.GROUP);if(arr.length>1){?>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getCurrentAttribute(); ?>
          <input type="hidden" name="view" value="2" />
                   <input type="hidden" name="type" value="<?!=getGroupID();?>" />
     <input type="submit" id="groupsbutton"class="menubutton"value="Groups">
 </form>
-<? } ?>
+<? } }?>
   <form action="<?!= getURL(); ?>"class="menuform">
      <?!= getCurrentAttribute(); ?>
      <input type="hidden" name="view" value="2" />
