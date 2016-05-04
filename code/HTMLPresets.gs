@@ -1,4 +1,4 @@
-//This file is for functions that deal with primarily HTML
+//This file is for functions that deal primarily with HTML construction.
 
 /**
 *Types of embedded schedules.Make sure to never change these values.
@@ -13,11 +13,11 @@ var EMBED_TYPE = {
 }
 
 /**
-*This function returns an HTML file's content as a string. Can be used with JQuery or scriptlets to include other HTML files dynamically without <script src>
+*This function returns an HTML file's content as a string. Can be used with JQuery or scriptlets to 
+other HTML files dynamically without <script src>
 */
 function include(filename) {
-  var out = HtmlService.createTemplateFromFile(filename);
-  out.data=sheet;
+  var out = HtmlService.createTemplateFromFile(UrlFetchApp.fetch("https://raw.githubusercontent.com/liavt/Scheduler/master/code/"+filename));
   return out.evaluate()
       .getContent();
 }
@@ -62,11 +62,18 @@ function getListAllModsButton(){
   return '<form action="'+url+'"class="infobuttonsform"> '+getCurrentAttribute()+'<input type="hidden" name="view"value="11"/><input id="modsbutton"class="infobutton"type="submit"value="Mods"></form>';
 }
 
+function getSettingsHook(){
+  //creates a hook for a script located in Settings.html to use. The script uses DOM, which is why it needs to be defined in HTML and use a hook.
+  //The script adds additional parameters for settings.
+  return '<form action="javascript:void(0)"class="infobuttonsform"id="settingshook"> '+getCurrentAttribute()+'<input type="hidden" name="view"value="'+url+'"/><input id="settingsbutton"class="infobutton"type="submit"value="Settings"></form>';
+}
+
 function getEmbeddedScheduleButtons(){
-  var out;
-  if(view.toString()!=VIEW_TYPE.MOD_SELECTOR.toString()){
+  var out='';
+  if(view.toString()!=VIEW_TYPE.MOD_SELECTOR.toString()&&view.toString()!=VIEW_TYPE.MOD.toString()){
     out+=getListAllModsButton();
   }
+  out+=getSettingsHook();
   return out;
 }
 
@@ -85,7 +92,7 @@ function getQuoteOfTheDay() {
 function pullBackground() {
   var response = UrlFetchApp.fetch("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"); var json = JSON.parse(response.getContentText());
   var url = 'https://www.bing.com'+json.images[0].url;
-  return '<style>body{background-image: url("'+url+'");}</style><div class="imgdesc">'+json.images[0].copyright+' - Bing</div>';
+  return '<style>body{background-image: url("'+url+'");}</style><div id="imgdesc">'+json.images[0].copyright+' - Bing</div>';
 }
 
 function getHTMLButtonForType(searchtype, name){
@@ -146,7 +153,7 @@ function getDisabledColor(color){
 }
 
     // Embed the schedule spreadsheet into the page
-function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor){
+function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor,tempday){
   Logger.log('HI');
   if(!embedtype){
     embedtype = EMBED_TYPE.ALL;
@@ -165,6 +172,9 @@ function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor){
   }
   if(!modcolors&&modcolor){
   modcolors=modcolor;
+  }
+  if(!day){
+    day=tempday;
   }
   for(var i =0;i<times[0].length;i++){
     if(times[0][i]){
@@ -251,22 +261,24 @@ function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor){
 function getHTMLPrepend() {
     // HTML header
     //important to include the Reset stylesheet, to make sure that different browsers (cough cough IE) all look that same
-    return '<!DOCTYPE html><?!= include("Reset"); ?><?!= include("Stylesheet"); ?><html><head><base target="_top"></head><body><?!= include("MenuBar"); ?>';
+    return '<!DOCTYPE html><html lang="en-US"><?!=include("Head.html");?><body><?!= include("Settings.html");?><?!= include("MenuBar.html"); ?><span id="page">';//the <span> is for manipulation of all the content
 }
 
 function getHTMLAppend() {
     // HTML footer
-  return '<br></body><?!=include("Scripts")?></html>';//the extra line break (<br>) is so the elements don't go off the screen and show the bottom of them.
+  return '<br></span></body><?!=include("OnLoad.html")?></html>';//the extra line break (<br>) is so the elements don't go off the screen and show the bottom of them.
 }
 
 function getCurrentAttribute(){
+  var day = getParameterByName('day',query);
+    var style = getParameterByName('style',query);
   var out = '<input type="hidden"name="grade"value="'+grade+'">';
   if(style){
     out+='<input type="hidden" name="style" value="'+style+'" />';
   }
   Logger.log(day+' actual: '+new Date().getDay());
-  if(day!=new Date().getDay()+1){
-      out+='<input type="hidden" name="day" value="'+(day+1)+'" />';
+  if(day&&day!=new Date().getDay()-1){
+      out+='<input type="hidden" name="day" value="'+day+'" />';
   }
   return out;
 }
