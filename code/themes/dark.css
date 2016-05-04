@@ -1,0 +1,46 @@
+body{
+background-color: #444;
+}
+
+div,#imgdesc{
+color:white;
+ background-color: #111;
+}
+
+#imgdesc:hover{
+background-color: black !important;
+color: white !important;
+}
+
+table,tr,th,.cell{
+color:black !important;
+}
+
+.infobutton{
+background-color: #333 !important;
+}
+
+.infobutton:hover{
+background-color: #444 !important;
+}
+
+.menubutton{
+background-color: #222 !important;
+}
+
+.menubutton:hover{
+background-color: #444 !important;
+}
+
+#homebutton{
+background-color: #545454 !important;
+}
+
+
+#homebutton:hover{
+background-color: #434343 !Important;
+}
+
+#settings{
+background-color: #555;
+}
