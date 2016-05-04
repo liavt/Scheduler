@@ -1,0 +1,63 @@
+<!-- New definitions for the settings tab-->
+<style>
+#settings{
+position:fixed;
+bottom:0%;
+display:block;
+width:0%;
+opacity: 1 !important;
+height:100% !important;
+background-color: white;
+z-index: 10000 !important;
+overflow:hidden;
+box-sizing: content-box
+}
+
+#shade{
+width:100%;
+position:fixed;
+height: 100%;
+left: 0%;
+bottom:0%;
+display:none;
+background-color: black;
+opacity:0;
+z-index: 9001 /*It's over 9000!*/ !important;
+}
+</style>
+
+<script>
+var hook;
+
+function close(){
+//$("#settings").stop(true,true).animate({width:"0em"},"fast",function(){console.log("closing");});
+$("#settings").stop(true,true).animate({width:"0%"},function(){
+//why arent i using fadeout()? because it jitters for some reason. this way is faster, but a bit messier.
+$("#shade").animate({opacity:"0"},function(){$(this).css("display","none")});
+});
+}
+
+function addHookClickListener(){
+hook.stop(true,true).unbind().click(function(){
+$("#shade").css("display","inline").animate({opacity:"0.7"},function(){
+$("#settings").stop(true,true).animate({width:"20%"},500);
+});
+//$("#settings").stop(true,true).animate({width:"20%"},"fast",function(){console.log("opening");});
+});
+$("#cancel-settings-button").unbind().click(function(){
+close();
+});
+}
+</script>
+
+<span style="width:100%; height: 100%;">
+<div id="settings">
+<h1 id="settings-title">Settings</h1>
+<form>
+<input type="text"/>
+<input type="submit"value="Submit"/>
+<input type="reset"id="cancel-settings-button"value="Cancel"/>
+</form>
+</div>
+</span>
+<span id="shade"></span>
