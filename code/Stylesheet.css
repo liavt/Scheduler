@@ -1,26 +1,29 @@
-<style>
+html, body { height: 100%; }
 
 
 body{
-font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included elsewhere*/
-	line-height: 1.65em;
+font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included in Head.html*/
+line-height: 1.65em;
     text-align: center;
    color: black;
    background-color: #AAAAFF;
-   float: top;
-    -webkit-background-size: cover;
+   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
     margin-top:6em;
 }
 
-div, #menubar, .menuform, .menubutton, .infobutton,input[type="submit"]{
+*{
           transition: all 0.3s ease 0s;
 }
 
 div, .infobutton{
               box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+}
+
+#settings,#imgdesc{
+box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
 }
 
 #titanhead{
@@ -49,6 +52,7 @@ word-wrap: break-word;
 overflow: auto; 
 border: solid;
 border-width: 0.2em 0.01em;
+font-weight: 500;
 }
     
 table tr:last-child { 
@@ -63,6 +67,10 @@ div:hover{
 
 p{
  padding:0.0625em;
+}
+
+b{
+  font-weight:700;
 }
 
 #infobuttons{
@@ -92,6 +100,9 @@ color: rgba(0,0,0,0);
     text-align: right;
 }
 
+.cell:hover{
+	background-color:filter: invert(100%);
+}
 
 .infobutton:hover{
 background-position: left;
@@ -143,8 +154,10 @@ input[type="submit"]:hover{
   font-weight: bold;
   opacity:0.7 !important;
  width: 35% !important;
+ font-weight: 900;
+
 }
-.imgdesc {
+#imgdesc {
 position: fixed;
 right:0em;
 top:0em;
@@ -154,22 +167,18 @@ width: 25%;
 height: 1.5em;
 background-color: rgba(255,255,255,0) !important;
 opacity: 1 !important;
-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
 word-wrap: break-word;
 overflow: hidden;
 z-index: 1000;
+font-weight:300;
 }
 
-.imgdesc:hover{
+#imgdesc:hover{
 background-color: rgba(255,255,255,100) !important;
 width:100%;
 height:5em;
          vertical-align: middle;
 color:black;
-}
-
-.imgdesc:hover ~ *{
-opacity:0;
 }
 
 #menubar{
@@ -221,6 +230,7 @@ width: 100%;
      color:white;
 }
 
+
 #schedule{
 opacity: 1 !important;
 }
@@ -261,4 +271,12 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 #modsbutton{
 background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/schedule.png);
 }
-</style>
+
+#settingsbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/gear.png);
+
+}
+
+#imgdesc:hover ~ *{
+opacity: 0 !important;
+}
