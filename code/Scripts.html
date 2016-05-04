@@ -1,4 +1,8 @@
-<!--This file is for Javascript functions that need HTML (like DOM manipulation)-->
+<!--This file is for client-side Javascript functions that need HTML (like DOM manipulation)
+Scriptlets are used a lot here for communication with the server.
+It seems like a bit of the mess, and that is because server side and client side synchronization
+is very weird with Google scripts. Maybe JQuery could have solved this, and maybe I will rewrite it in
+JQuery to make it more organized. But it works for now, and if it ain't broke, don't fix it.-->
 <noscript>
 <div id="name">No Javascript :(</div><br><div>This website needs Javascript. Please re-enable it.</div>
 </noscript>
@@ -43,6 +47,7 @@ var times = <?!=clone(times);?>;
 var mods = <?!=clone(mods);?>;
 var modnames = <?!=clone(modnames);?>;
 var modcolors = <?!=clone(modcolors);?>;
+if(times&&mods&&modnames&&modcolors){
 for(var i =0;i<keys.length;i++){
 var elem = keys[i];
 //console.log(keys[i]+' '+i+' '+elem.innerHTML);
@@ -80,7 +85,7 @@ event.cancelBubble=true;
 embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.TIME;?>,times,mods,modnames,modcolors);};//
 }
 schedule.onmousedown=function(event){embedDynamicSchedule(event.toElement,<?!=EMBED_TYPE.ALL;?>,times,mods,modnames,modcolors);};
-}
+}}
 }
 
 
@@ -112,16 +117,30 @@ elem.innerHTML = mod+form;
 elem.onmousedown=function(){console.log(mod);document.getElementsByClassName(decode(mod))[0].submit();};
 }
 
+//make everything become transparent when you want to view info about the background
+function generateImgDescription(){
+var imgdesc = document.getElementById("imgdesc");
+if(imgdesc){
+imgdesc.onmouseenter = function(event){
+document.body.style.opacity="0";
+document.getElementById("imgdesc").style.opacity="1 !important";
+imgdesc.style.opacity="1 !important;";
+console.log(imgdesc.style);
+};
+}
+}
+
+function calculateInfoButtonWidth(){
+}
+
 function execute(){
-<? if(view.toString()==VIEW_TYPE.MOD_SELECTOR.toString()){?>
+<? if(view&&view.toString()==VIEW_TYPE.MOD_SELECTOR.toString()){?>
 addModSelector();
 <? }else{?>
 addDynamicSchedule();
 <?}?>
+//generateImgDescription();
+calculateInfoButtonWidth();
 }
 </script>
-<!-- Run all the functions-->
-<script>
-//addDynamicSchedule();
-execute();
-</script>
+<!-- execute() is called in OnLoad-->
