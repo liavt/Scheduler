@@ -11,6 +11,11 @@ Thanksgiving
 Last day of school
 */
 
+/*
+If you are wondering where all the HTML files went, they are now hosted on the github, so you can use other IDE's for this.
+The JS still has to be hosted here, as I havent figured out how to dynamically load JS yet.
+*/
+
  /*** Variables ***/
  // Control Panel. Loaded based on grade
  var sheet;
@@ -223,6 +228,10 @@ function viewModSchedule(query){
   return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div><br>'+embedSchedule(EMBED_TYPE.MOD,mod)+'<br>'+getEmbeddedScheduleButtons();
 }
 
+function getDay(){
+  return day;
+}
+
 function viewAboutPage(){
   return '<?!= include("About.html"); ?>';
 }
@@ -288,13 +297,14 @@ function doGet(e) {
     html = processQuery(e.queryString);
       style = getParameterByName('style',e.queryString);
       if(style){
-        html+='<style><?!= include("themes/'+style+'.css"); ?></style>';
+        html+='<?!= include("'+style+'.html"); ?>';
       }
     }
   }
     var htmlOutput = constructHTML( html , 1000, 1000, 'Schedule');
  // return HtmlService.createHtmlOutput('You must be signed in as a mypisd.net account to access the schedule.');
    return htmlOutput;
+//return UrlFetchApp.fetch('https://raw.githubusercontent.com/liavt/Scheduler/master/code/server/Main.js').getContentText();
 }
 
 function searchAllIn(string){
