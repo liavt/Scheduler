@@ -17,7 +17,7 @@ var EMBED_TYPE = {
 other HTML files dynamically without <script src>
 */
 function include(filename) {
-  var out = HtmlService.createTemplateFromFile(UrlFetchApp.fetch("https://raw.githubusercontent.com/liavt/Scheduler/master/code/"+filename));
+  var out = HtmlService.createTemplateFromFile(filename);
   return out.evaluate()
       .getContent();
 }
@@ -73,7 +73,7 @@ function getEmbeddedScheduleButtons(){
   if(view.toString()!=VIEW_TYPE.MOD_SELECTOR.toString()&&view.toString()!=VIEW_TYPE.MOD.toString()){
     out+=getListAllModsButton();
   }
-  out+=getSettingsHook();
+ out+=getSettingsHook();
   return out;
 }
 
@@ -240,7 +240,7 @@ function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor,temp
            }
         }else if(embedtype.toString()==EMBED_TYPE.TIME.toString()){
           var date = new Date(times[0][x]);
-          var timetitle = (date.getHours() > 12? date.getHours()-12 : date.getHours())+ ':'+date.getMinutes();
+          var timetitle = (date.getHours() > 12? date.getHours()-12 : date.getHours())+ ':'+addZero(date.getMinutes());
            if(timetitle!=term){
           color = getDisabledColor(color);
            }
