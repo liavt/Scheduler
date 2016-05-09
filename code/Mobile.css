@@ -1,0 +1,18 @@
+/*Mobile only stuff, which gets rid of the hover only events and shows what all the buttons do*/
+.infobutton,.menubutton{
+    color:white !important;
+    float:none !important;
+  }
+  
+  .infobutton{
+    width: 10em !important;
+    background-position: center left;
+  }
+  
+  .menubutton{
+    background-position: center top; 
+  }
+  
+  .menuform{
+    width:10% !important;
+  }
