@@ -1,3 +1,4 @@
+<style>
 html, body { height: 100%; }
 
 
@@ -7,10 +8,10 @@ line-height: 1.65em;
     text-align: center;
    color: black;
    background-color: #AAAAFF;
-   -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+   -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
     margin-top:6em;
 }
 
@@ -20,6 +21,31 @@ line-height: 1.65em;
 
 div, .infobutton{
               box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+}
+
+select{
+background-color: #CCC;
+}
+
+select:hover{
+ box-shadow: inset 0em -0.25em 0em 0em #999;
+}
+
+select option:hover{
+  background-color: #BBB;
+  color:white!important;
+}
+
+input{
+text-align: center;
+}
+
+input:hover{
+ box-shadow: inset 0em 0em 0em 0.25em #999;
+}
+
+input[type="reset"]:hover{
+ box-shadow: inset 0em 0em 0em 0.25em #A00;
 }
 
 #settings,#imgdesc{
@@ -33,11 +59,10 @@ background: rgba(0,0,0,0) url(https://www.placekitten.com/320/160);
 
 div{
      opacity: 0.7 ;
-  border-radius: 0em;
+  border-radius: 0.25em;
   width:70%;
        margin: auto;
   background-color: white ;
-
 }
 
 table {
@@ -58,6 +83,7 @@ font-weight: 500;
 table tr:last-child { 
     border-bottom: none; 
 }
+
 
 div:hover{
   opacity:1;
@@ -98,6 +124,7 @@ color: rgba(0,0,0,0);
     border-style:none;
     background-size: 4em;
     text-align: right;
+    border-radius: 1em;
 }
 
 .cell:hover{
@@ -139,13 +166,12 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
     width:70%;
 } 
 
-input[type="submit"]{
+input[type="submit"],input[type="reset"]{
 background-color: #CCC;
     border-style:none; 
-    width: 20%;
 }
 
-input[type="submit"]:hover{
+input[type="submit"]:hover,input[type="reset"]:hover{
  background-color: #ABABAB;
  }
 
@@ -280,3 +306,8 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 #imgdesc:hover ~ *{
 opacity: 0 !important;
 }
+
+ @media all and (max-device-width: 768px) {
+    <?!=include('Mobile.html');?>
+  }
+</style>
