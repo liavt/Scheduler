@@ -2,6 +2,7 @@
 <style>
 #settings{
 position:fixed;
+left:0;
 bottom:0%;
 display:block;
 width:0%;
@@ -10,6 +11,7 @@ height:100% !important;
 background-color: white;
 z-index: 10000 !important;
 overflow:hidden;
+border-radius:0;
 box-sizing: content-box
 }
 
@@ -29,12 +31,29 @@ z-index: 9001 /*It's over 9000!*/ !important;
 <script>
 var hook;
 
+//defining the possible options
+var days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];//this is index based
+var styles = [['','Normal','The standard theme which dynamically changes on hover.'],
+['dark','Dark','Same as the normal theme, except recolored to save energy and be better on your eyes'],
+['aprilfools','Hardy','A meme theme based on <a href="https://www.reddit.com/r/hardymemes">Hardy Memes.</a>'],
+['simple','Fast','Special theme that sacrifices appearance for performance.']];//the first element of the nested array is the stylesheet name, while the second is what appears to the user.
+
 function close(){
-//$("#settings").stop(true,true).animate({width:"0em"},"fast",function(){console.log("closing");});
-$("#settings").stop(true,true).animate({width:"0%"},function(){
+$("#settings").stop(true,true).css("width","20%").animate({width:"0%"},function(){
 //why arent i using fadeout()? because it jitters for some reason. this way is faster, but a bit messier.
 $("#shade").animate({opacity:"0"},function(){$(this).css("display","none")});
 });
+}
+
+//create the description for the currently selected theme. takes in <select> object which controls style.
+function addThemeDescription(object){
+  var desc = $("#settings-style-description");
+  var selectedValue = $(object).val();
+    for(var i =0;i<styles.length;i++){
+      if(styles[i][0]==selectedValue){
+        desc.html(styles[i][2]);
+      }
+    }
 }
 
 function addHookClickListener(){
@@ -42,22 +61,96 @@ hook.stop(true,true).unbind().click(function(){
 $("#shade").css("display","inline").animate({opacity:"0.7"},function(){
 $("#settings").stop(true,true).animate({width:"20%"},500);
 });
-//$("#settings").stop(true,true).animate({width:"20%"},"fast",function(){console.log("opening");});
 });
+
+
 $("#cancel-settings-button").unbind().click(function(){
 close();
+});
+
+var form = $("#settings-form");
+var query = '<?!=query;?>'.substring(1).split('&');
+var day = new Date().getDay();
+var style = '';
+for(var i =0;i<query.length;i++){
+  var parameter = query[i].split('=');
+  //we dont want to add day and style to the output, as the <select> is adding it.
+  //Additionally, we store those 2 values so then we can decide the default values for said <select>
+  if(parameter[0]=='day'){
+    day=parameter[1];
+  }else if(parameter[0]=='style'){
+    style = parameter[1];
+  } else{
+    $('<input type="hidden"name="'+parameter[0]+'"value="'+parameter[1]+'"/>').prependTo(form);
+  }
+}
+
+var dayselect = $('#settings-day-selector');
+var styleselect = $('#settings-style-selector');
+
+for(var i=0;i<styles.length;i++){//add the style <option>'s
+  var select = '<option value="'+styles[i][0]+'"';
+  if(styles[i][0]==style){
+    select+='selected="selected"id="selected-style"';//make it default
+  }
+  select+='>'+styles[i][1]+'</option>';
+  $(select).appendTo(styleselect);
+}
+
+addThemeDescription(styleselect);
+
+//code for the theme description
+styleselect.change(
+  function(){
+      addThemeDescription(this);
+  }
+);
+
+for(var i =0;i<days.length;i++){
+  var select = '<option value="'+(i+1)+'"';
+  var selected = ((i+1)==day);//whether the current selected day is this value
+  var today = (i==new Date().getDay()-1);//whether the iterated value represents today
+  if(selected){
+      select+='selected="selected"id="selected-day"';//set it to default
+  }
+  select +='>'+days[i];
+  if(today){
+    select+='(Today)';//mark that it is today
+  }
+  select+='</option>';
+  $(select).appendTo(dayselect);
+}
+
+$("#submit-settings-button").unbind().click(function(){
+  var dayval = dayselect.val();
+  if(dayval !=  new Date().getDay()){
+    $('<input type="hidden"name="day"value="'+dayval+'"/>').appendTo(form);
+  }
 });
 }
 </script>
 
 <span style="width:100%; height: 100%;">
-<div id="settings">
-<h1 id="settings-title">Settings</h1>
-<form>
-<input type="text"/>
-<input type="submit"value="Submit"/>
-<input type="reset"id="cancel-settings-button"value="Cancel"/>
-</form>
-</div>
+  <div id="settings">
+    <h1 id="settings-title">Settings</h1>
+      <form action="<?!= getURL(); ?>"id="settings-form">
+        <strong>Theme:</strong>
+        <select name="style"id="settings-style-selector">
+          <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+        </select>
+        <small>
+          <i>
+             <p id="settings-style-description"></p>
+          </i>
+        </small>
+        <strong>Day:</strong>
+        <select id="settings-day-selector">
+          <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+        </select>
+        <br>
+        <input type="submit"id="submit-settings-button"value="Apply"/>
+        <input type="reset"id="cancel-settings-button"value="Cancel"/>
+      </form>
+  </div>
 </span>
 <span id="shade"></span>
