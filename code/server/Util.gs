@@ -202,10 +202,11 @@ function addParameter(name, value, string){
 
 function capitalizeFirstLetter(target) {
     // Return a string with the first letter capitalized.
-    return target.substring(0,1).toLowerCase()+target.substring(1);
+    return target.substring(0,1).toUpperCase()+target.substring(1);
 }
 
 function clone(src) {
+  if(!src)return [];
   var out = '[';
   for(var x =0;x<src.length;x++){
     out+='[';
@@ -221,4 +222,20 @@ function clone(src) {
 
 function getSheet(){
 return sheet;
+}
+
+function getDayNoun(day){
+  var current =new Date().getDay()-1;
+  var offset = day-current;
+  if(offset==0){
+    return 'today';
+  }else if(offset==1){
+    return 'tomorrow';
+  }else if(offset==-1){
+    return 'yesterday';
+  }else if(offset<=-2){
+    return (offset*-1)/*absolute value, will always be negative here*/+' days ago';
+  }else if(offset>=2){
+    return offset+' days from now';
+  }
 }
