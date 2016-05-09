@@ -1,0 +1,24 @@
+<style>
+  /*This style removes all animations, and makes it look slightly uglier but more functional*/
+  *{
+    -webkit-animation: none !important; 
+  -moz-animation: none !important; 
+  -o-animation: none !important; 
+  -ms-animation: none !important; 
+  animation: none !important; 
+  opacity: 1 !important;
+  box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+   transition: none 0s ease 0s;
+   border-radius: 0 !important;
+  }
+  
+  div,#name,#menubar,.infobutton{
+      opacity: 1 !important;
+     box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+  }
+    /*implement the simple mobile design as well*/
+    <?!=include('Mobile.html');?>
+
+</style>
+
+
