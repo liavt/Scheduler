@@ -46,4 +46,8 @@ background-color: #434343 !Important;
 background-color: #555;
 }
 
+#menubar{
+ box-shadow: 0em 0em 1em 0.25em #222 !important;
+}
+
 </style>
