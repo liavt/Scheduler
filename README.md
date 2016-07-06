@@ -1,7 +1,8 @@
 ##You can find this live at tinyurl.com/ahsscheduler
 
-# Scheduler
+#Scheduler
 Scheduler for school. 
+![Demo](https://github.com/liavt/Scheduler/blob/master/demos/DemoStudent.PNG)
 
 #WHAT?
 Yep, the school now runs this for 9th grade (10th grade is ready, under review)
