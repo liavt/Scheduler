@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<!-- saved from url=(0099)https://n-hkietk7qbbmzne3p3wu5u7qe6vh4a7devi3rgti-0lu-script.googleusercontent.com/userCodeAppPanel -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./jsapi"></script><script>window.parent.maeExportApis_();</script>
+
+
+<style>
+<style>
+ 
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+ 
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+}
+ol, ul {
+	list-style: none;
+}
+ 
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+</style><style>
+html, body { height: 100%; }
+
+
+body{
+font-family: 'Roboto', sans-serif;  
+line-height: 1.65em;
+    text-align: center;
+   color: black;
+   background-color: #AAAAFF;
+      background-repeat: no-repeat;
+   background-attachment: fixed;
+   -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
+    margin-top:6em;
+}
+
+*{
+          transition: all 0.3s ease 0s;
+}
+
+div, .infobutton{
+              box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+}
+
+select{
+background-color: #CCC;
+}
+
+select:hover{
+ box-shadow: inset 0em -0.25em 0em 0em #999;
+}
+
+select option:hover{
+  background-color: #BBB;
+  color:white!important;
+}
+
+input{
+text-align: center;
+}
+
+input:hover{
+ box-shadow: inset 0em 0em 0em 0.25em #999;
+}
+
+input[type="reset"]:hover{
+ box-shadow: inset 0em 0em 0em 0.25em #A00;
+}
+
+#settings,#imgdesc{
+box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+}
+
+#titanhead{
+background: rgba(0,0,0,0) url(https://www.placekitten.com/320/160);
+
+}
+
+div{
+     opacity: 0.7 ;
+  border-radius: 0.25em;
+  width:70%;
+       margin: auto;
+  background-color: white ;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0.5em;
+    width: 100%;
+    table-layout:fixed;
+}
+
+td, tr, table{
+word-wrap: break-word;
+overflow: auto; 
+border: solid;
+border-width: 0.2em 0.01em;
+font-weight: 500;
+}
+    
+table tr:last-child { 
+    border-bottom: none; 
+}
+
+
+div:hover{
+  opacity:1;
+  box-shadow: 0.9375em 0.9375em 0.3125em rgba(0,0,0,0.19);
+  width: 80%;
+}
+
+p{
+ padding:0.0625em;
+}
+
+b{
+  font-weight:700;
+}
+
+#infobuttons{
+background-color: rgba(0,0,0,0);
+box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+height:5em;
+width: 70% !important;
+opacity: 1 !important;
+}
+
+.infobuttonsform{
+height:100%;
+display: inline;
+}
+
+.infobutton{
+display: inline;
+width:6em !important;
+height: 100% !important;
+float: center;
+color: rgba(0,0,0,0);
+         background-repeat: no-repeat;
+    background-position: center; 
+    background-color: #BBBBBB;
+    border-style:none;
+    background-size: 4em;
+    text-align: right;
+    border-radius: 1em;
+}
+
+.cell:hover{
+	background-color:filter: invert(100%);
+}
+
+.infobutton:hover{
+background-position: left;
+width: 10em !important;
+color: white;
+}
+
+#star{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star.png);
+}
+
+#star:hover{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png);
+}
+
+#unstar{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png);
+}
+
+#unstar:hover{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/star.png);
+}
+
+ 
+.noanimation{ 
+    -webkit-animation: none !important; 
+  -moz-animation: none !important; 
+  -o-animation: none !important; 
+  -ms-animation: none !important; 
+  animation: none !important; 
+} 
+
+.noanimation:hover{ 
+    width:70%;
+} 
+
+input[type="submit"],input[type="reset"]{
+background-color: #CCC;
+    border-style:none; 
+}
+
+input[type="submit"]:hover,input[type="reset"]:hover{
+ background-color: #ABABAB;
+ }
+
+#name{
+  font-size: 1.5em;
+  font-weight: bold;
+  opacity:0.7 !important;
+ width: 35% !important;
+ font-weight: 900;
+
+}
+#imgdesc {
+position: fixed;
+right:0em;
+top:0em;
+margin: 0%;
+color: black;
+width: 25%; 
+height: 1.5em;
+background-color: rgba(255,255,255,0) !important;
+opacity: 1 !important;
+word-wrap: break-word;
+overflow: hidden;
+z-index: 1000;
+font-weight:300;
+}
+
+#imgdesc:hover{
+background-color: rgba(255,255,255,100) !important;
+width:100%;
+height:5em;
+         vertical-align: middle;
+color:black;
+}
+
+#menubar{
+z-index: 1000;
+margin-top:0%;
+position: fixed !important;
+top:0em;
+left:0em;
+width: 100%;
+ opacity: 0.7 !important;
+ height:5em;
+ box-shadow: 0em 0em 1em 0.25em #888 !important;
+}
+
+#menubar:hover{
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+.menuform{
+    float: left;
+    height:100%;
+    width:5%;
+    top:0%;
+    border-radius:0%;
+}
+
+.menuform:hover{
+ width:20%
+ }
+
+.menubutton{
+    width:100% !important;
+    height:100% !important;
+     background-color: #BBBBBB !important;
+         background-repeat: no-repeat;
+    background-position: center; 
+    color: rgba(1,1,1,0);
+         text-align: center;
+         vertical-align: text-bottom;
+    background-size: 1.25em, 1.25em;
+         
+}
+
+.menubutton:hover{
+ box-shadow: inset 0em -1.25em 0em -0.3125em #999 !important;
+ background-color: #ABABAB !important;
+     background-position: center top; 
+     color:white;
+}
+
+
+#schedule{
+opacity: 1 !important;
+}
+
+#homebutton{
+background-color: #CCCCCC!important;
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/home.png);
+}
+
+#homebutton:hover{
+background-color: #CBCBCB;
+}
+
+#personbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/person.png);
+}
+
+#searchbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/search.png);
+}
+
+#groupsbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/groups.png);
+}
+
+#cohortsbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/cohorts.png);
+}
+
+#lotebutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/LOTE.png);
+}
+
+#schedulebutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/clock.png);
+}
+
+#modsbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/schedule.png);
+}
+
+#settingsbutton{
+background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/res/gear.png);
+
+}
+
+#imgdesc:hover ~ *{
+opacity: 0 !important;
+}
+
+ @media all and (max-device-width: 768px) {
+     
+.infobutton,.menubutton{
+    color:white !important;
+    float:none !important;
+  }
+  
+  .infobutton{
+    width: 10em !important;
+    background-position: center left;
+  }
+  
+  .menubutton{
+    background-position: center top; 
+  }
+  
+  .menuform{
+    width:10% !important;
+  }  }
+</style>
+
+
+<link href="./css" rel="stylesheet" type="text/css">
+
+<script src="./jquery.min.js"></script>
+
+<!--<base target="_top">--><base href="." target="_top">
+<title>Schedule</title>
+
+<meta name="description" content="Scheduler for Plano Academy High School">
+<meta name="keywords" content="Schedule,Plano Academy">
+<meta name="author" content="Liav Turkia">
+<style type="text/css">:root .mod > ._jH + .rscontainer
+{display:none !important;}</style></head>
+
+<body>
+<style>
+#settings{
+position:fixed;
+left:0;
+bottom:0%;
+display:block;
+width:0%;
+opacity: 1 !important;
+height:100% !important;
+background-color: white;
+z-index: 10000 !important;
+overflow:hidden;
+border-radius:0;
+box-sizing: content-box
+}
+
+#shade{
+width:100%;
+position:fixed;
+height: 100%;
+left: 0%;
+bottom:0%;
+display:none;
+background-color: black;
+opacity:0;
+z-index: 9001   !important;
+}
+</style>
+
+<script>
+var hook;
+
+
+var days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+var styles = [['','Normal','The standard theme which dynamically changes on hover.'],
+['dark','Dark','Same as the normal theme, except recolored to save energy and be better on your eyes'],
+['aprilfools','Hardy','A meme theme based on <a href="https://www.reddit.com/r/hardymemes">Hardy Memes.</a>'],
+['simple','Fast','Special theme that sacrifices appearance for performance.']];
+
+function close(){
+$("#settings").stop(true,true).css("width","20%").animate({width:"0%"},function(){
+
+$("#shade").animate({opacity:"0"},function(){$(this).css("display","none")});
+});
+}
+
+
+function addThemeDescription(object){
+  var desc = $("#settings-style-description");
+  var selectedValue = $(object).val();
+    for(var i =0;i<styles.length;i++){
+      if(styles[i][0]==selectedValue){
+        desc.html(styles[i][2]);
+      }
+    }
+}
+
+function addHookClickListener(){
+hook.stop(true,true).unbind().click(function(){
+$("#shade").css("display","inline").animate({opacity:"0.7"},function(){
+$("#settings").stop(true,true).animate({width:"20%"},500);
+});
+});
+
+
+$("#cancel-settings-button").unbind().click(function(){
+close();
+});
+
+var form = $("#settings-form");
+var query = '?grade=9&view=5&first=liav&last=turkia'.substring(1).split('&');
+var day = new Date().getDay();
+var style = '';
+for(var i =0;i<query.length;i++){
+  var parameter = query[i].split('=');
+  
+  
+  if(parameter[0]=='day'){
+    day=parameter[1];
+  }else if(parameter[0]=='style'){
+    style = parameter[1];
+  } else{
+    $('<input type="hidden"name="'+parameter[0]+'"value="'+parameter[1]+'"/>').prependTo(form);
+  }
+}
+
+var dayselect = $('#settings-day-selector');
+var styleselect = $('#settings-style-selector');
+
+for(var i=0;i<styles.length;i++){
+  var select = '<option value="'+styles[i][0]+'"';
+  if(styles[i][0]==style){
+    select+='selected="selected"id="selected-style"';
+  }
+  select+='>'+styles[i][1]+'</option>';
+  $(select).appendTo(styleselect);
+}
+
+addThemeDescription(styleselect);
+
+
+styleselect.change(
+  function(){
+      addThemeDescription(this);
+  }
+);
+
+for(var i =0;i<days.length;i++){
+  var select = '<option value="'+(i+1)+'"';
+  var selected = ((i+1)==day);
+  var today = (i==new Date().getDay()-1);
+  if(selected){
+      select+='selected="selected"id="selected-day"';
+  }
+  select +='>'+days[i];
+  if(today){
+    select+='(Today)';
+  }
+  select+='</option>';
+  $(select).appendTo(dayselect);
+}
+
+$("#submit-settings-button").unbind().click(function(){
+  var dayval = dayselect.val();
+  if(dayval !=  new Date().getDay()){
+    $('<input type="hidden"name="day"value="'+dayval+'"/>').appendTo(form);
+  }
+});
+}
+</script>
+
+<span style="width:100%; height: 100%;">
+  <div id="settings" style="width: 0%;">
+    <h1 id="settings-title">Settings</h1>
+      <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" id="settings-form"><input type="hidden" name="last" value="turkia"><input type="hidden" name="first" value="liav"><input type="hidden" name="view" value="5"><input type="hidden" name="grade" value="9">
+        <strong>Theme:</strong>
+        <select name="style" id="settings-style-selector">
+          
+        <option value="" selected="selected" id="selected-style">Normal</option><option value="dark">Dark</option><option value="aprilfools">Hardy</option><option value="simple">Fast</option></select>
+        <small>
+          <i>
+             <p id="settings-style-description">The standard theme which dynamically changes on hover.</p>
+          </i>
+        </small>
+        <strong>Day:</strong>
+        <select id="settings-day-selector">
+          
+        <option value="1">Monday</option><option value="2">Tuesday</option><option value="3" selected="selected" id="selected-day">Wednesday(Today)</option><option value="4">Thursday</option><option value="5">Friday</option></select>
+        <br>
+        <input type="submit" id="submit-settings-button" value="Apply">
+        <input type="reset" id="cancel-settings-button" value="Cancel">
+      </form>
+  </div>
+</span>
+<span id="shade" style="display: none; opacity: 0;"></span>
+
+
+<div id="menubar">
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+    <input type="hidden" name="grade" value="9">    <input type="hidden" name="view" value="8">
+    <input type="submit" id="homebutton" class="menubutton" value="Home">
+</form>
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+    <input type="hidden" name="grade" value="9">    <input type="hidden" name="view" value="6">
+    <input type="submit" id="schedulebutton" class="menubutton" value="Schedule">
+</form>
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+    <input type="hidden" name="grade" value="9">    <input type="hidden" name="view" value="4">
+    <input type="submit" id="personbutton" class="menubutton" value="Learners">
+</form>
+
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+     <input type="hidden" name="grade" value="9">         <input type="hidden" name="view" value="2">
+                  <input type="hidden" name="type" value="4">
+    <input type="submit" id="groupsbutton" class="menubutton" value="Groups">
+</form>
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+     <input type="hidden" name="grade" value="9">     <input type="hidden" name="view" value="2">
+     <input type="hidden" name="type" value="2">
+    <input type="submit" id="lotebutton" class="menubutton" value="LOTEs">
+</form>
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+     <input type="hidden" name="grade" value="9">     <input type="hidden" name="view" value="2">
+     <input type="hidden" name="type" value="3">
+    <input type="submit" id="cohortsbutton" class="menubutton" value="Cohorts">
+</form>
+  <form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="menuform">
+     <input type="hidden" name="grade" value="9">         <input type="hidden" name="view" value="7">
+    <input type="submit" id="searchbutton" class="menubutton" value="Search">
+</form>
+</div><span id="page"><style>body{background-image: url("https://www.bing.com/az/hprichbg/rb/DiaDosNamorados_EN-US10842918196_1920x1080.jpg");}</style><div id="imgdesc">Burrowing owl chicks (© Mark Bridger/Shutterstock/Offset) - Bing</div><div id="name" class="personalized"><p>Good afternoon, Liavt</p></div><br><div class="personalized"><p></p><h1>Here's your schedule for today:</h1><p id="personalized-schedule">9:30 - Cafe<br>10:00 - Physics w/ Mr. E<br>10:50 - Math w/ Ms. Terious<br>11:38 - Art w/ Ms. Ing<br>12:25 - Lunch<br>1:20 - Technology w/ Ms. Erbly<br>3:40 - Clubs<br><br><b>Currently at - Math w/ Ms. Terious</b><br><b>Next - Art w/ Ms. Ing</b></p><p></p></div><br><div class="noanimation" id="schedule"><table><tbody><tr><td id="empty cell" bgcolor="#888" width="6%" style="background-color:rgba(0,0,0,0) !important;"></td><td class="time cell" bgcolor="#AAA" width="6%">9:30</td><td class="time cell" bgcolor="#AAA" width="6%">10:00</td><td class="time cell" bgcolor="#AAA" width="6%">10:50</td><td class="time cell" bgcolor="#AAA" width="6%">11:38</td><td class="time cell" bgcolor="#AAA" width="6%">12:25</td><td class="time cell" bgcolor="#AAA" width="6%">1:20</td><td class="time cell" bgcolor="#AAA" width="6%">3:40</td></tr><tr><td class="key cell" bgcolor="#AAA">Groups 1-12</td><td class="mod cell" bgcolor="#783f04">Cafe</td><td class="mod cell" bgcolor="#ff0000">Physics w/ Mr. E</td><td class="mod cell" bgcolor="#4a86e8">Math w/ Ms. Terious</td><td class="mod cell" bgcolor="#00ff00">Art w/ Ms. Ing</td><td class="mod cell" bgcolor="#d9d9d9">Lunch</td><td class="mod cell" bgcolor="#fce5cd">Technology w/ Ms. Erbly</td><td class="mod cell" bgcolor="#ff00ff">Clubs</td></tr><tr><td class="key cell" bgcolor="#AAA">Groups 13-24</td><td class="mod cell" bgcolor="#783f04">Cafe</td><td class="mod cell" bgcolor="#00ff00">Art w/ Ms. Ing</td><td class="mod cell" bgcolor="#ff0000">Physics w/ Mr. E</td><td class="mod cell" bgcolor="#4a86e8">Math w/ Ms. Terious</td><td class="mod cell" bgcolor="#d9d9d9">Lunch</td><td class="mod cell" bgcolor="#fce5cd">Technology w/ Ms. Erbly</td><td class="mod cell" bgcolor="#ff00ff">Clubs</td></tr><tr><td class="key cell" bgcolor="#AAA">Groups 25-37</td><td class="mod cell" bgcolor="#783f04">Cafe</td><td class="mod cell" bgcolor="#4a86e8">Math w/ Ms. Terious</td><td class="mod cell" bgcolor="#00ff00">Art w/ Ms. Ing</td><td class="mod cell" bgcolor="#ff0000">Physics w/ Mr. E</td><td class="mod cell" bgcolor="#d9d9d9">Lunch</td><td class="mod cell" bgcolor="#fce5cd">Technology w/ Ms. Erbly</td><td class="mod cell" bgcolor="#ff00ff">Clubs</td></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table></div><br><div id="infobuttons" class="noanimation"><form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="infobuttonsform"><input type="hidden" name="first" value="Liav">   <input type="hidden" name="last" value="Turkia">  <input type="hidden" name="grade" value="9"><input type="hidden" name="view" value="0"><input id="unstar" class="infobutton" type="submit" value="Standard"></form><form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="infobuttonsform"> <input type="hidden" name="grade" value="9"><input type="hidden" name="group" value="35"><input type="hidden" name="view" value="1"><input id="groupsbutton" class="infobutton" type="submit" value="Group 7"></form><form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="infobuttonsform"> <input type="hidden" name="grade" value="9"><input type="hidden" name="view" value="3"><input type="hidden" name="type" value="2"><input type="hidden" name="term" value="S1"><input id="lotebutton" class="infobutton" type="submit" value="LOTE: S1"></form><form action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec" class="infobuttonsform"> <input type="hidden" name="grade" value="9"><input type="hidden" name="view" value="11"><input id="modsbutton" class="infobutton" type="submit" value="Mods"></form><form action="javascript:void(0)" class="infobuttonsform" id="settingshook"> <input type="hidden" name="grade" value="9"><input type="hidden" name="view" value="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec"><input id="settingsbutton" class="infobutton" type="submit" value="Settings"></form></div><br></span>
+<noscript>
+&lt;div id="name"&gt;No Javascript :(&lt;/div&gt;&lt;br&gt;&lt;div&gt;This website needs Javascript. Please re-enable it.&lt;/div&gt;
+</noscript>
+
+<script>
+
+var currentview ='';
+
+var decoder = document.createElement('textarea');
+
+
+function embedDynamicSchedule(elem,type,times,mods,modnames,modcolors){
+var key = decoder.value;
+if(elem){
+decoder.innerHTML = elem.innerHTML;
+key =decoder.value
+}else{
+key=null;
+}
+google.script.run.withSuccessHandler(
+function(result){
+if(currentview!=key){
+var schedule = document.getElementById('schedule');
+schedule.outerHTML=result;
+currentview = key;
+execute();
+}
+}
+).embedSchedule(type,key,times,mods,modnames,modcolors);
+}
+
+
+function addDynamicSchedule(){
+var schedule = document.getElementById('schedule');
+if(schedule){
+var keys = document.getElementsByClassName('key');
+var modcells = document.getElementsByClassName('mod');
+var empties = document.getElementsByClassName('empty');
+var timecells = document.getElementsByClassName('time');
+
+var times = [['','KEY','Sat Dec 30 1899 09:30:00 GMT-0600 (CST)','Sat Dec 30 1899 10:00:00 GMT-0600 (CST)','Sat Dec 30 1899 10:50:00 GMT-0600 (CST)','Sat Dec 30 1899 23:38:00 GMT-0600 (CST)','Sat Dec 30 1899 12:25:00 GMT-0600 (CST)','Sat Dec 30 1899 13:20:00 GMT-0600 (CST)','Sat Dec 30 1899 15:40:00 GMT-0600 (CST)','','','','','','','',]];
+var mods = [['','g1-12','GLM','MOD A','MOD C','MOD B','LUNCH','PMGLM','RND','','','','','','','',],['','g13-24','GLM','MOD B','MOD A','MOD C','LUNCH','PMGLM','RND','','','','','','','',],['','g25-37','GLM','MOD C','MOD B','MOD A','LUNCH','PMGLM','RND','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',],['','','','','','','','','','','','','','','','',]];
+var modnames = [['MOD A','Lab1 w/Bailey & Hardy','','',],['MOD B','LS22 w/Semifero & LOTE','','',],['MOD C','LS21 w/Gardner & Anjaneyan','','',],['MOD D','','','',],['MOD E','','','',],['GLM','Cafe','','',],['LUNCH','Lunch','','',],['RND','R&D Time','','',],['WORK','Workshop','','',],['LOTE','FR: Cube / SP: LS13','','',],['MOD E','','','',],['TBA','TBA','','',],['SPEC','Special Event','','',],['PMGLM','PM Grade Level Meeting at LS1','','',],['TITAN','Titan Time','','',],['','','','',]];
+var modcolors = [['#ff0000','#ff0000','#ff0000','#ff0000',],['#00ff00','#00ff00','#00ff00','#00ff00',],['#4a86e8','#4a86e8','#4a86e8','#4a86e8',],['#ffff00','#ffff00','#ffff00','#ffff00',],['#9900ff','#9900ff','#9900ff','#9900ff',],['#783f04','#783f04','#783f04','#783f04',],['#d9d9d9','#d9d9d9','#d9d9d9','#d9d9d9',],['#ff00ff','#ff00ff','#ff00ff','#ff00ff',],['#b7b7b7','#b7b7b7','#b7b7b7','#b7b7b7',],['#980000','#980000','#980000','#980000',],['#6d9eeb','#6d9eeb','#6d9eeb','#6d9eeb',],['#f3f3f3','#f3f3f3','#f3f3f3','#f3f3f3',],['#00ffff','#00ffff','#00ffff','#00ffff',],['#fce5cd','#fce5cd','#fce5cd','#fce5cd',],['#00ffff','#00ffff','#00ffff','#00ffff',],['#000000','#000000','#000000','#000000',]];
+if(times&&mods&&modnames&&modcolors){
+for(var i =0;i<keys.length;i++){
+var elem = keys[i];
+
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,3,times,mods,modnames,modcolors);};
+}
+for(var i =0;i<modcells.length;i++){
+var elem = modcells[i];
+
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,1,times,mods,modnames,modcolors);};
+}
+for(var i =0;i<timecells.length;i++){
+var elem = timecells[i];
+
+elem.onmousedown=function(event){
+if(event.stopPropagation){
+event.stopPropagation();
+}else{
+
+event.cancelBubble=true;
+}
+embedDynamicSchedule(event.toElement,2,times,mods,modnames,modcolors);};
+}
+schedule.onmousedown=function(event){embedDynamicSchedule(event.toElement,0,times,mods,modnames,modcolors);};
+}}
+}
+
+
+function addModSelector(){
+var schedule = document.getElementById('schedule');
+if(schedule){
+var keys = document.getElementsByClassName('key');
+var modcells = document.getElementsByClassName('mod');
+var empties = document.getElementsByClassName('empty');
+var timecells = document.getElementsByClassName('time');
+
+for(var i =0;i<modcells.length;i++){
+var elem = modcells[i];
+addModReference(elem);
+}
+}
+}
+
+function decode(name){
+decoder.innerHTML = name;
+return decoder.value;
+}
+
+function addModReference(elem){
+var attributes = '<input type="hidden"name="grade"value="9">';
+var mod = elem.innerHTML;
+var form = '<form class="'+mod+'"action="https://script.google.com/a/macros/mypisd.net/s/AKfycbyPbpXroqOvfIswWCPrdUKwS1Iv-Gx3rNPKQtto47e2NgTJwLm2/exec"><input type="hidden"name="grade"value="9"><input type="hidden"name="view"value="10"/><input type="hidden"name="mod"value="'+mod+'"/></form>';
+elem.innerHTML = mod+form;
+elem.onmousedown=function(){console.log(mod);document.getElementsByClassName(decode(mod))[0].submit();};
+}
+
+
+function generateImgDescription(){
+var imgdesc = document.getElementById("imgdesc");
+if(imgdesc){
+imgdesc.onmouseenter = function(event){
+document.body.style.opacity="0";
+document.getElementById("imgdesc").style.opacity="1 !important";
+imgdesc.style.opacity="1 !important;";
+console.log(imgdesc.style);
+};
+}
+}
+
+function calculateInfoButtonWidth(){
+}
+
+function execute(){
+addDynamicSchedule();
+
+calculateInfoButtonWidth();
+}
+</script>
+
+<script>
+
+
+
+(function(yourcode) {
+
+      
+      yourcode(window.jQuery, window, document);
+
+      }(function($, window, document) {
+
+                 console.log("Window loaded.");
+  
+          
+         execute();
+         
+         
+         hook = $("#settingshook");
+          addHookClickListener();
+
+      }
+  ));
+</script></body></html>
