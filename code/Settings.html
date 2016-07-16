@@ -39,10 +39,9 @@ var styles = [['','Normal','The standard theme which dynamically changes on hove
 ['simple','Fast','Special theme that sacrifices appearance for performance.']];//the first element of the nested array is the stylesheet name, while the second is what appears to the user.
 
 function close(){
-$("#settings").stop(true,true).css("width","20%").animate({width:"0%"},function(){
+$("#settings").stop(true,true).css("width","0%");
 //why arent i using fadeout()? because it jitters for some reason. this way is faster, but a bit messier.
-$("#shade").animate({opacity:"0"},function(){$(this).css("display","none")});
-});
+$("#shade").css("display","none");
 }
 
 //create the description for the currently selected theme. takes in <select> object which controls style.
@@ -58,9 +57,8 @@ function addThemeDescription(object){
 
 function addHookClickListener(){
 hook.stop(true,true).unbind().click(function(){
-$("#shade").css("display","inline").animate({opacity:"0.7"},function(){
-$("#settings").stop(true,true).animate({width:"20%"},500);
-});
+$("#shade").css("display","inline").css("opacity","0").css("opacity","0.7");
+$("#settings").stop(true,true).css("width","20%");
 });
 
 
