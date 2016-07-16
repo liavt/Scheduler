@@ -8,6 +8,8 @@ line-height: 1.65em;
     text-align: center;
    color: black;
    background-color: #AAAAFF;
+      background-repeat: no-repeat;
+   background-attachment: fixed;
    -webkit-background-size: 100% 100%;
   -moz-background-size: 100% 100%;
   -o-background-size: 100% 100%;
@@ -250,15 +252,23 @@ width: 100%;
 }
 
 .menubutton:hover{
- box-shadow: inset 0em -1.25em 0em -0.3125em #999 !important;
- background-color: #ABABAB !important;
-     background-position: center top; 
-     color:white;
+box-shadow: inset 0em -1.25em 0em -0.3125em #999 !important;
+background-color: #ABABAB !important;
+background-position: center top; 
+color:white;
 }
-
 
 #schedule{
 opacity: 1 !important;
+}
+
+ #schedule-tooltip{
+background-color: rgba(0,0,0,0);
+color: rgba(255,255,255,0);
+}
+
+#schedule:hover ~ #schedule-tooltip{
+ color: rgba(255,255,255,255) !important;
 }
 
 #homebutton{
@@ -306,8 +316,4 @@ background-image: url(https://raw.githubusercontent.com/liavt/Scheduler/master/r
 #imgdesc:hover ~ *{
 opacity: 0 !important;
 }
-
- @media all and (max-device-width: 768px) {
-    <?!=include('Mobile.html');?>
-  }
 </style>
