@@ -22,6 +22,13 @@ function include(filename) {
       .getContent();
 }
 
+/**
+Same as include(), however allows the output to be used in javascript by escpaing new lines.
+*/
+function includeMultiline(filename){
+  return include(filename).replace(/(?:\r\n|\r|\n)/g,"\\");
+}
+
 function getURL(){
   return url;
 }
@@ -73,7 +80,7 @@ function getEmbeddedScheduleButtons(){
   if(view.toString()!=VIEW_TYPE.MOD_SELECTOR.toString()&&view.toString()!=VIEW_TYPE.MOD.toString()){
     out+=getListAllModsButton();
   }
- out+=getSettingsHook();
+  out+=getSettingsHook();
   return out;
 }
 
@@ -157,8 +164,8 @@ function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor,temp
   Logger.log('HI');
   if(!embedtype){
     embedtype = EMBED_TYPE.ALL;
-  }
-  var out = '<div class="noanimation"id="schedule"><table><tr>';
+  }  
+  var out ='<div class="noanimation"id="schedule"><table><tr>';
   var color ='';
   var key='';
   if(!times&&timesarr){
@@ -205,54 +212,56 @@ function embedSchedule(embedtype,term,timesarr,modsarr,modsnamearr,modcolor,temp
   }
   out+='</tr>';
   for(var y = 0;y<mods.length;y++){
-    out+='<tr>';
-    for(var x=0;x<mods[y].length;x++){
-      if(mods[y][x]){
-        var modname = mods[y][x];
-        var color;
-        var class='mod cell';
-        if(!times[0][x]||times[0][x]=='KEY'){
-          modname = getFriendlyKeyName(modname);
-          key=modname;
-          class='key cell';
-          Logger.log(modname);
-          color = "#AAA";
-           if(embedtype.toString()==EMBED_TYPE.MOD.toString()||embedtype.toString()==EMBED_TYPE.TIME.toString()){
-          color = getDisabledColor(color);
-        }else if(embedtype.toString()==EMBED_TYPE.KEY.toString()){
-           if(key.toUpperCase()!=term.toUpperCase()){
-          color = getDisabledColor(color);
-           }
-        }
-        }else{
-          modname = getFullModName(modname);
-          color = getModColor(mods[y][x]);
-          if(!modname){
-            modname = '<i>'+modname+' is not a valid mod</i>';
+    if(mods[y]){
+      out+='<tr>';
+      for(var x=0;x<mods[y].length;x++){
+        if(mods[y][x]){
+          var modname = mods[y][x];
+          var color;
+          var class='mod cell';
+          if(!times[0][x]||times[0][x]=='KEY'){
+            modname = getFriendlyKeyName(modname);
+            key=modname;
+            class='key cell';
+            Logger.log(modname);
+            color = "#AAA";
+             if(embedtype.toString()==EMBED_TYPE.MOD.toString()||embedtype.toString()==EMBED_TYPE.TIME.toString()){
+            color = getDisabledColor(color);
+          }else if(embedtype.toString()==EMBED_TYPE.KEY.toString()){
+             if(key.toUpperCase()!=term.toUpperCase()){
+            color = getDisabledColor(color);
+             }
           }
-         if(embedtype.toString()==EMBED_TYPE.MOD.toString()){
-           if(modname.toUpperCase()!=term.toUpperCase()){
-          color = getDisabledColor(color);
-           }
-        }else if(embedtype.toString()==EMBED_TYPE.KEY.toString()){
-           if(key.toUpperCase()!=term.toUpperCase()){
-          color = getDisabledColor(color);
-           }
-        }else if(embedtype.toString()==EMBED_TYPE.TIME.toString()){
-          var date = new Date(times[0][x]);
-          var timetitle = (date.getHours() > 12? date.getHours()-12 : date.getHours())+ ':'+addZero(date.getMinutes());
-           if(timetitle!=term){
-          color = getDisabledColor(color);
-           }
+          }else{
+            modname = getFullModName(modname);
+            color = getModColor(mods[y][x]);
+            if(!modname){
+              modname = '<i>'+modname+' is not a valid mod</i>';
+            }
+           if(embedtype.toString()==EMBED_TYPE.MOD.toString()){
+             if(modname.toUpperCase()!=term.toUpperCase()){
+            color = getDisabledColor(color);
+             }
+          }else if(embedtype.toString()==EMBED_TYPE.KEY.toString()){
+             if(key.toUpperCase()!=term.toUpperCase()){
+            color = getDisabledColor(color);
+             }
+          }else if(embedtype.toString()==EMBED_TYPE.TIME.toString()){
+            var date = new Date(times[0][x]);
+            var timetitle = (date.getHours() > 12? date.getHours()-12 : date.getHours())+ ':'+addZero(date.getMinutes());
+             if(timetitle!=term){
+            color = getDisabledColor(color);
+             }
+          }
+          }
+          if(color==getDisabledColor()){
+            class+=' disabled';
+          }
+            out+='<td class="'+class+'"bgcolor="'+color+'">'+modname+'</td>';
         }
-        }
-        if(color==getDisabledColor()){
-          class+=' disabled';
-        }
-          out+='<td class="'+class+'"bgcolor="'+color+'">'+modname+'</td>';
       }
+      out+='</tr>';
     }
-    out+='</tr>';
   }
 	out+='</tr></table></div>';
   return out;
