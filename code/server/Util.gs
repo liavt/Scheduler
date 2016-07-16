@@ -239,3 +239,19 @@ function getDayNoun(day){
     return offset+' days from now';
   }
 }
+
+function getGlobalAnnouncement(){
+  const out = globalSettings.getActiveSheet().getRange(2,1).getValue();
+  Logger.log("Todays global announcement: "+out);
+  if(out){
+  return '<div class="noanimation">'+out+'</div><br>';
+  }else return '';
+}
+
+function getLocalAnnouncement(){
+  const out = sheet.getRange(y-1/*the y-1 is because it is next to the name*/,2).getValue();
+  if(out){
+    return '<i>'+out+'</i>';
+  }
+  return '';
+}
