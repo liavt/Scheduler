@@ -9,11 +9,7 @@ Halloween
 New Years
 Thanksgiving
 Last day of school
-*/
-
-/*
-If you are wondering where all the HTML files went, they are now hosted on the github, so you can use other IDE's for this.
-The JS still has to be hosted here, as I havent figured out how to dynamically load JS yet.
+First day of school
 */
 
  /*** Variables ***/
@@ -40,6 +36,8 @@ var day;
 var y;
 var style;
 var query;
+
+var globalSettings;
 
 /**
 *What to show, based on GET query
@@ -157,6 +155,7 @@ var DIMENSIONS = {
      SEARCH_TYPE.COHORT=3;
      SEARCH_TYPE.GROUP=4;
    }
+   globalSettings = SpreadsheetApp.openByUrl("https://docs.google.com/a/pisd.edu/spreadsheets/d/1XKQyOwfKj0sW1wQiQTZL5hBZXgYo4Oz8Eyo2n03XCX0/edit?usp=sharing");
    Logger.log("Variables have been created");
  }
 
@@ -170,7 +169,7 @@ function viewLearnerSchedule(querystring){
     if (id != -1) {
         // Return the normal data
       //pullBackground();
-      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><br><div class="noanimation"><img src="https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png"width="20em"height="100%">Is this you? If so, for a more personalized experience, click the star at the bottom of the page</div><br><div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule()+'<br>'+getInfoButtons(id);
+      return '<div id="name"><p>'+capitalizeFirstLetter(firstName)+' ' + capitalizeFirstLetter(lastName) + '</p></div><br><div class="noanimation"><img src="https://raw.githubusercontent.com/liavt/Scheduler/master/res/star-gold.png"width="20em"height="100%">Is this you? If so, for a more personalized experience, click the star at the bottom of the page</div><br>'+getGlobalAnnouncement()+'<div><p>' + getSchedule(id) + '</p></div><br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
@@ -187,11 +186,11 @@ function viewPersonalizedSchedule(querystring){
     var id = findPersonByName(firstName, lastName);
     if (id != -1) {
         // Return the normal data
-      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br><div class="personalized"><p><h1>Here\'s your schedule for '+getDayNoun(day)+':</h1><p id="personalized-schedule">' + getSchedule(id) + '</p></p></div>'+getUpdateScript(id)+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
+      return pullBackground()+'<div id="name"class="personalized"><p>'+getGreeting()+', ' + capitalizeFirstLetter(firstName) + '</p></div><br>'+getGlobalAnnouncement()+'<div class="personalized"><p><h1>Here\'s your schedule for '+getDayNoun(day)+':</h1><p id="personalized-schedule">' + getSchedule(id) + '</p></p></div>'+getUpdateScript(id)+getQuoteOfTheDay()+'<br>' + embedSchedule()+'<br>'+getInfoButtons(id);
     } else {
         // Invalid user
         // Return an error message
-        return '<div id="name">'+capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found.</div><br><div>You shouldn\'t have gotten here anyways. Unless you\'re a hacker.</div>';
+        return '<div id="name">'+capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName) + ' was not found.</div>';
     }
 }
 
@@ -225,7 +224,7 @@ function viewModSchedule(query){
   if(!mod){
     return getErrorPage(404,'\'mod\' parameter not found in URL');
   }
-  return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div><br>'+embedSchedule(EMBED_TYPE.MOD,mod)+'<br>'+getEmbeddedScheduleButtons();
+  return '<div id="name">'+mod+'</div><br><div>'+getScheduleForMod(mod)+'</div><br>'+embedSchedule(EMBED_TYPE.MOD,mod)+'<br><div id="infobuttons"class="noanimation">'+getEmbeddedScheduleButtons()+'</div>';
 }
 
 function getDay(){
@@ -237,7 +236,7 @@ function viewAboutPage(){
 }
 
 function viewModSelection(){
-  return '<div id="name">Click on a mod cell to view info about it.</div><br>'+embedSchedule()+'<br>'+getEmbeddedScheduleButtons();
+  return '<div id="name">Click on a mod cell to view info about it.</div><br>'+embedSchedule()+'<br><div id="infobuttons"class="noanimation">'+getEmbeddedScheduleButtons()+'</div>';
 }
 
 function processQuery(querystring) {
@@ -524,7 +523,7 @@ function getScheduleForMod(name){
 
 function viewFullSchedule(){
   var date = new Date();
-  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+embedSchedule()+'<br><div id="infobuttons"class="noanimation">'+getEmbeddedScheduleButtons()+'</div>';
+  return '<div id="name">Schedule for '+(date.getMonth()+1)+'/'+getDayOfTheMonth()+'</div><br>'+getGlobalAnnouncement()+embedSchedule()+'<br><div id="infobuttons"class="noanimation">'+getEmbeddedScheduleButtons()+'</div>';
 }
 
 //removing this function distrupts the balance
