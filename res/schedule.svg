@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32mm"
-   height="32mm"
-   viewBox="0 0 113.38582 113.38582"
-   id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="schedule.svg">
+   id="svg2"
+   viewBox="0 0 113.38582 113.38582"
+   height="32mm"
+   width="32mm">
   <defs
      id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#b6ffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.12"
-     inkscape:cx="50.66728"
-     inkscape:cy="76.716149"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -49,44 +25,42 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-938.97638)">
+     transform="translate(0,-938.97638)"
+     id="layer1">
     <rect
-       style="fill:#ffffff"
-       id="rect4152"
-       width="47.65168"
-       height="30.742981"
+       y="1015.8549"
        x="7.6857548"
-       y="1015.8549" />
+       height="30.742981"
+       width="47.65168"
+       id="rect4152"
+       style="fill:#ffffff" />
     <rect
-       style="fill:#ffffff"
-       id="rect4152-8"
-       width="47.651676"
-       height="30.742977"
+       y="1015.8549"
        x="59.948883"
-       y="1015.8549" />
-    <rect
-       style="fill:#ffffff"
-       id="rect4152-2"
-       width="47.651676"
        height="30.742977"
+       width="47.651676"
+       id="rect4152-8"
+       style="fill:#ffffff" />
+    <rect
+       y="979.92688"
        x="7.3781476"
-       y="979.92688" />
+       height="30.742977"
+       width="47.651676"
+       id="rect4152-2"
+       style="fill:#ffffff" />
     <rect
-       style="fill:#ffffff"
-       id="rect4152-8-1"
-       width="47.651672"
-       height="30.742973"
+       y="979.92688"
        x="59.64127"
-       y="979.92688" />
-    <rect
-       style="fill:#ffffff"
-       id="rect4152-2-7"
-       width="47.651672"
        height="30.742973"
+       width="47.651672"
+       id="rect4152-8-1"
+       style="fill:#ffffff" />
+    <rect
+       y="944.87341"
        x="7.1516628"
-       y="944.87341" />
+       height="30.742973"
+       width="47.651672"
+       id="rect4152-2-7"
+       style="fill:#ffffff" />
   </g>
 </svg>

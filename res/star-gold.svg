@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32mm"
-   height="32mm"
-   viewBox="0 0 113.38583 113.38583"
-   id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="star-gold.svg">
+   id="svg2"
+   viewBox="0 0 113.38583 113.38583"
+   height="32mm"
+   width="32mm">
   <defs
      id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#73ffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="3.5750909"
-     inkscape:cx="55.409039"
-     inkscape:cy="50.051946"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1008"
-     inkscape:window-x="-7"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -49,28 +25,19 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-938.97638)">
+     transform="translate(0,-938.97638)"
+     id="layer1">
     <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:44.29999924;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4140"
-       width="0"
-       x="10.789961"
+       height="41.777149"
        y="971.80487"
-       height="41.777149" />
-    <circle
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.29999995;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4148"
-       cx="78.739258"
-       cy="973.62299"
-       r="25.593754" />
-    <circle
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:28.50000191;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4148-5"
-       cx="77.760262"
-       cy="973.48303"
-       r="25.593756" />
+       x="10.789961"
+       width="0"
+       id="rect4140"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:44.29999924;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       transform="matrix(0.66159373,0.24277557,-0.24277557,0.66159373,259.83594,341.07385)"
+       d="m 54.547146,980.77743 -3.513783,5.19015 -0.208454,-6.26425 -6.021939,-1.73796 5.893239,-2.13401 -0.20798,-6.26427 3.850676,4.94536 5.8934,-2.13357 -3.51339,5.19041 3.850302,4.94565 z"
+       id="path4138"
+       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:#fff400;stroke-width:44.30057348;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32mm"
-   height="32mm"
-   viewBox="0 0 113.38583 113.38583"
-   id="svg4198"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="LOTE.svg">
+   id="svg4198"
+   viewBox="0 0 113.38583 113.38583"
+   height="32mm"
+   width="32mm">
   <defs
      id="defs4200" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#a6ffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.2883731"
-     inkscape:cx="39.405978"
-     inkscape:cy="43.630751"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1008"
-     inkscape:window-x="-7"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
   <metadata
      id="metadata4203">
     <rdf:RDF>
@@ -49,31 +25,27 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-938.97638)">
+     transform="translate(0,-938.97638)"
+     id="layer1">
     <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:170.2401886px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="4.5778794"
-       y="1076.7184"
+       transform="scale(1.0384202,0.96300129)"
        id="text4746"
-       sodipodi:linespacing="125%"
-       transform="scale(1.0384202,0.96300129)"><tspan
-         sodipodi:role="line"
-         id="tspan4748"
+       y="1076.7184"
+       x="4.5778794"
+       style="font-style:normal;font-weight:normal;font-size:170.2401886px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="1076.7184"
          x="4.5778794"
-         y="1076.7184">א</tspan></text>
+         id="tspan4748">א</tspan></text>
     <flowRoot
-       xml:space="preserve"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"
        id="flowRoot4750"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+       xml:space="preserve"><flowRegion
          id="flowRegion4752"><rect
-           id="rect4754"
-           width="34.229683"
-           height="44.391621"
+           y="49.740009"
            x="42.787106"
-           y="49.740009" /></flowRegion><flowPara
-         id="flowPara4756"></flowPara></flowRoot>  </g>
+           height="44.391621"
+           width="34.229683"
+           id="rect4754" /></flowRegion><flowPara
+         id="flowPara4756" /></flowRoot>  </g>
 </svg>

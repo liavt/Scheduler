@@ -1,62 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32mm"
-   height="32mm"
-   viewBox="0 0 113.38583 113.38583"
-   id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="search.svg">
+   id="svg2"
+   viewBox="0 0 113.38583 113.38583"
+   height="32mm"
+   width="32mm">
   <defs
      id="defs4">
     <mask
-       maskUnits="userSpaceOnUse"
-       id="mask4234">
+       id="mask4234"
+       maskUnits="userSpaceOnUse">
       <circle
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:8.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="circle4236"
-         cx="79.342552"
+         r="25.593756"
          cy="973.48303"
-         r="25.593756" />
+         cx="79.342552"
+         id="circle4236"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:8.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </mask>
     <mask
-       maskUnits="userSpaceOnUse"
-       id="mask4238">
+       id="mask4238"
+       maskUnits="userSpaceOnUse">
       <circle
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:8.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="circle4240"
-         cx="79.342552"
+         r="25.593756"
          cy="973.48303"
-         r="25.593756" />
+         cx="79.342552"
+         id="circle4240"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:8.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </mask>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#73ffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.2639855"
-     inkscape:cx="-17.435227"
-     inkscape:cy="69.865812"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1008"
-     inkscape:window-x="-7"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -70,33 +46,31 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-938.97638)">
+     transform="translate(0,-938.97638)"
+     id="layer1">
     <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:43.42219802;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4140"
-       width="0"
-       x="10.789961"
-       y="971.80487"
+       mask="url(#mask4238)"
        height="41.777149"
-       mask="url(#mask4238)" />
+       y="971.80487"
+       x="10.789961"
+       width="0"
+       id="rect4140"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:43.42219802;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <circle
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.23460956;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4148"
-       cx="78.739258"
-       cy="973.62299"
+       mask="url(#mask4234)"
        r="25.593754"
-       mask="url(#mask4234)" />
+       cy="973.62299"
+       cx="78.739258"
+       id="path4148"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.23460956;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4144"
-       width="75.352898"
-       height="2.763206"
-       x="-732.01996"
-       y="743.86969"
+       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
        ry="0"
-       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)" />
+       y="743.86969"
+       x="-732.01996"
+       height="2.763206"
+       width="75.352898"
+       id="rect4144"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.30000019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

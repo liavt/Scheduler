@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32mm"
-   height="32mm"
-   viewBox="0 0 113.38583 113.38583"
-   id="svg4758"
-   version="1.1"
-   inkscape:version="0.91 r13725"
    shape-rendering="crispEdges"
-   sodipodi:docname="info-unfilled.svg">
+   version="1.1"
+   id="svg4758"
+   viewBox="0 0 113.38583 113.38583"
+   height="32mm"
+   width="32mm">
   <defs
      id="defs4760">
     <mask
-       maskUnits="userSpaceOnUse"
-       id="mask5355">
+       id="mask5355"
+       maskUnits="userSpaceOnUse">
       <ellipse
-         ry="32.548534"
-         rx="32.351315"
-         cy="998.58026"
-         cx="17.454432"
-         id="ellipse5357"
+         transform="matrix(0.9992269,-0.03931418,0.03931418,0.9992269,0,0)"
          style="opacity:1;fill:#1a1a1a;fill-opacity:1;stroke:#ffffff;stroke-width:34.20292664;stroke-miterlimit:4;stroke-dasharray:none"
-         transform="matrix(0.9992269,-0.03931418,0.03931418,0.9992269,0,0)" />
+         id="ellipse5357"
+         cx="17.454432"
+         cy="998.58026"
+         rx="32.351315"
+         ry="32.548534" />
     </mask>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#c0ffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="64.087294"
-     inkscape:cy="61.687001"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata4763">
     <rdf:RDF>
@@ -63,25 +39,19 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
+     style="display:inline"
      transform="translate(0,-938.97638)"
-     style="display:inline">
+     id="layer1">
     <text
-       sodipodi:linespacing="125%"
-       id="text4327"
-       y="1028.1427"
-       x="44.848221"
+       xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:90px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       xml:space="preserve"><tspan
-         y="1028.1427"
-         x="44.848221"
+       x="44.848221"
+       y="1028.1427"
+       id="text4327"><tspan
          id="tspan4329"
-         sodipodi:role="line">i</tspan></text>
+         x="44.848221"
+         y="1028.1427">i</tspan></text>
   </g>
   <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Layer 2" />
+     id="layer2" />
 </svg>
