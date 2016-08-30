@@ -284,7 +284,7 @@ function doGet(e) {
     var tempDay = getParameterByName('day', query);
 
     if (!tempGrade) {
-        html = getErrorPage(422, 'Parameter \'grade\' not found. <br>This happens when the URL is wrong.');
+        html = getErrorPage(422, 'Parameter \'grade\' not found. This happens when the URL is wrong.');
     } else {
         var currentday = new Date().getDay();
         if ((currentday <= 0 || currentday > 5) || (tempDay && (tempDay <= 0 || tempDay > 5))) {
