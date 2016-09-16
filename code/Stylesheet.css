@@ -1,12 +1,4 @@
 <style id="main-stylesheet">
-/*When the page loads, this class is quickly added and removed. otherwise, it looks ugly as if its having a seizure*/
-.notransition * {
-    -webkit-transition: none !important; 
-  -moz-transition: none !important; 
-  -o-transition: none !important; 
-  -ms-transition: none !important; 
-  transition: none !important; 
-}
 
 html, body { height: 100%; }
 
