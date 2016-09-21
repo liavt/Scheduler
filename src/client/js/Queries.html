@@ -1,0 +1,124 @@
+<script>
+//defines an array of QUERIES for teachers to specify which student goes to which row. if all QUERIES return true (or false if they are inversed with ~), then that student will go to that schedule row
+var QUERIES = [
+  [
+  'group',
+  function(id,firstRange,secondRange){
+    var group = parseInt(peoplenames[id][<?=SEARCH_TYPE.GROUP?>]);
+    if(group>=parseInt(firstRange)&&group<=parseInt(secondRange)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  ],
+  [
+  'cohort',
+  function(id,firstRange,secondRange){
+    var input = (peoplenames[id][<?=SEARCH_TYPE.COHORT?>]).toString().toLowerCase();
+    //in order to have an input of `a` match anything that starts with a, we simply make the second range end with z, so it would match anything. so an input of `a` would actually check for `a-az`
+    if(firstRange==secondRange)secondRange = secondRange+'z';
+    return input>=firstRange.toString().toLowerCase()&&input<=secondRange.toString().toLowerCase();
+  }
+  ],
+  [
+  'lote',
+  function(id,firstRange,secondRange){
+    var input = (peoplenames[id][<?=SEARCH_TYPE.LOTE?>]).toString().toLowerCase();
+    //in order to have an input of `a` match anything that starts with a, we simply make the second range end with z, so it would match anything. so an input of `a` would actually check for `a-az`
+    if(firstRange==secondRange)secondRange = secondRange+'z';
+    return input>=firstRange.toString().toLowerCase()&&input<=secondRange.toString().toLowerCase();
+  }
+  ],
+  [
+  'firstname',
+  function(id,firstRange,secondRange){
+    var input = (peoplenames[id][<?=SEARCH_TYPE.FIRSTNAME?>]).toString().toLowerCase();
+    //in order to have an input of `a` match anything that starts with a, we simply make the second range end with z, so it would match anything. so an input of `a` would actually check for `a-az`
+    if(firstRange==secondRange)secondRange = secondRange+'z';
+    return input>=firstRange.toString().toLowerCase()&&input<=secondRange.toString().toLowerCase();
+  }
+  ],
+  [
+  'lastname',
+  function(id,firstRange,secondRange){
+    var input = (peoplenames[id][<?=SEARCH_TYPE.LASTNAME?>]).toString().toLowerCase();
+    //in order to have an input of `a` match anything that starts with a, we simply make the second range end with z, so it would match anything. so an input of `a` would actually check for `a-az`
+    if(firstRange==secondRange)secondRange = secondRange+'z';
+    return input>=firstRange.toString().toLowerCase()&&input<=secondRange.toString().toLowerCase();
+  }
+  ]
+];
+
+function checkKey(personID,key){
+  key = key.split('&');
+  var queryMap = [];
+  for(var i =0;i<key.length;i++){
+    var colonIndex = key[i].indexOf(':');//dont get colon cancer
+    var query = key[i].substring(0,colonIndex);
+    var mapIndex = -1;
+    for(var mapIter = 0;mapIter<QUERIES.length;mapIter++){
+      if(queryMap[mapIter]&&query==queryMap[mapIter][0])mapIndex = mapIter;
+    }
+    if(mapIndex<0){
+      //not found in map, create an entry
+      mapIndex = queryMap.length;
+      queryMap[mapIndex] = [query,Array()];
+    }
+    //add it to the map
+    queryMap[mapIndex][1].push(key[i].substring(colonIndex+1));
+  }
+  
+  //actually run the QUERIES
+  for(var mapIter = 0;mapIter<queryMap.length;mapIter++){
+    for(var queryIter =1;queryIter<queryMap[mapIter].length;queryIter++){
+      var passed = false;//this is whether the specified query passes or not
+      for(var iter = 0;iter<queryMap[mapIter][queryIter].length;iter++){
+        var key = queryMap[mapIter][queryIter][iter];
+        var query = queryMap[mapIter][0];
+        var inversed = false;
+
+        //check if its an inversed query
+        if(query.substring(0,1)=='~'){
+          query = query.substring(1);
+          inversed=true;
+        }
+        
+        var firstRange,secondRange;
+        var hypenIndex = key.indexOf('-');
+        if(hypenIndex==-1){
+          firstRange = key;
+          secondRange = firstRange;
+        }else{
+          var splitquery = key.split('-');
+          firstRange = splitquery[0];
+          secondRange = splitquery[1];
+        }
+        
+        for(var queryIndex = 0;queryIndex<QUERIES.length;queryIndex++){
+          if(QUERIES[queryIndex][0]==query){
+            var result = QUERIES[queryIndex][1](personID,firstRange,secondRange);
+            //if its inversed, it will return false
+            if(result!=inversed)passed=true;
+          }
+        }
+      }
+      if(!passed)return false;
+    }
+  }
+  
+  //it will return false if it is ever false
+  return true;
+}
+
+function getFriendlyKeyName(key){
+ var splitKeys = key.split('&');
+  var out = '';
+  for(var i =0;i<splitKeys.length;i++){
+    if(splitKeys[i].substring(0,1)=='~')out+='not ';
+    out+= splitKeys[i].substring(splitKeys[i].indexOf(':')+1).replace('-',' - ');
+    if(i!=splitKeys.length-1)out+=' & ';
+  }
+  return out;
+}
+</script>

@@ -5,24 +5,23 @@ Search Topics
 </div>
 <br>
 <div>
-  <form action="<?!= getURL(); ?>">
+  <form action="<?= getURL(); ?>">
     <?!= getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="2" />
         <input type="hidden" name="type" value="2" />
-    <input type="submit" value="<?!=getSearchTypeName(2); ?>">
+    <input type="submit" value="<?=getSearchTypeName(2); ?>">
 </form>
-  <form action="<?!= getURL(); ?>">
-    <?!= getCurrentAttribute(); ?>
+  <form action="<?= getURL(); ?>">
+    <?! getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="2" />
         <input type="hidden" name="type" value="3" />
-    <input type="submit" value="<?!=getSearchTypeName(3); ?>">
+    <input type="submit" value="<?=getSearchTypeName(3); ?>">
 </form>
-  <form action="<?!= getURL(); ?>">
+  <form action="<?= getURL(); ?>">
     <?!= getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="2" />
         <input type="hidden" name="type" value="4" />
-    <input type="submit" value="<?!=getSearchTypeName(4); ?>">
+    <input type="submit" value="<?=getSearchTypeName(4); ?>">
 </form>
 </div>
-
 

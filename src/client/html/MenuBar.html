@@ -1,49 +1,49 @@
 <!--
-This file defines the top menu selector with the cool CSS buttons. A lot of scriplets for communication
-with the server are used here.
+This file defines the top menu selector with the cool CSS buttons. A lot of scriplets are used to define constants at compile time
 -->
 
 <!--Actual menu bar-->
 <div id="menubar">
-  <form action="<?!= getURL(); ?>"class="menuform">
+  <form action="<?= getURL(); ?>"class="menuform">
     <?!= getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="8" />
     <input type="submit" id="homebutton"class="menubutton"value="Home"/>
 </form>
-  <form action="<?!= getURL(); ?>"class="menuform">
+  <form action="<?= getURL(); ?>"class="menuform">
     <?!= getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="6" />
-    <input type="submit" id="schedulebutton"class="menubutton"value="Schedule"/>
+    <input type="submit" id="modsbutton"class="menubutton"value="Schedule"/>
 </form>
-  <form action="<?!= getURL(); ?>"class="menuform">
+  <form action="<?= getURL(); ?>"class="menuform">
     <?!= getCurrentAttribute(); ?>
     <input type="hidden" name="view" value="4" />
     <input type="submit" id="personbutton"class="menubutton"value="Learners"/>
 </form>
 <!-- If there are no groups, don't show the group button -->
 <?    if(peoplenames){ var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.GROUP);if(arr.length>1){?>
-  <form action="<?!= getURL(); ?>"class="menuform">
+  <form action="<?= getURL(); ?>"class="menuform">
      <?!= getCurrentAttribute(); ?>
          <input type="hidden" name="view" value="2" />
-                  <input type="hidden" name="type" value="<?!=getGroupID();?>" />
+                  <input type="hidden" name="type" value="<?=getGroupID();?>" />
     <input type="submit" id="groupsbutton"class="menubutton"value="Groups">
 </form>
 <? } }?>
-  <form action="<?!= getURL(); ?>"class="menuform">
+<?    if(peoplenames){ var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.LOTE);if(arr.length>1){?>
+  <form action="<?= getURL(); ?>"class="menuform">
      <?!= getCurrentAttribute(); ?>
      <input type="hidden" name="view" value="2" />
-     <input type="hidden" name="type" value="<?!=getLOTEID();?>" />
+     <input type="hidden" name="type" value="<?=getLOTEID();?>" />
     <input type="submit" id="lotebutton"class="menubutton"value="LOTEs">
 </form>
-  <form action="<?!= getURL(); ?>"class="menuform">
+<? }}?>
+<?    if(peoplenames){ var arr = filterOutDuplicates(peoplenames,SEARCH_TYPE.COHORT);if(arr.length>1){?>
+
+  <form action="<?= getURL(); ?>"class="menuform">
      <?!= getCurrentAttribute(); ?>
      <input type="hidden" name="view" value="2" />
-     <input type="hidden" name="type" value="<?!=getCohortID();?>" />
-    <input type="submit" id="cohortsbutton"class="menubutton"value="<?!= getGradeClassName();?>s">
+     <input type="hidden" name="type" value="<?=getCohortID();?>" />
+    <input type="submit" id="cohortsbutton"class="menubutton"value="<?= getGradeClassName();?>s">
 </form>
-  <form action="<?!= getURL(); ?>"class="menuform">
-     <?!= getCurrentAttribute(); ?>
-         <input type="hidden" name="view" value="7" />
-    <input type="submit" id="searchbutton"class="menubutton"value="Search">
-</form>
+<? } } ?>
 </div>
+<h1 id="loading">Loading...</h1>

@@ -1,4 +1,10 @@
 <style>
+
+::selection {
+  background: #ffb84d;
+  color: black;
+}
+
 body{
 background-color: #444;
 }
@@ -6,6 +12,22 @@ background-color: #444;
 div,#imgdesc{
 color:white;
  background-color: #111;
+}
+
+a{
+color: rgb(120,120,255);
+}
+
+a::selection{
+color: rgb(10,10,100);
+}
+
+a:visited{
+color: rgb(255,100,100);
+}
+
+a:visited::selection{
+color: rgb(100,10,10);
 }
 
 #imgdesc:hover{

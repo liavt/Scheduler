@@ -1,0 +1,30 @@
+<span style="width:100%; height: 100%;">
+  <div id="settings">
+    <h1 id="settings-title">Settings</h1>
+      <strong>Theme:</strong>
+        <select name="style"id="settings-style-selector">
+          <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+        </select>
+        <small>
+          <i>
+             <p id="settings-style-description"></p>
+          </i>
+      </small>
+      <strong>Add a hidden theme</strong>
+      <input type="text"id="hidden-selector"/>
+      <input type="submit"value="Add"id="hidden-submit"onclick="addHiddenTheme()"/>
+      <br>
+      <br>
+      <form action="<?= getURL(); ?>"id="settings-form">
+        <strong>Day:</strong>
+        <select id="settings-day-selector">
+          <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+        </select>
+        <br>
+        <input type="submit"id="submit-settings-button"value="Apply"/>
+        <input type="reset"id="cancel-settings-button"value="Cancel"/>
+      </form>
+      <br>
+  </div>
+</span>
+<span id="shade"></span>
