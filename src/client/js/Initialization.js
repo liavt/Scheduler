@@ -42,11 +42,15 @@ function getDay(){
     }
 }
 
+function reset(){
+    setCookie("grade","");
+    setCookie("day","");
+    init();
+}
+
 function onSignIn(googleUser){
     pushView(VIEW_TYPE.MESSAGE,"Fetching your schedule...");
     var id_token = googleUser.getAuthResponse().id_token;
-    
-    console.log(id_token);
     
     var settings = {
       "async": true,
@@ -67,11 +71,10 @@ function onSignIn(googleUser){
     
     $.ajax(settings).done(function (response) {
         var json = JSON.parse(response);
-        console.log(json["failed"]);
         if(json.failed){
-            pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Retry'onclick='loadGoogleApi()'/>");
+            pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }else{
-            updatePage(response);
+            updatePage(json);
         }    
     });
 
@@ -79,7 +82,7 @@ function onSignIn(googleUser){
 }
 
 function viewLogin(auth2){
-  var html = '<span id="login"><div><br><h1>Welcome to Scheduler!</h1><br>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
+  var html = '<span id="login"><div><br><h1>'+getGrade()+'th Grade Sign In</h1><br>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
   pushView(VIEW_TYPE.PAGE,html);
   
   //we are using getElementById instead of JQuery because that is what the google api accepts
@@ -119,39 +122,39 @@ function loadGoogleApi(){
   });
 }
 
-//this is the best way to do jquery, as it maximizes load times, and is more compatible (for example, if jquery isn't actually an $!)
-(function(yourcode) {
-
-      // The global jQuery object is passed as a parameter
-      yourcode(window.jQuery, window, document);
-
-      }(function($, window, document) {
-  
-        console.log("Window loaded.");
-        var grade = getGrade();
-        if(!grade||isNaN(grade)){
-            
-            
-            var html = "<div id='name'>Welcome!</div><br>";
-            html += "<div>Please select your grade level:<br>";
-            html += "<select id='grade'><option value='9'>9th</option><option value='10th'>10th</option></select>";
-            html += "<br><br><input type='submit'id='grade-submit'/></div>";
-            
-            pushView(VIEW_TYPE.PAGE,html);
-            
-            $("#grade-submit").click(function(){
-                setCookie("grade",$("#grade").val());
-                
-                window.location.href = window.location.pathname + window.location.search + window.location.hash;
-            });
-        }else{
-         
-            pushView(VIEW_TYPE.MESSAGE,'Generating Theme...');
-         
-            loadGoogleApi();
-         
-            loadData();
+function init(){
+    if (window.location.protocol !== 'https:') {
+        //redirect to https
+        window.location = 'https://' + window.location.hostname + window.location.pathname + window.location.hash;
+    }
+    
+    console.log("Initializing");
+    var grade = getGrade();
+    if(!grade||isNaN(grade)){
         
-        }
-      }
-  ));
+        
+        var html = "<div id='name'>Welcome!</div><br>";
+        html += "<div>Please select your grade level:<br>";
+        html += "<select id='grade'><option value='9'>9th</option><option value='10'>10th</option></select>";
+        html += "<br><br><input type='submit'id='grade-submit'/></div>";
+        
+        pushView(VIEW_TYPE.PAGE,html);
+        
+        $("#grade-submit").click(function(){
+            setCookie("grade",$("#grade").val());
+            
+            init();
+        });
+    }else{
+     
+        pushView(VIEW_TYPE.MESSAGE,'Generating Theme...');
+     
+        loadGoogleApi();
+     
+        loadData();
+    
+    }
+}
+
+//actually run it
+$(init);

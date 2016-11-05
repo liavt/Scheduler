@@ -1,130 +1,121 @@
-/*When the page loads, this class is quickly added and removed. otherwise, it looks ugly as if its having a seizure*/
-.notransition * {
-    -webkit-transition: none !important; 
-  -moz-transition: none !important; 
-  -o-transition: none !important; 
-  -ms-transition: none !important; 
-  transition: none !important; 
+html, body {
+    height: 100%;
 }
 
-html, body { height: 100%; }
-
 body{
-visibility: hidden;
-font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included in Head.html*/
-line-height: 1.65em;
+    visibility: hidden;
+    font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included in Head.html*/
+    line-height: 1.65em;
     text-align: center;
-   color: black;
-   background-color: #AAAAFF;
-       /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height:100%;
+    color: black;
+    background-color: #AAAAFF;
     /*Without the following lines of code, the website doesn't scroll on IPhone. Stupid Apple*/
-     overflow: scroll;
--webkit-overflow-scrolling: touch;
-overflow-x: hidden;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+}
+
+div, .infobutton, select, input{
+    transition: all 0.3s ease 0s;
 }
 
 div, .infobutton{
-              box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+    transition: all 0.3s ease 0s;
+    box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
 }
 
 select{
-background-color: #CCC;
+    background-color: #CCC;
 }
 
 select:hover{
- box-shadow: inset 0em -2em 0em 0em #999;
+    box-shadow: inset 0em -2em 0em 0em #999;
 }
 
 select option:hover{
-  background-color: #BBB;
-  color:white!important;
+    background-color: #BBB;
+    color:white!important;
 }
 
 input{
-text-align: center;
+    text-align: center;
 }
 
 input:hover :not(input[type="checkbox"]){
- box-shadow: inset 0em 0em 0em 1em #CCC;
+    box-shadow: inset 0em 0em 0em 1em #CCC;
 }
 
 input[type="reset"]:hover{
- box-shadow: inset 0em 0em 0em 1em #A00;
+    box-shadow: inset 0em 0em 0em 1em #A00;
 }
 
 input[type="submit"]:hover{
- box-shadow: inset 0em 0em 0em 1em #999;
-
+    box-shadow: inset 0em 0em 0em 1em #999;
 }
 
 #settings,#imgdesc{
-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
 }
 
 
 div{
-  opacity: 0.7 ;
-  border-radius: 0.25em;
-  width:70%;
-  margin: auto;
-  background-color: white ;
+    opacity: 0.7 ;
+    border-radius: 0.25em;
+    width:70%;
+    margin: auto;
+    background-color: white ;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0.5em;
-  table-layout:fixed;
-  margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0.5em;
+    table-layout:fixed;
+    margin: 0 auto;
 }
 
 td, tr, table{
-  word-wrap: break-word;
-  overflow: auto; 
-  border: solid;
-  border-width: 0.2em 0.01em;
-  font-weight: 500;
+    word-wrap: break-word;
+    overflow: auto; 
+    border: solid;
+    border-width: 0.2em 0.01em;
+    font-weight: 500;
 }
     
 table tr:last-child { 
-  border-bottom: none; 
+    border-bottom: none; 
 }
 
 div:hover{
-  opacity:1;
+    opacity:1;
 }
 
 p{
-  padding:0.0625em;
+    padding:0.0625em;
 }
 
 b{
-  font-weight:700;
+    font-weight:700;
 }
 
 #infobuttons{
-background-color: rgba(0,0,0,0);
-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
-height:5em;
-width: 70% !important;
-opacity: 1 !important;
+    background-color: rgba(0,0,0,0);
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    height:5em;
+    width: 70% !important;
+    opacity: 1 !important;
 }
 
 .infobuttonsform{
-height:100%;
-display: inline;
+    height:100%;
+    display: inline;
 }
 
 .infobutton{
-display: inline;
-height: 100% !important;
-float: center;
-color: rgba(0,0,0,0);
-         background-repeat: no-repeat;
+    display: inline;
+    height: 100% !important;
+    float: center;
+    color: rgba(0,0,0,0);
+    background-repeat: no-repeat;
     background-position: center; 
     background-color: #BBBBBB;
     border-style:none;
@@ -134,23 +125,23 @@ color: rgba(0,0,0,0);
 }
 
 .infobutton:hover{
-background-position: left;
-color: white;
+    background-position: left;
+    color: white;
     background-color: #AAAAAA;
 }
 
 #star{
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB2ZXJzaW9uPSIxLjEiICAgaWQ9InN2ZzIiICAgdmlld0JveD0iMCAwIDExMy4zODU4MyAxMTMuMzg1ODMiICAgaGVpZ2h0PSIzMm1tIiAgIHdpZHRoPSIzMm1tIj4gIDxkZWZzICAgICBpZD0iZGVmczQiIC8+ICA8bWV0YWRhdGEgICAgIGlkPSJtZXRhZGF0YTciPiAgICA8cmRmOlJERj4gICAgICA8Y2M6V29yayAgICAgICAgIHJkZjphYm91dD0iIj4gICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PiAgICAgICAgPGRjOnR5cGUgICAgICAgICAgIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiIC8+ICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4gICAgICA8L2NjOldvcms+ICAgIDwvcmRmOlJERj4gIDwvbWV0YWRhdGE+ICA8ZyAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtOTM4Ljk3NjM4KSIgICAgIGlkPSJsYXllcjEiPiAgICA8cGF0aCAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgwLjY2MTU5MzczLDAuMjQyNzc1NTcsLTAuMjQyNzc1NTcsMC42NjE1OTM3MywyNTguOTk3MjYsMzQxLjI5MTUpIiAgICAgICBkPSJtIDU0LjU0NzE0Niw5ODAuNzc3NDMgLTMuNTEzNzgzLDUuMTkwMTUgLTAuMjA4NDU0LC02LjI2NDI1IC02LjAyMTkzOSwtMS43Mzc5NiA1Ljg5MzIzOSwtMi4xMzQwMSAtMC4yMDc5OCwtNi4yNjQyNyAzLjg1MDY3Niw0Ljk0NTM2IDUuODkzNCwtMi4xMzM1NyAtMy41MTMzOSw1LjE5MDQxIDMuODUwMzAyLDQuOTQ1NjUgeiIgICAgICAgaWQ9InBhdGg0MTM4IiAgICAgICBzdHlsZT0ib3BhY2l0eToxO2ZpbGw6I2ZmZmYwMDtmaWxsLW9wYWNpdHk6MTtzdHJva2U6I2ZmZmZmZjtzdHJva2Utd2lkdGg6NDQuMjk5OTk5MjQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLW9wYWNpdHk6MSIgLz4gIDwvZz48L3N2Zz4=);
+    background-image: url(res/star-gold.svg);
 }
 
 
 /*For having no animations on the page*/
 .noanimation{ 
     -webkit-animation: none !important; 
-  -moz-animation: none !important; 
-  -o-animation: none !important; 
-  -ms-animation: none !important; 
-  animation: none !important; 
+    -moz-animation: none !important; 
+    -o-animation: none !important; 
+    -ms-animation: none !important; 
+    animation: none !important; 
 } 
 
 .noanimation:hover{ 
@@ -158,57 +149,56 @@ color: white;
 } 
 
 input[type="submit"],input[type="reset"]{
-background-color: #CCC;
+    background-color: #CCC;
     border-style:none; 
 }
 
 #name{
-  font-size: 1.5em;
-  font-weight: bold;
-  opacity:0.7 !important;
- width: 35% !important;
- font-weight: 900;
-
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity:0.7 !important;
+    width: 35% !important;
+    font-weight: 900;
 }
 #imgdesc {
-position: fixed;
-right:0em;
-top:0em;
-margin: 0%;
-color: black;
-width: 25%; 
-height: 1.5em;
-background-color: rgba(255,255,255,0) !important;
-opacity: 1 !important;
-word-wrap: break-word;
-overflow: hidden;
-z-index: 1000;
-font-weight:300;
+    position: fixed;
+    right:0em;
+    top:0em;
+    margin: 0%;
+    color: black;
+    width: 25%; 
+    height: 1.5em;
+    background-color: rgba(255,255,255,0) !important;
+    opacity: 1 !important;
+    word-wrap: break-word;
+    overflow: hidden;
+    z-index: 1000;
+    font-weight:300;
 }
 
 #imgdesc:hover{
-background-color: rgba(255,255,255,100) !important;
-width:100%;
-height:5em;
-         vertical-align: middle;
-color:black;
+    background-color: rgba(255,255,255,100) !important;
+    width:100%;
+    height:5em;
+    vertical-align: middle;
+    color:black;
 }
 
 #menubar{
-z-index: 1000;
-margin-top:0%;
-position: fixed !important;
-top:0em;
-left:0em;
-width: 100%;
- opacity: 0.7 !important;
- height:5em;
- box-shadow: 0em 0em 1em 0.25em #888 !important;
+    z-index: 1000;
+    margin-top:0%;
+    position: fixed !important;
+    top:0em;
+    left:0em;
+    width: 100%;
+    opacity: 0.7 !important;
+    height:5em;
+    box-shadow: 0em 0em 1em 0.25em #888 !important;
 }
 
 #menubar:hover{
-  opacity: 1 !important;
-  box-shadow: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
 }
 
 .menuform{
@@ -220,54 +210,52 @@ width: 100%;
 }
 
 .menuform:hover{
- width:20%
- }
+    width:20%
+}
 
 .menubutton{
     width:100% !important;
     height:100% !important;
-     background-color: #BBBBBB !important;
-         background-repeat: no-repeat;
+    background-color: #BBBBBB !important;
+    background-repeat: no-repeat;
     background-position: center; 
     color: rgba(1,1,1,0);
-         text-align: center;
-         vertical-align: text-bottom;
+    text-align: center;
+    vertical-align: text-bottom;
     background-size: 1.25em, 1.25em;
-         
 }
 
 .menubutton:hover{
-box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
-background-color: #ABABAB !important;
-background-position: center top; 
-color:white;
+    box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
+    background-color: #ABABAB !important;
+    background-position: center top; 
+    color:white;
 }
 
 #schedule{
-opacity: 1 !important;
-background-color: rgba(0,0,0,0) !important;
-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
-border-left: none;
-border: none;
-border-style:none;
+    opacity: 1 !important;
+    background-color: rgba(0,0,0,0) !important;
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    border-left: none;
+    border: none;
+    border-style:none;
 }
 
  #schedule-tooltip{
-background-color: rgba(0,0,0,0);
-color: rgba(255,255,255,0);
+    background-color: rgba(0,0,0,0);
+    color: rgba(255,255,255,0);
 }
 
 #schedule:hover ~ #schedule-tooltip{
- color: rgba(255,255,255,255) !important;
+    color: rgba(255,255,255,255) !important;
 }
 
 #settingsbutton{
-	background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICAgIDxwYXRoIGQ9Ik0xOS40MyAxMi45OGMuMDQtLjMyLjA3LS42NC4wNy0uOThzLS4wMy0uNjYtLjA3LS45OGwyLjExLTEuNjVjLjE5LS4xNS4yNC0uNDIuMTItLjY0bC0yLTMuNDZjLS4xMi0uMjItLjM5LS4zLS42MS0uMjJsLTIuNDkgMWMtLjUyLS40LTEuMDgtLjczLTEuNjktLjk4bC0uMzgtMi42NUMxNC40NiAyLjE4IDE0LjI1IDIgMTQgMmgtNGMtLjI1IDAtLjQ2LjE4LS40OS40MmwtLjM4IDIuNjVjLS42MS4yNS0xLjE3LjU5LTEuNjkuOThsLTIuNDktMWMtLjIzLS4wOS0uNDkgMC0uNjEuMjJsLTIgMy40NmMtLjEzLjIyLS4wNy40OS4xMi42NGwyLjExIDEuNjVjLS4wNC4zMi0uMDcuNjUtLjA3Ljk4cy4wMy42Ni4wNy45OGwtMi4xMSAxLjY1Yy0uMTkuMTUtLjI0LjQyLS4xMi42NGwyIDMuNDZjLjEyLjIyLjM5LjMuNjEuMjJsMi40OS0xYy41Mi40IDEuMDguNzMgMS42OS45OGwuMzggMi42NWMuMDMuMjQuMjQuNDIuNDkuNDJoNGMuMjUgMCAuNDYtLjE4LjQ5LS40MmwuMzgtMi42NWMuNjEtLjI1IDEuMTctLjU5IDEuNjktLjk4bDIuNDkgMWMuMjMuMDkuNDkgMCAuNjEtLjIybDItMy40NmMuMTItLjIyLjA3LS40OS0uMTItLjY0bC0yLjExLTEuNjV6TTEyIDE1LjVjLTEuOTMgMC0zLjUtMS41Ny0zLjUtMy41czEuNTctMy41IDMuNS0zLjUgMy41IDEuNTcgMy41IDMuNS0xLjU3IDMuNS0zLjUgMy41eiIvPgo8L3N2Zz4=);
-
+	background-image: url('../../../../res/gear.svg');
 }
 
-#imgdesc:hover ~ *{
-opacity: 0 !important;
+#imgdesc:hover ~ div{
+    opacity: 0 !important;
 }
 
 q {
@@ -277,75 +265,75 @@ q {
 
 /*Settings tab*/
 #settings{
-  position:fixed;
-  left:0;
-  bottom:0%;
-  display:block;
-  width:0%;
-  opacity: 1 !important;
-  height:100% !important;
-  background-color: white;
-  z-index: 10000 !important;
-  overflow:hidden;
-  border-radius:0;
-  box-sizing: content-box;
+    position:fixed;
+    left:0;
+    bottom:0%;
+    display:block;
+    width:0%;
+    opacity: 1 !important;
+    height:100% !important;
+    background-color: white;
+    z-index: 10000 !important;
+    overflow:hidden;
+    border-radius:0;
+    box-sizing: content-box;
 }
 
 #shade{
-  width:100%;
-  position:fixed;
-  height: 100%;
-  left: 0%;
-  bottom:0%;
-  display:none;
-  background-color: black;
-  opacity:0;
-  z-index: 9001 /*It's over 9000!*/ !important;
+    width:100%;
+    position:fixed;
+    height: 100%;
+    left: 0%;
+    bottom:0%;
+    display:none;
+    background-color: black;
+    opacity:0;
+    z-index: 9001 /*It's over 9000!*/ !important;
 }
 
 #message{
-  color:white;
-  visibility: visible !important;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  /* bring your own prefixes */
-  transform: translate(-50%, -50%);
+    color:white;
+    visibility: visible !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
 }
 
 #gSignInWrapper{
-  width:20%;
+    width:20%;
 }
 
 #login-icon{
-  background: url('https://developers.google.com/identity/images/g-logo.png') transparent no-repeat;
-  background-size: contain;
-  display: inline-block;
-  vertical-align: middle;
-  width: 1.5em;
-  height: 1em;
+    background: url('https://developers.google.com/identity/images/g-logo.png') transparent no-repeat;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.5em;
+    height: 1em;
 }
 
 .customGPlusSignIn{
-  width:100%;
+    width:100%;
 }
 
 .time.cell{
-  background-color: #CCC;
+    background-color: #CCC;
 }
 
 .mod.cell{
-  padding-right: 2em;
+    padding-right: 2em;
 }
 
 .disabled.cell{
-  filter:grayscale(70%) saturate(50%);
+    filter:grayscale(70%) saturate(50%);
 }
 
 .disabled.cell:hover{
-  filter:grayscale(0) saturate(0);
+    filter:grayscale(0) saturate(0);
 }
 
 .disabled.time.cell{
-  background-color: #AAA;
+    background-color: #AAA;
 }
