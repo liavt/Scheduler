@@ -1,0 +1,32 @@
+{
+  "lang": "en",
+  "default_locale": "en",
+  "version":"2.0 beta",
+  "manifest_version": "2",
+  "dir": "ltr",
+  "name": "Academy High School Scheduler",
+  "description": "Generates your schedule for Plano Academy High School",
+  "short_name": "Scheduler",
+  "display": "standalone",
+  "icons": [{
+    "src": "favicon.ico",
+    "sizes": "32x32",
+    "type": "image/ico"
+  },{
+    "src": "icon/lowres.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "scope": "/",
+  "start_url": "/index.html",
+  "homepage_url": "/index.html",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "theme_color": "aliceblue",
+  "background_color": "blue",
+  "screenshots": [{
+    "src": "demos/DemoStudent.PNG",
+    "sizes": "1662x921",
+    "type": "image/png"
+  }]
+}
