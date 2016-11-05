@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <!--I used to trust Google scripts with website creation. Now I am smarter and made it not Google-run-->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta http-equiv="default-style" content="/src/client/styles/Stylesheet.css">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!--This is too meta for me-->
+        <meta name="theme-color" content="#0000FF">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="blue">
+        <meta name="apple-mobile-web-app-title" content="Scheduler">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="generator" content="Google Apps Script">
+        
+        <meta http-equiv="cleartype" content="on">
+        <meta name="skype_toolbar" content="skype_toolbar_parser_compatible">
+        
+        <meta name="application-name" content="Plano Academy Scheduler">
+        <meta name="msapplication-tooltip" content="Plano Academy Scheduler">
+        
+        <meta name="msapplication-allowDomainApiCalls" content="true">
+        <meta name="msapplication-allowDomainMetaTags" content="true">
+        <meta name="msapplication-navbutton-color" content="#0000FF">
+        <meta name="msapplication-TileColor" content="#0000FF">
+        
+        <meta property="al:ios:app_name" content="Plano Academy Schedule">
+        
+        <meta property="al:android:app_name" content="Plano Academy Schedule">
+        
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        
+        <!--WOOO chinese browser support yo-->
+        <meta name="x5-orientation" content="landscape/portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        
+        <meta name="imagemode" content="force">
+        <meta name="browsermode" content="application">
+        <meta name="nightmode" content="disable">
+        
+        <meta name="wap-font-scale" content="no">
+        
+        <meta name="ICBM" content="33.019843, -96.698886">
+        <meta name="geo.position" content="33.019843;-96.698886">
+        <meta name="geo.region" content="US, TX">
+        <meta name="geo.placename" content="Plano">
+        
+        <!-- This site shouldn't show up on search engines, but why not-->
+        <meta name="description" content="Scheduler for Plano Academy High School">
+        <meta name="keywords" content="Schedule,Plano Academy">
+        <meta name="author" content="Liav Turkia">
+        
+        <meta property="op:markup_version" content="v1.0">
+        
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Plano Academy High School">
+        <meta property="og:description" content="Scheduler for Plano Academy High SChool">
+        <meta property="og:site_name" content="AHS Scheduler">
+        <meta property="og:locale" content="en_US">
+        
+        <meta itemprop="name" content="Plano Academy High School">
+        <meta itemprop="description" content="Scheduler for Plano Academy High School">
+        
+        <meta name="twitter:card" content="Scheduler for Plano Academy High School">
+        <meta name="twitter:title" content="Plano Academy Schedule">
+        <meta name="twitter:description" content="Scheduler for Plano Academy High School">
+        
+        <!-- Add to home screen -->
+        <meta name="mobile-web-app-capable" content="yes">
+        
+        <!-- For Google API-->
+        <meta name="google-signin-client_id" content="48133947856-qpuod3t3ghkva88jfslo5gaeigi6ce4o.apps.googleusercontent.com">
+        
+        <!-- Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,500,900' rel='stylesheet' type='text/css'>
+
+        <title>Schedule</title>
+        
+        <link rel="manifest" href="manifest.json">
+        
+        <!--Fallback icons in case manifests aren't supported-->
+        <link rel="shortcut icon"href="favicon.ico"type="image/x-icon">
+        <link rel="icon" sizes="16x16 32x32" href="favicon.ico">
+        <link rel="icon" sizes="256x256 512x512" href="favicon_hires.png">
+      
+        <link rel="stylesheet"text="text/css"href="src/client/styles/Reset.css">
+        <link rel="stylesheet"id="main-stylesheet"text="text/css"href="src/client/styles/Stylesheet.css">
+    </head>
+    <body>
+        <noscript>
+            <div id="name">No Javascript :(</div><br><div>This website needs Javascript. Please re-enable it.</div>
+        </noscript>
+        <!--Settings-->
+        <span style="width:100%; height: 100%;">
+          <div id="settings">
+            <h1 id="settings-title">Settings</h1>
+              <strong>Theme:</strong>
+                <select name="style"id="settings-style-selector">
+                  <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+                </select>
+                <small>
+                  <i>
+                     <p id="settings-style-description"></p>
+                  </i>
+              </small>
+              <strong>Add a hidden theme</strong>
+              <input type="text"id="hidden-selector"/>
+              <input type="submit"value="Add"id="hidden-submit"onclick="addHiddenTheme()"/>
+              <br>
+              <br>
+              <strong>Background:</strong>
+              <select id="bg-select">
+                <option value="Theme">Default</option>
+                <option value="Bing">Image of the Day</option>
+              </select>
+              <br>
+              <br>
+              <form action="#"id="settings-form">
+                <strong>Day:</strong>
+                <select id="settings-day-selector">
+                  <!--This tag gets filled with <option> dynamically in the JS, because that way we can set the default value to whatever was previously chosen.-->
+                </select>
+                <br>
+                <input type="submit"id="submit-settings-button"value="Apply"/>
+                <input type="reset"id="cancel-settings-button"value="Cancel"/>
+              </form>
+              <br>
+          </div>
+        </span>
+        <span id="shade"></span>
+        <span id="page"><!--This span is where the page contents gets put into-->
+          <h1 id="message">Loading resources...</h1>
+        </span>
+    </body>
+    <!--Scripts are loaded in here, at the end, to make it fastest-->
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/src/client/js/ViewManager.js"></script>
+    <script src="/src/client/js/Scripts.js"></script>
+    <script src="/src/client/js/Themes.js"></script>
+    <script src="/src/client/js/Initialization.js"></script>
+
+</html>

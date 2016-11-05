@@ -1,0 +1,339 @@
+html, body {
+    height: 100%;
+}
+
+body{
+    visibility: hidden;
+    font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included in Head.html*/
+    line-height: 1.65em;
+    text-align: center;
+    color: black;
+    background-color: #AAAAFF;
+    /*Without the following lines of code, the website doesn't scroll on IPhone. Stupid Apple*/
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+}
+
+div, .infobutton, select, input{
+    transition: all 0.3s ease 0s;
+}
+
+div, .infobutton{
+    transition: all 0.3s ease 0s;
+    box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+}
+
+select{
+    background-color: #CCC;
+}
+
+select:hover{
+    box-shadow: inset 0em -2em 0em 0em #999;
+}
+
+select option:hover{
+    background-color: #BBB;
+    color:white!important;
+}
+
+input{
+    text-align: center;
+}
+
+input:hover :not(input[type="checkbox"]){
+    box-shadow: inset 0em 0em 0em 1em #CCC;
+}
+
+input[type="reset"]:hover{
+    box-shadow: inset 0em 0em 0em 1em #A00;
+}
+
+input[type="submit"]:hover{
+    box-shadow: inset 0em 0em 0em 1em #999;
+}
+
+#settings,#imgdesc{
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+}
+
+
+div{
+    opacity: 0.7 ;
+    border-radius: 0.25em;
+    width:70%;
+    margin: auto;
+    background-color: white ;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0.5em;
+    table-layout:fixed;
+    margin: 0 auto;
+}
+
+td, tr, table{
+    word-wrap: break-word;
+    overflow: auto; 
+    border: solid;
+    border-width: 0.2em 0.01em;
+    font-weight: 500;
+}
+    
+table tr:last-child { 
+    border-bottom: none; 
+}
+
+div:hover{
+    opacity:1;
+}
+
+p{
+    padding:0.0625em;
+}
+
+b{
+    font-weight:700;
+}
+
+#infobuttons{
+    background-color: rgba(0,0,0,0);
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    height:5em;
+    width: 70% !important;
+    opacity: 1 !important;
+}
+
+.infobuttonsform{
+    height:100%;
+    display: inline;
+}
+
+.infobutton{
+    display: inline;
+    height: 100% !important;
+    float: center;
+    color: rgba(0,0,0,0);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-color: #BBBBBB;
+    border-style:none;
+    background-size: 64px;
+    text-align: right;
+    border-radius: 1em;
+}
+
+.infobutton:hover{
+    background-position: left;
+    color: white;
+    background-color: #AAAAAA;
+}
+
+#star{
+    background-image: url(res/star-gold.svg);
+}
+
+
+/*For having no animations on the page*/
+.noanimation{ 
+    -webkit-animation: none !important; 
+    -moz-animation: none !important; 
+    -o-animation: none !important; 
+    -ms-animation: none !important; 
+    animation: none !important; 
+} 
+
+.noanimation:hover{ 
+    width:70%;
+} 
+
+input[type="submit"],input[type="reset"]{
+    background-color: #CCC;
+    border-style:none; 
+}
+
+#name{
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity:0.7 !important;
+    width: 35% !important;
+    font-weight: 900;
+}
+#imgdesc {
+    position: fixed;
+    right:0em;
+    top:0em;
+    margin: 0%;
+    color: black;
+    width: 25%; 
+    height: 1.5em;
+    background-color: rgba(255,255,255,0) !important;
+    opacity: 1 !important;
+    word-wrap: break-word;
+    overflow: hidden;
+    z-index: 1000;
+    font-weight:300;
+}
+
+#imgdesc:hover{
+    background-color: rgba(255,255,255,100) !important;
+    width:100%;
+    height:5em;
+    vertical-align: middle;
+    color:black;
+}
+
+#menubar{
+    z-index: 1000;
+    margin-top:0%;
+    position: fixed !important;
+    top:0em;
+    left:0em;
+    width: 100%;
+    opacity: 0.7 !important;
+    height:5em;
+    box-shadow: 0em 0em 1em 0.25em #888 !important;
+}
+
+#menubar:hover{
+    opacity: 1 !important;
+    box-shadow: none !important;
+}
+
+.menuform{
+    float: left;
+    height:100%;
+    width:5%;
+    top:0%;
+    border-radius:0%;
+}
+
+.menuform:hover{
+    width:20%
+}
+
+.menubutton{
+    width:100% !important;
+    height:100% !important;
+    background-color: #BBBBBB !important;
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: rgba(1,1,1,0);
+    text-align: center;
+    vertical-align: text-bottom;
+    background-size: 1.25em, 1.25em;
+}
+
+.menubutton:hover{
+    box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
+    background-color: #ABABAB !important;
+    background-position: center top; 
+    color:white;
+}
+
+#schedule{
+    opacity: 1 !important;
+    background-color: rgba(0,0,0,0) !important;
+    box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    border-left: none;
+    border: none;
+    border-style:none;
+}
+
+ #schedule-tooltip{
+    background-color: rgba(0,0,0,0);
+    color: rgba(255,255,255,0);
+}
+
+#schedule:hover ~ #schedule-tooltip{
+    color: rgba(255,255,255,255) !important;
+}
+
+#settingsbutton{
+	background-image: url('../../../../res/gear.svg');
+}
+
+#imgdesc:hover ~ div{
+    opacity: 0 !important;
+}
+
+q {
+    quotes: "“" "”" '‘' '’';
+}
+
+
+/*Settings tab*/
+#settings{
+    position:fixed;
+    left:0;
+    bottom:0%;
+    display:block;
+    width:0%;
+    opacity: 1 !important;
+    height:100% !important;
+    background-color: white;
+    z-index: 10000 !important;
+    overflow:hidden;
+    border-radius:0;
+    box-sizing: content-box;
+}
+
+#shade{
+    width:100%;
+    position:fixed;
+    height: 100%;
+    left: 0%;
+    bottom:0%;
+    display:none;
+    background-color: black;
+    opacity:0;
+    z-index: 9001 /*It's over 9000!*/ !important;
+}
+
+#message{
+    color:white;
+    visibility: visible !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+#gSignInWrapper{
+    width:20%;
+}
+
+#login-icon{
+    background: url('https://developers.google.com/identity/images/g-logo.png') transparent no-repeat;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.5em;
+    height: 1em;
+}
+
+.customGPlusSignIn{
+    width:100%;
+}
+
+.time.cell{
+    background-color: #CCC;
+}
+
+.mod.cell{
+    padding-right: 2em;
+}
+
+.disabled.cell{
+    filter:grayscale(70%) saturate(50%);
+}
+
+.disabled.cell:hover{
+    filter:grayscale(0) saturate(0);
+}
+
+.disabled.time.cell{
+    background-color: #AAA;
+}
