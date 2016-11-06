@@ -14,20 +14,16 @@ function getUrlParameter(sParam) {
 };
 
 function getSetting(param){
-    if(localStorage[param]){
-        return localStorage[param];
-    }else{
+    var urlParam = getUrlParameter(param);
+    if(!urlParam){
         var cookie = getCookie(param);
-        if(!cookie){
-            var urlParam = getUrlParameter(param);
-            if(!urlParam){
-                return "";
-            }else{
-                return urlParam;
-            }
+        if(!cookie||cookie==""){
+            return;
         }else{
             return cookie;
         }
+    }else{
+        return urlParam;
     }
 }
 
@@ -44,7 +40,7 @@ function reset(){
     auth2.signOut().then(function () {
         setCookie("grade","",-1);
         setCookie("day","",-1);
-        init();
+        location.reload();
     });
 }
 
@@ -71,6 +67,7 @@ function onSignIn(googleUser){
     
     $.ajax(settings).done(function (response) {
         var json = JSON.parse(response);
+        console.log(json);
         if(json.failed){
             pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }else{
@@ -82,7 +79,7 @@ function onSignIn(googleUser){
 }
 
 function viewLogin(auth2){
-  var html = '<span id="login"><div><br><h1>'+getGrade()+'th Grade Sign In</h1><br>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
+  var html = '<span id="login"><div id="name">'+getGrade()+'th Grade Sign In</div><br><div>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
   pushView(VIEW_TYPE.PAGE,html);
   
   //we are using getElementById instead of JQuery because that is what the google api accepts
@@ -136,7 +133,7 @@ function init(){
         var html = "<div id='name'>Welcome!</div><br>";
         html += "<div>Please select your grade level:<br>";
         html += "<select id='grade'><option value='9'>9th</option><option value='10'>10th</option></select>";
-        html += "<br><br><input type='submit'id='grade-submit'/></div>";
+        html += "<br><br><input type='submit'id='grade-submit'value='Select'/></div>";
         
         pushView(VIEW_TYPE.PAGE,html);
         

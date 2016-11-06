@@ -5,13 +5,27 @@
 }
 
 body, input{
-     -webkit-animation:rainbow 4s linear infinite; -moz-animation:rainbow 4s linear infinite; animation:rainbow 4s linear infinite;
+    -webkit-animation:rainbow 4s linear infinite; -moz-animation:rainbow 4s linear infinite; animation:rainbow 4s linear infinite;
+     -moz-animation:rainbow 4s linear infinite; -moz-animation:rainbow 4s linear infinite; animation:rainbow 4s linear infinite;
+    -o-animation:rainbow 4s linear infinite; -moz-animation:rainbow 4s linear infinite; animation:rainbow 4s linear infinite;
+    animation:rainbow 4s linear infinite; -moz-animation:rainbow 4s linear infinite; animation:rainbow 4s linear infinite;
 }
 
 #name{
- -webkit-animation: rotate 1s linear infinite;
+    -webkit-animation: rotate 1s linear infinite;
     -moz-animation:rotate 1s linear infinite;
+    -o-animation:rotate 4s linear infinite;
     animation:rotate 4s linear infinite;
+}
+
+@-moz-keyframes rotate {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+
+@-o-keyframes rotate {
+    from { -o-transform: rotate(0deg); }
+    to { -o-transform: rotate(360deg); }
 }
 
 @-webkit-keyframes rotate {
@@ -21,6 +35,33 @@ body, input{
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+@-webkit-keyframes rainbow {
+    0% {color:red;}
+    20% {color:orange;}
+    40% {color:green;}
+    60% {color:blue;}
+    90% {color:purple;}
+    100% {color:red;}
+}
+
+@-moz-keyframes rainbow {
+    0% {color:red;}
+    20% {color:orange;}
+    40% {color:green;}
+    60% {color:blue;}
+    90% {color:purple;}
+    100% {color:red;}
+}
+
+@-o-keyframes rainbow {
+    0% {color:red;}
+    20% {color:orange;}
+    40% {color:green;}
+    60% {color:blue;}
+    90% {color:purple;}
+    100% {color:red;}
 }
 
 @keyframes rainbow {
@@ -34,6 +75,8 @@ body, input{
 
 #menubar{
     -webkit-animation: scroll 1s linear infinite;
+    -moz-animation: scroll 30s linear infinite;
+    -o-animation: scroll 30s linear infinite;
     animation: scroll 30s linear infinite;
 }
 </style>

@@ -39,7 +39,7 @@ function applyTheme(theme){
     
       requests.push(
         $.get({
-          url: "/src/client/styles/themes/"+styles[i]+".html",
+          url: "src/client/styles/themes/"+styles[i]+".html",
           data: "",
           success: function(result){
             $('head').append(result);

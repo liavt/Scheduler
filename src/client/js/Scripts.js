@@ -283,7 +283,7 @@ function loadPage(json){
   }
   
   html += "<br><div id='infobuttons'><form action='javascript:void(0)'class='infobuttonsform'id='settingshook'><input id='settingsbutton'class='infobutton'type='submit'value='Settings'></form></div><br>";
-
+  
   pushView(VIEW_TYPE.PAGE,html);
 }
 

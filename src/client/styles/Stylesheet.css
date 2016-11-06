@@ -16,11 +16,15 @@ body{
 }
 
 div, .infobutton, select, input{
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
 
 div, .infobutton{
-    transition: all 0.3s ease 0s;
+    -webkit-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+    -moz-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
     box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
 }
 
@@ -29,6 +33,8 @@ select{
 }
 
 select:hover{
+    -moz-box-shadow: inset 0em -2em 0em 0em #999;
+    -webkit-box-shadow: inset 0em -2em 0em 0em #999;
     box-shadow: inset 0em -2em 0em 0em #999;
 }
 
@@ -39,27 +45,38 @@ select option:hover{
 
 input{
     text-align: center;
+    cursor:pointer;
 }
 
 input:hover :not(input[type="checkbox"]){
+    -webkit-box-shadow: inset 0em 0em 0em 1em #CCC;
+    -moz-box-shadow: inset 0em 0em 0em 1em #CCC;
     box-shadow: inset 0em 0em 0em 1em #CCC;
 }
 
 input[type="reset"]:hover{
+    -webkit-box-shadow: inset 0em 0em 0em 1em #A00;
+    -moz-box-shadow: inset 0em 0em 0em 1em #A00;
     box-shadow: inset 0em 0em 0em 1em #A00;
 }
 
 input[type="submit"]:hover{
+    -webkit-box-shadow: inset 0em 0em 0em 1em #999;
+    -moz-box-shadow: inset 0em 0em 0em 1em #999;
     box-shadow: inset 0em 0em 0em 1em #999;
 }
 
 #settings,#imgdesc{
+    -webkit-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    -moz-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
     box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
 }
 
 
 div{
     opacity: 0.7 ;
+    -webkit-border-radius: 0.25em;
+    -moz-border-radius: 0.25em;
     border-radius: 0.25em;
     width:70%;
     margin: auto;
@@ -99,6 +116,8 @@ b{
 
 #infobuttons{
     background-color: rgba(0,0,0,0);
+    -webkit-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    -moz-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
     box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
     height:5em;
     width: 70% !important;
@@ -106,22 +125,25 @@ b{
 }
 
 .infobuttonsform{
-    height:100%;
     display: inline;
 }
 
 .infobutton{
     display: inline;
-    height: 100% !important;
-    float: center;
     color: rgba(0,0,0,0);
     background-repeat: no-repeat;
     background-position: center; 
     background-color: #BBBBBB;
     border-style:none;
+    -webkit-background-size: 64px;
+    -moz-background-size: 64px;
+    -o-background-size: 64px;
     background-size: 64px;
     text-align: right;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
     border-radius: 1em;
+
 }
 
 .infobutton:hover{
@@ -158,7 +180,7 @@ input[type="submit"],input[type="reset"]{
     font-weight: bold;
     opacity:0.7 !important;
     width: 35% !important;
-    font-weight: 900;
+    margin-top:1em;
 }
 #imgdesc {
     position: fixed;
@@ -193,11 +215,15 @@ input[type="submit"],input[type="reset"]{
     width: 100%;
     opacity: 0.7 !important;
     height:5em;
+    -webkit-box-shadow: 0em 0em 1em 0.25em #888 !important;
+    -moz-box-shadow: 0em 0em 1em 0.25em #888 !important;
     box-shadow: 0em 0em 1em 0.25em #888 !important;
 }
 
 #menubar:hover{
     opacity: 1 !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
     box-shadow: none !important;
 }
 
@@ -206,6 +232,8 @@ input[type="submit"],input[type="reset"]{
     height:100%;
     width:5%;
     top:0%;
+    -webkit-border-radius:0%;
+    -moz-border-radius:0%;
     border-radius:0%;
 }
 
@@ -222,10 +250,16 @@ input[type="submit"],input[type="reset"]{
     color: rgba(1,1,1,0);
     text-align: center;
     vertical-align: text-bottom;
+    -webkit-background-size: 1.25em, 1.25em;
+    -moz-background-size: 1.25em, 1.25em;
+    -o-background-size: 1.25em, 1.25em;
     background-size: 1.25em, 1.25em;
+
 }
 
 .menubutton:hover{
+    -webkit-box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
+    -moz-box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
     box-shadow: inset 0em -1.23em 0em -0.3125em #999 !important;
     background-color: #ABABAB !important;
     background-position: center top; 
@@ -235,6 +269,8 @@ input[type="submit"],input[type="reset"]{
 #schedule{
     opacity: 1 !important;
     background-color: rgba(0,0,0,0) !important;
+    -webkit-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
+    -moz-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
     box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
     border-left: none;
     border: none;
@@ -275,7 +311,11 @@ q {
     background-color: white;
     z-index: 10000 !important;
     overflow:hidden;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
     border-radius:0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 
@@ -297,16 +337,26 @@ q {
     position: fixed;
     top: 50%;
     left: 50%;
-    /* bring your own prefixes */
+    /*Welcome to bring your own prefix day! Courtesy of great web standards and conformance.*/
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    font-size: 2em;
+    font-weight: bold;
 }
 
 #gSignInWrapper{
     width:20%;
+    opacity:1;
+    cursor:pointer;
 }
 
 #login-icon{
     background: url('https://developers.google.com/identity/images/g-logo.png') transparent no-repeat;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
     background-size: contain;
     display: inline-block;
     vertical-align: middle;
@@ -316,6 +366,7 @@ q {
 
 .customGPlusSignIn{
     width:100%;
+    opacity:1;
 }
 
 .time.cell{
@@ -327,10 +378,12 @@ q {
 }
 
 .disabled.cell{
+    -webkit-filter:grayscale(70%) saturate(50%);
     filter:grayscale(70%) saturate(50%);
 }
 
 .disabled.cell:hover{
+    -webkit-filter:grayscale(0) saturate(0);
     filter:grayscale(0) saturate(0);
 }
 
