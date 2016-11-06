@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta http-equiv="default-style" content="/src/client/styles/Stylesheet.css">
+        <meta http-equiv="default-style" content="src/client/styles/Stylesheet.css">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -91,9 +91,6 @@
         <link rel="stylesheet"id="main-stylesheet"text="text/css"href="src/client/styles/Stylesheet.css">
     </head>
     <body>
-        <noscript>
-            <div id="name">No Javascript :(</div><br><div>This website needs Javascript. Please re-enable it.</div>
-        </noscript>
         <!--Settings-->
         <span style="width:100%; height: 100%;">
           <div id="settings">
@@ -133,15 +130,19 @@
         </span>
         <span id="shade"></span>
         <span id="page"><!--This span is where the page contents gets put into-->
-          <h1 id="message">Loading resources...</h1>
+          <h1 id="message">
+          <noscript>
+            You have no Javascript! Please re-enable it
+          </noscript>
+          </h1>
         </span>
     </body>
     <!--Scripts are loaded in here, at the end, to make it fastest-->
-    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="/src/client/js/ViewManager.js"></script>
-    <script src="/src/client/js/Scripts.js"></script>
-    <script src="/src/client/js/Themes.js"></script>
-    <script src="/src/client/js/Initialization.js"></script>
+    <script src="src/client/js/ViewManager.js"></script>
+    <script src="src/client/js/Scripts.js"></script>
+    <script src="src/client/js/Themes.js"></script>
+    <script src="src/client/js/Initialization.js"></script>
 
 </html>

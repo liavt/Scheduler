@@ -13,39 +13,39 @@ function getUrlParameter(sParam) {
     }
 };
 
-function getGrade(){
-    var cookie = getCookie("grade");
-    if(!cookie){
-        var param = getUrlParameter("grade");
-        if(!param){
-            return "";
-        }else{
-            return param;
-        }
+function getSetting(param){
+    if(localStorage[param]){
+        return localStorage[param];
     }else{
-        return cookie;
+        var cookie = getCookie(param);
+        if(!cookie){
+            var urlParam = getUrlParameter(param);
+            if(!urlParam){
+                return "";
+            }else{
+                return urlParam;
+            }
+        }else{
+            return cookie;
+        }
     }
+}
+
+function getGrade(){
+    return getSetting("grade");
 }
 
 function getDay(){
-    var cookie = getCookie("day");
-    if(!cookie){
-        var param = getUrlParameter("day");
-        if(!param){
-            var date = new Date();
-            return date.getDay();
-        }else{
-            return param;
-        }
-    }else{
-        return cookie;
-    }
+    return getSetting("day");
 }
 
 function reset(){
-    setCookie("grade","");
-    setCookie("day","");
-    init();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        setCookie("grade","");
+        setCookie("day","");
+        init();
+    });
 }
 
 function onSignIn(googleUser){
