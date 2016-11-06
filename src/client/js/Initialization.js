@@ -13,7 +13,6 @@ function getUrlParameter(sParam) {
     }
 };
 
-<<<<<<< HEAD
 function getSetting(param){
     if(localStorage[param]){
         return localStorage[param];
@@ -43,45 +42,10 @@ function getDay(){
 function reset(){
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        setCookie("grade","");
-        setCookie("day","");
+        setCookie("grade","",-1);
+        setCookie("day","",-1);
         init();
     });
-=======
-function getGrade(){
-    var cookie = getCookie("grade");
-    if(!cookie){
-        var param = getUrlParameter("grade");
-        if(!param){
-            return "";
-        }else{
-            return param;
-        }
-    }else{
-        return cookie;
-    }
-}
-
-function getDay(){
-    var cookie = getCookie("day");
-    if(!cookie){
-        var param = getUrlParameter("day");
-        if(!param){
-            var date = new Date();
-            return date.getDay();
-        }else{
-            return param;
-        }
-    }else{
-        return cookie;
-    }
-}
-
-function reset(){
-    setCookie("grade","");
-    setCookie("day","");
-    init();
->>>>>>> master
 }
 
 function onSignIn(googleUser){
