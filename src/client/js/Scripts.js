@@ -268,6 +268,7 @@ function loadPage(json){
   $("#login").css("display","none");
     
   var html = "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
+<<<<<<< HEAD
   
   if(json.day<=0||json.day>4){
     html += "<br><div>No school today!</div>";
@@ -283,6 +284,16 @@ function loadPage(json){
   }
   
   html += "<br><div id='infobuttons'><form action='javascript:void(0)'class='infobuttonsform'id='settingshook'><input id='settingsbutton'class='infobutton'type='submit'value='Settings'></form></div><br>";
+=======
+  html += "<br>"+json.motd.global;
+  html += json.motd.local;
+  html += "<div class='personalized noanimation'><p><h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1>";
+  html += "<p id='personalized-schedule'></p></p></div>"
+  if(json.isAdmin===true&&json.admin){
+    html += json.admin;
+  }
+  html += "<div id='infobuttons'><form action='javascript:void(0)'class='infobuttonsform'id='settingshook'><input id='settingsbutton'class='infobutton'type='submit'value='Settings'></form></div><br>";
+>>>>>>> master
   
   
   
