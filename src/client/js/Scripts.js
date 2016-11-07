@@ -269,7 +269,7 @@ function loadPage(json){
     
   var html = "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
   
-  if(json.day<=0||json.day>4){
+  if(json.day<0||json.day>4){
     html += "<br><div>No school today!</div>";
   }else{
     
