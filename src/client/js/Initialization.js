@@ -48,6 +48,8 @@ function onSignIn(googleUser){
     pushView(VIEW_TYPE.MESSAGE,"Fetching your schedule...");
     var id_token = googleUser.getAuthResponse().id_token;
     
+    console.log(encodeURIComponent(id_token));
+    
     var settings = {
       "async": true,
       "crossDomain": true,
@@ -66,8 +68,8 @@ function onSignIn(googleUser){
     };
     
     $.ajax(settings).done(function (response) {
+        console.log(response)
         var json = JSON.parse(response);
-        console.log(json);
         if(json.failed){
             pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }else{
