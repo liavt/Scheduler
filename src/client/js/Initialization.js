@@ -132,6 +132,8 @@ function init(){
         window.location = 'https://' + window.location.hostname + window.location.pathname + window.location.hash;
     }
     
+    showNotification("This is a notification","hi");
+    
     console.log("Initializing");
     var grade = getGrade();
     if(!grade||isNaN(grade)){

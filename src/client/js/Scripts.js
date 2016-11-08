@@ -89,21 +89,30 @@ function getCookie(cname) {
     return "";
 }
 
-function showNotification(title,body,icon,onclick){
+function showNotification(title,body,icon){
   if(getCookie('notify')){
-    if(!onclick)onclick = function(){};
     if(!icon){
         //woah woah wikipedia? the academy website doesnt have a version of the logo hosted with https (which will invalidate the security certificate.) Wikipedia, however, does have one for the page. Thanks Obama.
-       icon = 'https://upload.wikimedia.org/wikipedia/en/c/c7/PlanoAcademyHSLogo.jpg';
+       icon = "https://upload.wikimedia.org/wikipedia/en/c/c7/PlanoAcademyHSLogo.jpg";
 
     }
-  
-    var notification = new Notification(title, {
-      icon: icon,
-      body: body,
-    });
     
-    notification.onclick = onclick;
+    if(navigator&&navigator.serviceWorker){
+      navigator.serviceWorker.ready.then(function(registration) {
+        registration.showNotification(title, {
+          body: body,
+          icon: icon,
+          lang: "en-US",
+          dir: "ltr",
+          vibrate: [300,300,100,100,100,300,300],
+        });
+      });
+    }else{
+      var notification = new Notification(title, {
+        icon: icon,
+        body: body,
+      });
+    }
   }
 }
 
@@ -151,12 +160,14 @@ function createTimers(json){
 }
 
 function createNotifications(){
-      if(getCookie('notify')==''||!getCookie('notify')){
+    if(getCookie('notify')==''||!getCookie('notify')){
       if (!Notification) {
         setCookie('notify','false');
         return;
       }
-  
+      
+      navigator.serviceWorker.register('sw.js');
+      
       Notification.requestPermission().then(function(result) {
         if (result === 'denied') {
           setCookie('notify','false');
