@@ -166,7 +166,7 @@ function createNotifications(){
         return;
       }
       
-      navigator.serviceWorker.register('sw.js');
+      if(navigator&&navigator.serviceWorker)navigator.serviceWorker.register('sw.js');
       
       Notification.requestPermission().then(function(result) {
         if (result === 'denied') {
