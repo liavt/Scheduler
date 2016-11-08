@@ -116,49 +116,6 @@ function showNotification(title,body,icon){
   }
 }
 
-function checkTime(json){
-  var currentDate = new Date();
-  var currentMinutes = parseInt(currentDate.getMinutes())+(parseInt(currentDate.getHours())*60);
-  
-  var passingPeriod = getCookie("passPeriod");
-  if(!passingPeriod){
-    passingPeriod = 5;
-  }
-  
-  var notify = getCookie("notify");
-
-  for(var i = 0;i<json.schedule.length;i++){
-    var date = new Date(json.schedule[i].time);
-    var hours = parseInt(date.getHours());
-    var minutes = parseInt(date.getMinutes())+(hours*60);//we convert the hours into minutes so we can compare. the times we get are from 1976, so simply doing > will be wrong.
-    
-    var element = $("#row"+i+" .cell");
-    
-    if(minutes<currentMinutes){
-      element.addClass("disabled");
-      if(i==json.schedule.length-1){
-        $('#personalized-schedule').attr("id","school-over");
-      }
-    }else{
-      element.removeClass("disabled");
-      
-      var timeCell = element.add(".time");
-    }
-  }
-}
-
-function createTimers(json){  
-  //we only want to update the current place if its today
-  if(json.day+1==new Date().getDay()){
-    createNotifications();
-
-    window.setInterval(function(){
-      //console.log(times);
-      checkTime(json);
-    },6);
-  }
-}
-
 function createNotifications(){
     if(getCookie('notify')==''||!getCookie('notify')){
       if (!Notification) {
@@ -203,7 +160,7 @@ function refreshPersonalizedSchedule(json){
     return json.schedule.failed;
   }
   
-  var out = "<table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
+  var out = "<h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1><p id='personalized-schedule'><table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
   
   for(var i = 0;i<json.schedule.length;i++){
   
@@ -223,14 +180,15 @@ function refreshPersonalizedSchedule(json){
     
     out += "<tr id='row"+i+"'><td class='time cell'>";
     if(startHours<10){
+      //to align
       out += "&nbsp;";
     }
-    out += startHours + ":" + addZero(start.getMinutes()) + " - "+ endHours+":"+addZero(end.getMinutes())+"</td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'>" + json.schedule[i].name + '</td></tr>';
+    out += startHours + ":" + addZero(start.getMinutes()) + " - "+ endHours+":"+addZero(end.getMinutes())+"</td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'>&nbsp;" + json.schedule[i].name + '</td></tr>';
   }
   
-  out += "</table>";
+  out += "</table></p>";
   
-  $('#personalized-schedule').empty().html(out);
+  $('#schedule-container').empty().html(out);
 }
 
 function getGreeting(){
@@ -286,10 +244,11 @@ function loadPage(json){
     
     html += "<br>"+json.motd.global;
     html += json.motd.local;
-    html += "<div class='personalized noanimation'><p><h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1>";
-    html += "<p id='personalized-schedule'></p></p></div>"
+    if(json.schedule){
+      html += "<div class='personalized noanimation'><p id='schedule-container'></p></div>"
+    }
     if(json.isAdmin===true&&json.admin){
-      html += json.admin;
+      html += "<br><div class='noanimation'>"+json.admin+"</div>";
     }
   }
   
@@ -313,13 +272,9 @@ function loadData(){
 }
 
 function updatePage(json){
-
-  createTimers(json);
-    
   loadPage(json);
   refreshPersonalizedSchedule(json);
 
-  //settings bar (see Settings.html)
   addHookClickListener();
   
   setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));

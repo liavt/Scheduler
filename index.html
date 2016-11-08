@@ -9,13 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <!--This is too meta for me-->
-        <meta name="theme-color" content="#0000FF">
+        <meta name="theme-color" content="#AAAAFF">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="blue">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#AAAAFF">
         <meta name="apple-mobile-web-app-title" content="Scheduler">
         <meta name="format-detection" content="telephone=no">
-        <meta name="generator" content="Google Apps Script">
-        
+
         <meta http-equiv="cleartype" content="on">
         <meta name="skype_toolbar" content="skype_toolbar_parser_compatible">
         
@@ -24,8 +23,8 @@
         
         <meta name="msapplication-allowDomainApiCalls" content="true">
         <meta name="msapplication-allowDomainMetaTags" content="true">
-        <meta name="msapplication-navbutton-color" content="#0000FF">
-        <meta name="msapplication-TileColor" content="#0000FF">
+        <meta name="msapplication-navbutton-color" content="#BBBBFF">
+        <meta name="msapplication-TileColor" content="#AAAAFF">
         
         <meta property="al:ios:app_name" content="Plano Academy Schedule">
         
@@ -78,7 +77,7 @@
         <!-- Fonts -->
         <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,500,900' rel='stylesheet' type='text/css'>
 
-        <title>Schedule</title>
+        <title>Schedule (Beta)</title>
         
         <link rel="manifest" href="manifest.json">
         
@@ -131,11 +130,11 @@
         </span>
         <span id="shade"></span>
         <span id="page"><!--This span is where the page contents gets put into-->
-          <h1 id="message">
           <noscript>
-            You have no Javascript! Please re-enable it
+            <h1 id="message">
+              You have no Javascript! Please re-enable it
+            </h1>
           </noscript>
-          </h1>
         </span>
     </body>
     <!--Scripts are loaded in here, at the end, to make it fastest-->
@@ -145,5 +144,15 @@
     <script src="src/client/js/Scripts.js"></script>
     <script src="src/client/js/Themes.js"></script>
     <script src="src/client/js/Initialization.js"></script>
-
+    <script>
+      if(!gapi||!$){
+        console.error("Resources failed to load. Refreshing...");
+        window.reload();
+      }
+      if (window.location.protocol !== 'https:') {
+        console.info("Redirecting to https");
+        //redirect to https
+        window.location = 'https://' + window.location.hostname + window.location.pathname;
+      }
+    </script>
 </html>

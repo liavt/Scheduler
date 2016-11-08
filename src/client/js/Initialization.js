@@ -48,8 +48,6 @@ function onSignIn(googleUser){
     pushView(VIEW_TYPE.MESSAGE,"Fetching your schedule...");
     var id_token = googleUser.getAuthResponse().id_token;
     
-    console.log(encodeURIComponent(id_token));
-    
     var settings = {
       "async": true,
       "crossDomain": true,
@@ -71,10 +69,8 @@ function onSignIn(googleUser){
         try{
             var json = JSON.parse(response);
         }catch(e){
-            console.log(response);
             pushView(VIEW_TYPE.MESSAGE,String(e)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }
-        console.log(json);
         if(json.failed){
             pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }else{
@@ -93,7 +89,8 @@ function viewLogin(auth2){
   auth2.attachClickHandler('login-button', {},
     onSignIn,
     function(error){
-      console.log(error);
+        pushView(VIEW_TYPE.MESSAGE,error);
+        console.log(error);
     }
   );
 }
@@ -127,11 +124,6 @@ function loadGoogleApi(){
 }
 
 function init(){
-    if (window.location.protocol !== 'https:') {
-        //redirect to https
-        window.location = 'https://' + window.location.hostname + window.location.pathname;
-    }
-    
     console.log("Initializing");
     var grade = getGrade();
     if(!grade||isNaN(grade)){
