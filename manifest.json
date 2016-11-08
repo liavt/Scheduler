@@ -17,9 +17,8 @@
     "sizes": "128x128 256x256 512x512",
     "type": "image/png"
   }],
-  "scope": "/Scheduler/",
-  "start_url": "/Scheduler/index.html",
-  "homepage_url": "/Scheduler/index.html",
+  "start_url": "./index.html",
+  "homepage_url": "https://github.com/liavt/Scheduler",
   "display": "fullscreen",
   "orientation": "portrait",
   "theme_color": "#BABAFF",
@@ -28,5 +27,9 @@
     "src": "demos/DemoStudent.PNG",
     "sizes": "1662x921",
     "type": "image/png"
-  }]
+  }],
+  "permissions": [
+    "cookies",
+    "notifications"
+  ]
 }

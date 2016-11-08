@@ -129,10 +129,8 @@ function loadGoogleApi(){
 function init(){
     if (window.location.protocol !== 'https:') {
         //redirect to https
-        window.location = 'https://' + window.location.hostname + window.location.pathname + window.location.hash;
+        window.location = 'https://' + window.location.hostname + window.location.pathname;
     }
-    
-    showNotification("This is a notification","hi");
     
     console.log("Initializing");
     var grade = getGrade();
