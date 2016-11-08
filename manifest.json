@@ -13,13 +13,13 @@
     "sizes": "32x32",
     "type": "image/ico"
   },{
-    "src": "icon/lowres.png",
+    "src": "favicon_hires.png",
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "scope": "/",
-  "start_url": "/index.html",
-  "homepage_url": "/index.html",
+  "scope": "",
+  "start_url": "index.html",
+  "homepage_url": "index.html",
   "display": "fullscreen",
   "orientation": "portrait",
   "theme_color": "aliceblue",
