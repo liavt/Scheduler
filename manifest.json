@@ -9,23 +9,23 @@
   "short_name": "Scheduler",
   "display": "standalone",
   "icons": [{
-    "src": "favicon.ico",
-    "sizes": "32x32",
+    "src": "Scheduler/favicon.ico",
+    "sizes": "16x16 32x32",
     "type": "image/ico"
   },{
-    "src": "favicon_hires.png",
-    "sizes": "512x512",
+    "src": "Scheduler/favicon_hires.png",
+    "sizes": "128x128 256x256 512x512",
     "type": "image/png"
   }],
-  "scope": "",
-  "start_url": "index.html",
-  "homepage_url": "index.html",
+  "scope": "Scheduler/",
+  "start_url": "Scheduler/index.html",
+  "homepage_url": "Scheduler/index.html",
   "display": "fullscreen",
   "orientation": "portrait",
-  "theme_color": "aliceblue",
-  "background_color": "blue",
+  "theme_color": "#9999FF",
+  "background_color": "#AAAAFF",
   "screenshots": [{
-    "src": "demos/DemoStudent.PNG",
+    "src": "Scheduler/demos/DemoStudent.PNG",
     "sizes": "1662x921",
     "type": "image/png"
   }]
