@@ -17,12 +17,12 @@
     "sizes": "128x128 256x256 512x512",
     "type": "image/png"
   }],
-  "scope": "Scheduler/",
-  "start_url": "Scheduler/index.html",
-  "homepage_url": "Scheduler/index.html",
+  "scope": "/Scheduler/",
+  "start_url": "/Scheduler/index.html",
+  "homepage_url": "/Scheduler/index.html",
   "display": "fullscreen",
   "orientation": "portrait",
-  "theme_color": "#9999FF",
+  "theme_color": "#BABAFF",
   "background_color": "#AAAAFF",
   "screenshots": [{
     "src": "demos/DemoStudent.PNG",
