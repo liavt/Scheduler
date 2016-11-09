@@ -48,6 +48,10 @@ input{
     cursor:pointer;
 }
 
+input[type="text"],input[type="number"]{
+    cursor:text;
+}
+
 input:hover :not(input[type="checkbox"]){
     -webkit-box-shadow: inset 0em 0em 0em 1em #CCC;
     -moz-box-shadow: inset 0em 0em 0em 1em #CCC;

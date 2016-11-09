@@ -1,0 +1,26 @@
+/* PROJECT */
+
+	Site Name:   Scheduler
+	Standards:   HTML5, CSS3
+	Components:  jQuery, Google API
+	IDE: Cloud9, Github, Google Scripts (BOO!!)
+
+/* AUTHOR */
+
+	Name:        Liav Turkia
+	Nickname:    Little Meme Man
+
+/* META */
+
+	Uses JQuery and Google API. Probably the third rewrite of the scheduler
+
+/* THANKS */
+
+    Jason Lu for his work on the early versions of Scheduler
+    Neel Pai for his criticism and feedback
+    Andrew Goodman for trying to hack the Scheduler
+    Mr. Bailey who told me to stop complaining and make my own Schedule
+    Mrs. Hirsch who wants to remove Bailey from the Scheduler
+    
+    And the final obligatory thanks:
+	To everyone who uses and gives feedback on the Scheduler
