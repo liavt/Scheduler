@@ -4,6 +4,7 @@
 	Standards:   HTML5, CSS3
 	Components:  jQuery, Google API
 	IDE: Cloud9, Github, Google Scripts (BOO!!)
+	License: MIT
 
 /* AUTHOR */
 
@@ -19,7 +20,7 @@
     Jason Lu for his work on the early versions of Scheduler
     Neel Pai for his criticism and feedback
     Andrew Goodman for trying to hack the Scheduler
-    Mr. Bailey who told me to stop complaining and make my own Schedule
+    Mr. Bailey who told me to stop complaining and make my own schedule
     Mrs. Hirsch who wants to remove Bailey from the Scheduler
     
     And the final obligatory thanks:
