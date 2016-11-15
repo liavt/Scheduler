@@ -125,6 +125,7 @@ function loadGoogleApi(){
 
 function init(){
     console.log("Initializing");
+    
     var grade = getGrade();
     if(!grade||isNaN(grade)){
         
