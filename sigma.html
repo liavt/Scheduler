@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <!--I used to trust Google scripts with website creation. Now I am smarter and made it not Google-run-->
+    <head>
+        <!--This is too meta for me-->
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta http-equiv="default-style" content="src/client/styles/Stylesheet.css">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        
+        <!--Stylesheets go on the top to allow for progressive downloads-->
+        <link href="src/client/styles/Reset.css"rel="stylesheet"text="text/css">
+
+        <meta name="robots" content="noindex">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="Classification" content="Education">
+        <meta name="pagename" content="Scheduler">
+        <meta name="Rating" content="General">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="google" value="notranslate">
+        
+        <meta name="theme-color" content="#9999FF">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#9999FF">
+        <meta name="apple-mobile-web-app-title" content="Scheduler">
+        <meta name="format-detection" content="telephone=no">
+
+        <meta http-equiv="cleartype" content="on">
+        <meta name="skype_toolbar" content="skype_toolbar_parser_compatible">
+        
+        <meta name="application-name" content="Plano Academy Scheduler">
+        <meta name="msapplication-tooltip" content="Plano Academy Scheduler">
+        
+        <meta name="msapplication-allowDomainApiCalls" content="true">
+        <meta name="msapplication-allowDomainMetaTags" content="true">
+        <meta name="msapplication-navbutton-color" content="#BBBBFF">
+        <meta name="msapplication-TileColor" content="#AAAAFF">
+        <meta name="msapplication-TileImage" content="favicon_hires.png">
+        
+        <meta property="al:ios:app_name" content="Plano Academy Schedule">
+        
+        <meta property="al:android:app_name" content="Plano Academy Schedule">
+        
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        
+        <!--WOOO chinese browser support yo-->
+        <meta name="x5-orientation" content="landscape/portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        
+        <meta name="imagemode" content="force">
+        <meta name="browsermode" content="application">
+        <meta name="nightmode" content="disable">
+        
+        <meta name="wap-font-scale" content="no">
+        
+        <meta name="ICBM" content="33.019843, -96.698886">
+        <meta name="geo.position" content="33.019843;-96.698886">
+        <meta name="geo.region" content="US, TX">
+        <meta name="geo.placename" content="Plano">
+        
+        <!-- This site shouldn't show up on search engines, but why not-->
+        <meta name="description" content="Scheduler for Plano Academy High School">
+        <meta name="keywords" content="Schedule,Plano Academy">
+        <meta name="author" content="Liav Turkia">
+        
+        <meta property="op:markup_version" content="v1.0">
+        
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Plano Academy High School">
+        <meta property="og:description" content="Scheduler for Plano Academy High SChool">
+        <meta property="og:site_name" content="AHS Scheduler">
+        <meta property="og:locale" content="en_US">
+        
+        <meta itemprop="name" content="Plano Academy High School">
+        <meta itemprop="description" content="Scheduler for Plano Academy High School">
+        
+        <meta name="twitter:card" content="Scheduler for Plano Academy High School">
+        <meta name="twitter:title" content="Plano Academy Schedule">
+        <meta name="twitter:description" content="Scheduler for Plano Academy High School">
+        
+        <!-- Add to home screen -->
+        <meta name="mobile-web-app-capable" content="yes">
+        
+        <title>SIGMA</title>
+        
+        <link href="https://script.google.com"rel="dns-prefetch">
+        <link href="https://apis.google.com"rel="dns-prefetch">
+        <link href="https://ajax.googleapis.com"rel="dns-prefetch">
+        
+       
+        
+        <link href="manifest.json"rel="manifest">
+        
+        <!--Fallback icons in case manifests aren't supported-->
+        <link href="sigma.ico"rel="shortcut icon"type="image/x-icon">
+        
+        <link href="favicon_hires.png"rel="icon" sizes="256x256 512x512">
+        <link href="favicon_hires.png"rel="apple-touch-icon">
+      
+        <link href="humans.txt"rel="author">
+        
+        <style>
+          body{
+            background-color:black;
+            color:green;
+            font-family:'Courier';
+            font-size:1em;
+          }
+          
+          #input{
+            background-color: rgba(0,0,0,0);
+            border:none;
+            font-size:1em;
+            height:100% !important;
+            width:99%;
+            color:green;
+          }
+          
+          .red{
+            color:red !important;
+          }
+          
+          .glitch{font-family:Courier;animation:glitch1 3.5s infinite;position:relative;}.glitch::after,.glitch::before{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}.glitch::after{color:#0F0;animation:glitch2 1.5s infinite alternate-reverse}.glitch::before{color:#f16f6f;animation:glitch3 2.5s infinite alternate-reverse}@keyframes glitch1{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:1}7%{transform:skew(-.5deg,-.9deg);opacity:.75}30%{transform:skew(.8deg,-.1deg);opacity:.75}55%{transform:skew(-1deg,.2deg);opacity:.75}75%{transform:skew(.4deg,1deg);opacity:.75}}@keyframes glitch2{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:.25}7%{transform:translate(-2px,-3px);opacity:.5}30%{transform:translate(-5px,-2px);opacity:.5}55%{transform:translate(-5px,-1px);opacity:.5}75%{transform:translate(-2px,-6px);opacity:.5}}@keyframes glitch3{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:.25}7%{transform:translate(2px,3px);opacity:.5}30%{transform:translate(5px,2px);opacity:.5}55%{transform:translate(5px,1px);opacity:.5}75%{transform:translate(2px,6px);opacity:.5}}
+        </style>
+    </head>
+    <body>
+      <span id="console">
+        
+      </span>
+      <textarea id="input"rows="40"></textarea>
+    </body>
+    <!--Scripts are loaded in here, at the end, to make it fastest-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"type="text/javascript"></script>
+    <script src="src/client/js/ViewManager.js"type="text/javascript"></script>
+    <script src="src/client/js/Scripts.js"type="text/javascript"></script>
+    <script type="text/javascript">
+      if(!$){
+        console.error("Resources failed to load.");
+        document.write("<h1 id='message'>Resources failed to load. Please reload the page.</h1>");
+      }
+      if (window.location.protocol !== 'https:') {
+        document.write("<h1 id='message'>Not using https. Please reload the page using https</h1>");
+      }
+    </script>
+     <script>
+      //SIGMA doesnt like cheaters. Dont read through this code.
+      var strikes = 0;
+      
+      var func = function(result){
+        if(enabledCommands.indexOf(result)>=0){
+          commands[result]();
+        }else{
+          logn("Invalid command");
+          waitForInput(func);
+        }
+      };
+      
+      var satelliteLocation = 1;
+      
+      var enabledCommands;
+      var commands = {
+        help:function(){
+          logn("AGENTS SHOULDN'T NEED HELP");
+          waitForInput(func);
+        },
+        exit:function(){
+          logn("YOU CAN'T LEAVE WHILE THERE IS STILL WORK TO DO");
+          waitForInput(func);
+        },
+        sigma:function(){
+          viewSigmaLogo("SIGMA");
+          waitForInput(func);
+        },
+        code:function(){
+          logn("Starting server uplink...");
+            for(var i =0;i<10;++i){
+              log(".");
+            }
+            logn("Done.");
+            logn("Message from server:");
+            logn("Please enter real first and last name. Anything other than your real name will fail.");
+            waitForInput(function(name){
+              logn("Sent username "+name);
+              logn("Please enter message:");
+              waitForInput(function(message){
+                logn("Sent message "+message);
+                logn("Waiting for response...");
+                
+                var settings = {
+                  "async": true,
+                  "crossDomain": true,
+                  "dataType":"jsonp",
+                  "url": "https://script.google.com/macros/s/AKfycbwUZGwN_7lKybnQb8bBLEc1vhMTsXWQUDu28vJSMAaDdVw8A832/exec",
+                  "method": "POST",
+                  "headers": {
+                    "cache-control": "no-cache",
+                  },
+                  "data": {
+                      "name":encodeURIComponent(name),
+                      "message":encodeURIComponent(message),
+                      "callback":"foo"
+                  }
+                };
+                
+                $.ajax(settings).done(function (response) {
+                  var json = JSON.parse(response);
+                  logn(json.message);
+                  
+                  if(json.message=="WRONG!"){
+                    ++strikes;
+                    logn("You have "+strikes+" strike"+(strikes!=1 ? "s" : ""));
+                    if(strikes==1){
+                      $("#console").toggleClass("red");
+                      $("#input").toggleClass("red");
+                    }else if(strikes==2){
+                      $("body").toggleClass("glitch");
+                      $("#console").toggleClass("glitch");
+                      $("#console").attr("data-text","ACCESS DENIED ACCESS DENIED ACCESS DENIED ACCESS DENIED ACCESS DENIED ACCESS DENIED");
+                    }else if(strikes==3){
+                      clearConsole();
+                      viewSigmaLogo("ACCESS DENIED");
+                    }
+                  }else{
+                    strikes = 0;
+                    
+                    enabledCommands.push(json.command);
+                  }
+                  
+                  waitForInput(func);
+                });
+                
+              });
+            });
+        },
+        interpol:function(){
+          logn("<span class='red'>DO NOT MENTION THAT NAME</span>");
+          waitForInput(func);
+        },
+        uplink:function(){
+          logn("<i>D</i>ETECTING SATELLITE...");
+          logn("C<i>O</i>NNECTING TO <i>W</i>ORLD SATELLITE...");
+          logn("COMMU<i>N</i>ICATIONS ESTAB<i>L</i>ISHED.");
+          if(satelliteLocation==1){
+            logn("SATELLITE IS N<i>O</i>T BRO<i>A</i>DCASTING ANY MESSAGES");
+            logn("CURRENTLY POINTE<i>D</i> AT 33.022696, 96.719394 (PLANO ACADEMY HS)");
+          }else if(satelliteLocation==2){
+            logn("SATELLITE IS BR<i>OA</i>DCASTING MESSAGES. USE DOWNLOAD TO RETRIEVE.");
+            logn("CURRENTLY POINTE<i>D</i> AT 45.764043, 4.835659 (INTERPOL)");
+          }else if(satelliteLocation==3){
+            logn("SATELLITE IS BR<i>OA</i>DCASTING MESSAGES. USE DOWNLOAD TO RETRIEVE.");
+            logn("CURRENTLY POINTE<i>D</i> AT ???, ??? (SIGMA)");
+          }
+          enabledCommands.push("download");
+          waitForInput(func);
+        },
+        redirect:function(){
+          logn("REDIRECTING SATELLITE...");
+          logn("LOCATIONS SAVED:");
+          logn("1. PLANO ACADEMY HS"+(satelliteLocation==1 ? "(CURRENT)" : ""));
+          logn("2. INTERPOL"+(satelliteLocation==2 ? "(CURRENT)" : ""));
+          logn("3. SIGMA"+(satelliteLocation==3 ? "(CURRENT)" : ""));
+          logn("ENTER THE NUMBER OF THE LOCATION TO REDIRECT TO");
+          
+          var redirectFunction = function(result){
+            satelliteLocation=result;
+            if(result==2){
+              logn("REDIRECTED TO 45.764043, 4.835659 (INTERPOL)");
+              logn("MESSAGES FOUND. USE DOWNLOAD TO RETRIEVE.");
+              waitForInput(func);
+            }else if(result==1){
+              logn("REDIRECTED TO 33.022696, 96.719394 (PLANO ACADEMY HS)");
+              logn("NO MESSAGES FOUND.");
+              waitForInput(func);
+            }else if(result==3){
+              logn("REDIRECTED TO ???, ??? (SIGMA)");
+              logn("MESSAGES FOUND. USE DOWNLOAD TO RETRIEVE.");
+              waitForInput(func);
+            }else{
+              logn("NOT A VALID LOCATION");
+              waitForInput(redirectFunction);
+            }
+          }
+          waitForInput(redirectFunction);
+        },
+        download:function(){
+          if(satelliteLocation==1){
+            logn("XGA GSS CRGS YBXAAQG OJQ DSNG 'DRIVY FETXSOG'");
+          }else if(satelliteLocation==2){
+            logn("VIILI IVGIRVERMT NVHHZTVH, HKVXRZO KILGLXLO IVJFRIVW. HVMW 'vnzro kilglxlo' ERZ GSV XLWV XLNNZMW");
+          }else if(satelliteLocation==3){
+            logn("LEGA TQY. YNU WEJJ LAVAQ BELM WDAQA RECKS ER.");
+          }
+          waitForInput(func);
+        },
+        email:function(){
+          if(satelliteLocation==2){
+            var emailFunction = function(result){
+              if(result=="kappa"){
+                logn("VGhlcmUgaXMgYSBncm91cCBjYWxsZWQga2FwcGEgd2hvIHNlZW1zIHRvIGJlIGFzc29jaWF0ZWQgd2l0aCBTaWdtYSBzb21laG93LiBUaGVzZSBzcGllcyBwbGFudCBtZXNzYWdlcyB0aHJvdWdob3V0IFBsYW5vIEFjYWRlbXkuIEkgaGF2ZSBpbnN0cnVjdGVkIG91ciBhZ2VudHMgdG8gZmluZCBhbmQgZGVzdHJveSB0aGlzIHRocmVhdC4=");
+              }else if(result=="sigma"){
+                logn("Iieoaaoizlgeqggqmcxhrxfdkymyqgnnhzmyemdzyslniyiwrvkihrkuogiqemgaoodbphykiytpzltduuemoizlmq");
+              }else if(result=="cold case"){
+                logn("Dv ziv ivlkvmrmt hlnv xzhvh uiln z olmt grnv ztl. Dv szev srivw hlnv ivxifrg wvgvxgrevh zg Kozml Zxzwvnb gl rmevhgrtzgv gsvn. Gsvb droo hvmw ivjfvhgh uli verwvmxv, hl kivkziv blfi xzhv urovh.");
+              }else{
+                logn("EMAIL NOT FOUND.");
+              }
+              waitForInput(func);
+            }
+            
+            logn("EMAILS FOUND. PLEASE ENTER THE SUBJECT OF AN EMAIL TO READ.");
+            waitForInput(emailFunction);
+          }else if(satelliteLocation==3){
+            logn("<span class='red'>ERROR: CONNECTION REFUSED</span>");
+            waitForInput(func);
+          }else{
+            logn("NO EMAILS FOUND AT THIS LOCATION.");
+            waitForInput(func);
+          }
+        }
+      };
+     
+      function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds){
+            break;
+          }
+        }
+      }
+      
+      function log(message){
+        $("#console").append(message);
+      }
+      
+      function logn(message){
+        log(message + "<br>");
+      }
+      
+      function waitForInput(func){
+        $("#input").unbind();
+        $('#input').keyup(function(e){
+          if(e.keyCode == 13)
+          {
+            var text= $("#input").val().replace(/\n|\r\n|<br>/g,"");
+            logn(text);
+            $(this).val("");
+            
+            $("#input").unbind();
+            
+            func(text.toLowerCase());
+            
+          }
+        });
+      }
+      
+      function viewSigmaLogo(message){
+        logn(`
+        <pre>                         
+              :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#                     
+              :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#                     
+               @@@@@@@.............,:+@@@@@@@#                     
+                @@@@@@@                 ,@@@@#                     
+                 @@@@@@@                  @@@#                     
+                 @@@@@@#                 @@#                     
+                  :@@@@@@:                 @@#                     
+                   #@@@@@@                 @#                     
+                    @@@@@@@                 @#                     
+                     @@@@@@@                ;#                     
+                      @@@@@@@               :                     
+                      @@@@@@#                                     
+                       :@@@@@@:                                    
+                        #@@@@@@                                    
+                         @@@@@@@                                   
+                          @@@@@@@                                  
+                           @@@@@@@                                 
+                           @@@@@@+                                
+                            ;@@@@@@,                               
+                             #@@@@@@                               
+                              @@@@@@@                              
+                               @@@@@@  `+message+`                            
+                                @@@@                               
+                                :@@                                
+                               .@@                                
+                              @@                                 
+                             @@.                                  
+                             @@:                                   
+                            @@;                                    
+                           @@+                                     
+                          @@#                                      
+                         @@#                                       
+                        @@@                                        
+                       @@@                                         
+                      @@@                    @                     
+                     @@@                    @                     
+                    #@@                     #@                     
+                   #@@                      @@                     
+                  +@@                      +@@                     
+                 ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     
+                :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     
+               ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     
+              ++++++++++++++++++++++++++++++++      
+</pre>
+        `);
+      }
+      
+      function clearConsole(){
+        $("#console").empty();
+      }
+      
+      $(function(){
+        logn("Loading...");
+        
+        window.onbeforeunload = (function(){
+          setCookie("SIGMA-commands",enabledCommands.join(","));
+          setCookie("SIGMA-satLocation",satelliteLocation);
+        });
+        
+        var savedCommands = getCookie("SIGMA-commands").split(",");
+        if(savedCommands&&savedCommands.length>1){
+          enabledCommands = [];
+          for(var i = 0;i<savedCommands.length;++i){
+            enabledCommands.push(savedCommands[i]);
+          }
+        }else{
+          enabledCommands = ["help","exit","sigma","code","interpol,"]; 
+        }
+        
+        var satLocation = getCookie("SIGMA-satLocation");
+        if(satLocation){
+          satelliteLocation = satLocation;
+        }
+        
+        logn("SIGMA Console Activated.");
+        logn("454315 442315 13341415 13343232113314 113314 43153314 453531243325 3542344434133431");
+        logn("Enter your command:");
+        
+        waitForInput(func);
+      })
+    </script>
+</html>
