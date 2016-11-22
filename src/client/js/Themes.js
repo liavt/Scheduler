@@ -11,6 +11,7 @@ var styles = [[[],'Normal','The standard theme.',false],
 [['hidden/harambe','hidden/meme'],'Harambe,harambe,gorilla,ape,big ape,true love,saviour,cinncinati,zoo,animal,primal,winston,monkey,inspiration,orangutan,peace,heaven,ceaser,caeser,planet of the ape,planet of the apes,return to the planet of the apes,neanderthal,neanderthals,evolution,hair,monk key,science,rip,rest in peace,rest in pieces,rest in peaces,rip in peace','RIP',true],
 [['hidden/hirsch','hidden/meme'],'Hirsch,graph,sheets,sheet,graphs,math,algebra,hirsh,step,steph,stephanie hirsch,stephirsh,geometry,geometery','It hirsch me to make this',true],
 [['hidden/bartholew','hidden/meme'],'Bart,bartholew,bartqdino,bartthedino,bartholew q,bart dino,bart q dino,bart the dino,bart,bartholew dino,dinosaur,jurassic,jurassic park,jurassic world,stegosaurus,trex,t-rex,lizard,giant lizard','#bartthedino',true],
+[['hidden/jiddibabbu','hidden/meme'],'JiddiBabbu,jiddi,babbu,ashar,scouting,qa,scouting and qa,dirty freshman,freshie,freshies,freshman,gopal','Take that Gopal',true],
 ];//the first element of the nested array is the stylesheet name, and dependenencies.. The second is a list of terms to describe it. The first word is the name that appears to the user. The third is a description. Fourth is if its hidden or not
 
 /*
