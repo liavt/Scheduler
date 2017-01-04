@@ -1,4 +1,4 @@
-##You can find this live at tinyurl.com/ahsscheduler
+##You can find this live [here](tinyurl.com/ahsscheduler) or at the [beta site](liavt.github.io/Scheduler)
 
 #Scheduler
 Scheduler for school. 
