@@ -13,7 +13,8 @@ Sure. Make a pull request. Make sure it works perfectly, as remember the school 
 
 #How do I use it
 You can use the API endpoint:
-`https://script.google.com/a/macros/mypisd.net/s/AKfycbxu3RD39BI1mpo6iIW2JKsFoVUM47ZhSXMrIcEk55Z5/dev`
+`https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec`
+
 It accepts both POST and GET requests. You will need to send a couple of parameters:
 
 | *Parameter* 	| *Content*                                                                                   	|
