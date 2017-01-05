@@ -2,9 +2,13 @@ html, body {
     height: 100%;
 }
 
+h1, h2, h3, h4, h5, h6{
+    font-weight:bold;
+}
+
 body{
     visibility: hidden;
-    font-family: 'Roboto', sans-serif; /*The dependency for Roboto is included in Head.html*/
+    font-family: 'Roboto', sans-serif;
     line-height: 1.65em;
     text-align: center;
     color: black;
@@ -15,14 +19,14 @@ body{
     overflow-x: hidden;
 }
 
-div, .infobutton, select, input{
+body div, .infobutton, select, input{
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
 
-div, .infobutton{
+body div, .infobutton{
     -webkit-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
     -moz-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
     box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
@@ -78,7 +82,7 @@ input[type="submit"]:hover{
 
 #glitch{font-family:Courier;animation:glitch1 3.5s infinite;position:relative;color:#000}#glitch::after,#glitch::before{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}#glitch::after{color:#0F0;animation:glitch2 1.5s infinite alternate-reverse}#glitch::before{color:#f16f6f;animation:glitch3 2.5s infinite alternate-reverse}@keyframes glitch1{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:1}7%{transform:skew(-.5deg,-.9deg);opacity:.75}30%{transform:skew(.8deg,-.1deg);opacity:.75}55%{transform:skew(-1deg,.2deg);opacity:.75}75%{transform:skew(.4deg,1deg);opacity:.75}}@keyframes glitch2{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:.25}7%{transform:translate(-2px,-3px);opacity:.5}30%{transform:translate(-5px,-2px);opacity:.5}55%{transform:translate(-5px,-1px);opacity:.5}75%{transform:translate(-2px,-6px);opacity:.5}}@keyframes glitch3{0%,10%,100%,27%,35%,50%,52%,72%,80%{transform:none;opacity:.25}7%{transform:translate(2px,3px);opacity:.5}30%{transform:translate(5px,2px);opacity:.5}55%{transform:translate(5px,1px);opacity:.5}75%{transform:translate(2px,6px);opacity:.5}}
 
-div{
+body div{
     opacity: 0.7 ;
     -webkit-border-radius: 0.25em;
     -moz-border-radius: 0.25em;
@@ -107,7 +111,7 @@ table tr:last-child {
     border-bottom: none; 
 }
 
-div:hover{
+body div:hover{
     opacity:1;
 }
 
@@ -394,4 +398,25 @@ q {
 
 .disabled.time.cell{
     background-color: #AAA;
+}
+
+.cell p{
+    padding-left:0.5em;
+    padding-right:0.1em;
+}
+
+.time.cell .time-contents{
+    padding-left:0;
+    padding-right:0;
+    width:7em;
+}
+
+.time.cell .time-contents .time-hours{
+    width:40% !important;
+    float:left;
+}
+
+.time.cell .time-contents .time-dash{
+    width:20% !important;
+    float:left;
 }

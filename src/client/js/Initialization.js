@@ -52,7 +52,7 @@ function onSignIn(googleUser){
       "async": true,
       "crossDomain": true,
       "dataType":"jsonp",
-      "url": "https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec",
+      "url": CONFIG.API_ENDPOINT,
       "method": "POST",
       "headers": {
         "cache-control": "no-cache",
@@ -69,12 +69,13 @@ function onSignIn(googleUser){
         try{
             var json = JSON.parse(response);
         }catch(e){
-            pushView(VIEW_TYPE.MESSAGE,String(e)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+            pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+String(e)+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }
         if(json.failed){
-            pushView(VIEW_TYPE.MESSAGE,String(json.failed)+"<br>Please try to login again.<br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+            pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+String(json.failed)+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
         }else{
             updatePage(json);
+            console.log(json);
         }    
     });
 
@@ -82,7 +83,7 @@ function onSignIn(googleUser){
 }
 
 function viewLogin(auth2){
-  var html = '<span id="login"><div id="name">'+getGrade()+'th Grade Sign In</div><br><div>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
+  var html = '<span id="login"><div id="name">'+getGrade()+'th Grade Sign In</div><br><div>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div aria-label="Google Sign In"id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
   pushView(VIEW_TYPE.PAGE,html);
   
   //we are using getElementById instead of JQuery because that is what the google api accepts
@@ -98,7 +99,7 @@ function viewLogin(auth2){
 function loadGoogleApi(){
   gapi.load('auth2', function() {
     auth2 = gapi.auth2.init({
-      client_id: '48133947856-qpuod3t3ghkva88jfslo5gaeigi6ce4o.apps.googleusercontent.com',
+      client_id: CONFIG.GAPI_TOKEN,
     });
         
     //run the actual code when we are initialized with google api
@@ -124,15 +125,19 @@ function loadGoogleApi(){
 }
 
 function init(){
-    console.log("Initializing");
+    console.log("Initializing...");
     
+    setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
+    
+    createNotifications();
+
     var grade = getGrade();
     if(!grade||isNaN(grade)){
         
         
         var html = "<div id='name'>Welcome!</div><br>";
         html += "<div>Please select your grade level:<br>";
-        html += "<select id='grade'><option value='9'>9th</option><option value='10'>10th</option></select>";
+        html += "<select aria-labelledby='Grade' id='grade' autofocus><option value='9'>9th</option><option value='10'>10th</option></select>";
         html += "<br><br><input type='submit'id='grade-submit'value='Select'/></div>";
         
         pushView(VIEW_TYPE.PAGE,html);
@@ -143,12 +148,11 @@ function init(){
             init();
         });
     }else{
-     
         pushView(VIEW_TYPE.MESSAGE,'Generating Theme...');
      
         loadGoogleApi();
      
-        loadData();
+        readCookies();
     
     }
 }

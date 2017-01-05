@@ -1,10 +1,4 @@
-
-
-//defining the possible options
-var days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];//this is index 
-
-//size of the background image in the infobutton in px
-var INFOBUTTON_IMAGE_SIZE = 70;
+var checkNotifications;
 
 function getTime(date) {
     // Only check for current day
@@ -45,12 +39,12 @@ function calculateInfoButtonWidth(touch){
     var font = element.css("font");
     
     //70 is the size of the icon
-    element.css("width",(INFOBUTTON_IMAGE_SIZE+getTextWidth(text,font)+"px"));
+    element.css("width",(CONFIG.INFOBUTTON_IMAGE_SIZE+getTextWidth(text,font)+"px"));
   };
   
   var defaultSize = function(index){
       var element = $(this);
-      element.css("width",INFOBUTTON_IMAGE_SIZE+"px");
+      element.css("width",CONFIG.INFOBUTTON_IMAGE_SIZE+"px");
   };
     
   if(!touch){
@@ -89,59 +83,30 @@ function getCookie(cname) {
     return "";
 }
 
-function showNotification(title,body,icon){
-  if(getCookie('notify')){
-    if(!icon){
-        //woah woah wikipedia? the academy website doesnt have a version of the logo hosted with https (which will invalidate the security certificate.) Wikipedia, however, does have one for the page. Thanks Obama.
-       icon = "https://upload.wikimedia.org/wikipedia/en/c/c7/PlanoAcademyHSLogo.jpg";
-
+function createNotifications(json){
+  if(getCookie('notify')==''||!getCookie('notify')){
+    if (!Notification) {
+      setCookie('notify','false');
+      return;
     }
     
-    if(navigator&&navigator.serviceWorker){
-      navigator.serviceWorker.ready.then(function(registration) {
-        registration.showNotification(title, {
-          body: body,
-          icon: icon,
-          lang: "en-US",
-          dir: "ltr",
-          vibrate: [300,300,100,100,100,300,300],
-        });
-      });
-    }else{
-      var notification = new Notification(title, {
-        icon: icon,
-        body: body,
-      });
-    }
-  }
-}
-
-function createNotifications(){
-    if(getCookie('notify')==''||!getCookie('notify')){
-      if (!Notification) {
+    Notification.requestPermission().then(function(result) {
+      if (result === 'denied') {
         setCookie('notify','false');
         return;
       }
-      
-      if(navigator&&navigator.serviceWorker)navigator.serviceWorker.register('sw.js');
-      
-      Notification.requestPermission().then(function(result) {
-        if (result === 'denied') {
-          setCookie('notify','false');
-          return;
-        }
-        if (result === 'default') {
-          setCookie('notify','false');
-          return;
-        }
-        setCookie('notify','true');
-      });
+      if (result === 'default') {
+        setCookie('notify','false');
+        return;
+      }
       setCookie('notify','true');
-    }
-    
-    if(getCookie('passPeriod')==''||!getCookie('passPeriod')){
-      setCookie('passPeriod',5);
-    }
+    });
+    setCookie('notify','true');
+  }
+  
+  if(getCookie('passPeriod')==''||!getCookie('passPeriod')){
+    setCookie('passPeriod',5);
+  }
 }
 
 function addZero(i) {
@@ -165,25 +130,11 @@ function refreshPersonalizedSchedule(json){
   for(var i = 0;i<json.schedule.length;i++){
   
     var start = new Date(json.schedule[i].startTime);
-    var startHours = parseInt(start.getHours());
-    if (startHours > 12) {
-      // Convert to AM/PM from military time
-      startHours -= 12;
-    }
     
     var end = new Date(json.schedule[i].endTime);
-    var endHours = parseInt(end.getHours());
-    if (endHours > 12) {
-      // Convert to AM/PM from military time
-      endHours -= 12;
-    }
     
     out += "<tr id='row"+i+"'><td class='time cell'>";
-    if(startHours<10){
-      //to align
-      out += "&nbsp;";
-    }
-    out += startHours + ":" + addZero(start.getMinutes()) + " - "+ endHours+":"+addZero(end.getMinutes())+"</td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'>&nbsp;" + json.schedule[i].name + '</td></tr>';
+    out += "<p class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></p></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
   }
   
   out += "</table></p>";
@@ -202,12 +153,7 @@ function getGreeting(){
        return 'Good evening, %N';
     }
   }else{
-    var greetings = [
-      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo %N!","Hey %N!","Greetings, %N",
-      "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
-    ];
-    
-    return greetings[Math.floor(Math.random() * greetings.length)];
+    return CONFIG.GREETINGS[Math.floor(Math.random() * CONFIG.GREETINGS.length)];
   }
 }
 
@@ -239,27 +185,27 @@ function loadPage(json){
   var html = "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
   
   if(json.day<0||json.day>4){
-    html += "<br><div>No school today!</div>";
+    html += "<br><div aria-live='polite'>No school today!</div>";
   }else{
     
     html += "<br>"+json.motd.global;
     html += json.motd.local;
     if(json.schedule){
-      html += "<div class='personalized noanimation'><p id='schedule-container'></p></div>"
+      html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
     }
     if(json.isAdmin===true&&json.admin){
       html += "<br><div class='noanimation'>"+json.admin+"</div>";
     }
   }
   
-  html += "<br><div id='infobuttons'><form action='javascript:void(0)'class='infobuttonsform'id='settingshook'><input id='settingsbutton'class='infobutton'type='submit'value='Settings'></form></div><br>";
+  html += "<br><div id='infobuttons'><form action='#'class='infobuttonsform'id='settingshook'><input aria-label='Settings'id='settingsbutton'class='infobutton'type='submit'value='Settings'></form></div><br>";
   
   pushView(VIEW_TYPE.PAGE,html);
   
   $("#glitch").html($("#glitch").attr("data-text"));
 }
 
-function loadData(){
+function readCookies(){
   applyTheme(getCookie('theme'));
 
   //after the semicolon are parameters
@@ -273,13 +219,81 @@ function loadData(){
   }
 }
 
+function showNotification(title, msg){
+  var notification = new Notification(title, {
+    icon: CONFIG.NOTIFICATION_ICON,
+    body: msg,
+    dir: CONFIG.LANGUAGE_DIRECTION,
+    lang: CONFIG.LANGUAGE_NAME,
+    vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN
+  }); 
+}
+
+function getTime(date) {
+    // Only check for current day
+    return (date.getHours() * 60) + date.getMinutes();
+}
+
+function timeToString(date){
+    var pm = false;
+    var hours = parseInt(date.getHours());
+    if (hours > 12) {
+      // Convert to AM/PM from military time
+      hours -= 12;
+      pm = true;
+    }
+    
+    return hours+":"+addZero(date.getMinutes())+" "+(pm ? "PM" : "AM");
+}
+
+function updateNotifications(json){
+  if(getCookie("notify")){
+    clearInterval(checkNotifications);
+    checkNotifications = function(){
+      var currentTime = getTime(new Date());
+      var passingPeriod = getCookie('passPeriod');
+       
+      if(!passingPeriod||passingPeriod==''){
+        passingPeriod = 5;
+      }
+      
+      for(var i = 0;i<json.schedule.length;++i){
+        var start = new Date(json.schedule[i].startTime);
+        var nextTime = getTime(start);
+        
+        var timeDifference = (currentTime-nextTime);
+      
+        if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
+          showNotification(json.schedule[i].name+" starts in "+passingPeriod+" minutes.","You need to be there at "+timeToString(start)+".\nWait for your teacher to dismiss you.");
+          return;
+        }else if(i == json.schedule.length - 1){
+          nextTime = getTime(new Date(json.schedule[i].endTime));
+          timeDifference = (currentTime-nextTime);
+          
+          if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
+            showNotification("School ends in "+passingPeriod+" minutes.","Wait for your teacher to dismiss you.");
+            return;
+          }
+        }
+      }
+      
+    };
+    
+    checkNotifications = setInterval(checkNotifications, 60000);
+    
+  }
+  
+}
+
+/**
+This should be called when the JSON gets updated
+*/
 function updatePage(json){
   loadPage(json);
   refreshPersonalizedSchedule(json);
-
-  addHookClickListener();
+  updateNotifications(json);
   
-  setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
+  addHookClickListener();
 }
 
 function addHookClickListener(){
@@ -314,14 +328,14 @@ function addHookClickListener(){
     var dayselect = $('#settings-day-selector');
     var styleselect = $('#settings-style-selector');
     
-    for(var i=0;i<styles.length;i++){//add the style <option>'s
-      var current = (styles[i][0]==style);
-      if(!styles[i][3]||(current)){
-        var select = '<option value="'+styles[i][0]+'"';
-        if(styles[i][0]==style){
+    for(var i=0;i<CONFIG.THEMES.length;i++){//add the style <option>'s
+      var current = (CONFIG.THEMES[i][0]==style);
+      if(!CONFIG.THEMES[i][3]||(current)){
+        var select = '<option value="'+CONFIG.THEMES[i][0]+'"';
+        if(CONFIG.THEMES[i][0]==style){
           select+='selected="selected"id="selected-style"';//make it default
         }
-        select+='>'+styles[i][1].split(',')[0]+'</option>';
+        select+='>'+CONFIG.THEMES[i][1].split(',')[0]+'</option>';
         $(select).appendTo(styleselect);
       }
     }
@@ -366,6 +380,8 @@ function addHookClickListener(){
     backgroundSelector.change(function(){
        setCookie('bg',backgroundSelector.val());
     });
+    
+    var days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];//this is index 
     
     for(var i =0;i<days.length;i++){
       var select = '<option value="'+(i+1)+'"';
