@@ -1,4 +1,4 @@
-##You can find this live at tinyurl.com/ahsscheduler
+##You can find this live [here](https://tinyurl.com/ahsscheduler) or at the [beta site](https://liavt.github.io/Scheduler)
 
 #Scheduler
 Scheduler for school. 
@@ -11,14 +11,16 @@ Yep, the school now runs this for 9th grade and 10th grade
 Sure. Make a pull request. Make sure it works perfectly, as remember the school uses this. It must be reliable.
 **Master branch should always be ready to be pushed to live. If you want to test something, create a new branch+pull request**
 
-#How does it work?
-doGet(e) in Code.gs is what gets called when the site is open. Using HTTP GET queries (the parameters in the url,) the scripts decides what HTML to display. It calls various other files
+#How do I use it
+You can use the API endpoint:
+`https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec`
 
-#How are you running functions inline from the HTML without JQuery or script tags?
-Google scripts has a feature, like JQuery, where you can run functions from javascript, and have it return HTML. It called scriptlets. It's quite nice. It is denoted by the <?!= ?> tags.
+It accepts both POST and GET requests. You will need to send a couple of parameters:
 
-#Can I add a feature that everyone will get?
-If it's good enough, I will add it to main branch, and add it to the live.
+| *Parameter* 	| *Content*                                                                                   	|
+|-------------	|---------------------------------------------------------------------------------------------	|
+| code        	| Google API token                                                                            	|
+| grade       	| Grade level to search for. Valid values are 9 and 10.                                       	|
+| day         	| Which day to look in. This is weekday not day of the month. 1 is Monday, 2 is Tuesday, etc. 	|
 
-#This formatting is trash! Do you not know what indentation is?
-I love indentation, and I agree, the formatting is trash. However, sadly, the Google Apps Script IDE, which is forced onto you, is terrible with indentation.
+It will then return some JSON with all of the Schedule data. If you want JSONP to get around CORS, you can specify a callback parameter and a function name. It will then return JSONP instead.
