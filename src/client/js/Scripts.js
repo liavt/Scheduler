@@ -134,7 +134,7 @@ function refreshPersonalizedSchedule(json){
     var end = new Date(json.schedule[i].endTime);
     
     out += "<tr id='row"+i+"'><td class='time cell'>";
-    out += "<p class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></p></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
+    out += "<span class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></span></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
   }
   
   out += "</table></p>";
