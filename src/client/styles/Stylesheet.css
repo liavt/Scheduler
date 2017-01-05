@@ -408,15 +408,15 @@ q {
 .time.cell .time-contents{
     padding-left:0;
     padding-right:0;
-    width:7em;
+    width:9em;
 }
 
 .time.cell .time-contents .time-hours{
-    width:40% !important;
+    width:50% !important;
     float:left;
 }
 
 .time.cell .time-contents .time-dash{
-    width:20% !important;
+    width:10% !important;
     float:left;
 }
