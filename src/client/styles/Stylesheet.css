@@ -380,10 +380,11 @@ q {
 
 .time.cell{
     background-color: #CCC;
+    width:12em;
 }
 
 .mod.cell{
-    padding-right: 2em;
+    padding: 0.1em;
 }
 
 .disabled.cell{
@@ -400,24 +401,19 @@ q {
     background-color: #AAA;
 }
 
-.cell p{
-    padding-left:0.5em;
-    padding-right:0.1em;
-}
-
 .time.cell .time-contents{
     padding-left:0;
     padding-right:0;
 }
 
 .time.cell .time-contents .time-hours{
-    width:34% !important;
+    width:40%;
     text-align: center;
     float:left;
 }
 
 .time.cell .time-contents .time-dash{
-    width:15% !important;
+    width:1%;
     text-align: center;
     float:left;
 }

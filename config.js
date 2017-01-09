@@ -4,6 +4,7 @@ var CONFIG = {
       "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo %N!","Hey %N!","Greetings, %N",
       "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
     ],
+    "SERVICE_WORKER_CACHE_NAME":"v1",
     "LANGUAGE_NAME":"en-US",
     "LANGUAGE_DIRECTION":"ltr",
     "NOTIFICATION_VIBRATION_PATTERN":[300,300,100,100,100,300,300],
