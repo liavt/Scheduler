@@ -57,8 +57,8 @@ function onSignIn(googleUser){
 		"cache-control": "no-cache",
 	  },
 	  "data": {
-		  "grade":getGrade(),
-		  "day":getDay(),
+		  "grade":encodeURIComponent(getGrade()),
+		  "day":encodeURIComponent(getDay()),
 		  "code":encodeURIComponent(googleUser.getAuthResponse().id_token),
 		  "callback":"foo"
 	  }
@@ -71,8 +71,8 @@ function onSignIn(googleUser){
 			}catch(e){
 				pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+String(e)+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
 			}
-			if(json.failed){
-				pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+String(json.failed)+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+			if(!json||json.failed){
+				pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+(json.failed ? String(json.failed) : "No respond recieved")+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
 			}else{
 				updatePage(json);
 			}    
@@ -80,7 +80,6 @@ function onSignIn(googleUser){
 	};
 	
 	pullData();
-	
 	setInterval(pullData,600000);
 }
 
