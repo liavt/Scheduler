@@ -80,7 +80,7 @@ function onSignIn(googleUser){
 	};
 	
 	pullData();
-	setInterval(pullData,600000);
+//	setInterval(pullData,600000);
 }
 
 function viewLogin(auth2){
