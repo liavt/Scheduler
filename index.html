@@ -115,7 +115,7 @@
 			You have no Javascript! Please re-enable it
 		  </noscript>
 		  <!--[if lt IE 10]>
-			This version of Internet Explorer is not supported.
+			Internet Explorer <10 is not supported.
 		  <![endif]-->
 		  </h1>
 		</span>
@@ -129,7 +129,7 @@
 	<script src="src/client/js/Initialization.js"type="text/javascript"></script>
 	<script src="config.js"type="text/javascript"></script>
 	<script type="text/javascript">
-		if ('serviceWorker' in navigator) {
+		if (CONFIG.SERVICE_WORKER === "true" && 'serviceWorker' in navigator) {
 			navigator.serviceWorker.register("sw.js").then(function(reg) {
 				// registration worked
 				console.log("Service worker registration succeeded. Scope is " + reg.scope);

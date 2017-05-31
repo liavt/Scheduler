@@ -52,7 +52,7 @@ function onSignIn(googleUser){
 	  "crossDomain": true,
 	  "dataType":"jsonp",
 	  "url": CONFIG.API_ENDPOINT,
-	  "method": "POST",
+	  "type": "POST",
 	  "headers": {
 		"cache-control": "no-cache",
 	  },
@@ -84,17 +84,22 @@ function onSignIn(googleUser){
 }
 
 function viewLogin(auth2){
-  var html = '<span id="login"><div id="name">'+getGrade()+'th Grade Sign In</div><br><div>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div aria-label="Google Sign In"id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
-  pushView(VIEW_TYPE.PAGE,html);
-  
-  //we are using getElementById instead of JQuery because that is what the google api accepts
-  auth2.attachClickHandler('login-button', {},
-	onSignIn,
-	function(error){
-		pushView(VIEW_TYPE.MESSAGE,error);
-		console.log(error);
+	var grade = getGrade();
+	if(!grade||isNaN(grade)){
+		viewGradeSelect();
+		return;
 	}
-  );
+	var html = '<span id="login"><div id="name">'+getGrade()+'th Grade Sign In</div><br><div>Please sign in to your Google account.</div><br> <div id="gSignInWrapper"><div aria-label="Google Sign In"id="login-button" class="customGPlusSignIn"><span id="login-icon"></span><span>Sign in with Google</span></div></div></span>';
+	pushView(VIEW_TYPE.PAGE,html);
+	
+	//we are using getElementById instead of JQuery because that is what the google api accepts
+	auth2.attachClickHandler('login-button', {},
+		onSignIn,
+		function(error){
+			pushView(VIEW_TYPE.MESSAGE,error);
+			console.log(error);
+		}
+	);
 }
 
 function loadGoogleApi(){
@@ -125,6 +130,21 @@ function loadGoogleApi(){
   });
 }
 
+function viewGradeSelect(){
+	var html = "<div id='name'>Welcome!</div><br>";
+	html += "<div>Please select your grade level:<br>";
+	html += "<select aria-labelledby='Grade' id='grade' autofocus><option value='9'>9th</option><option value='10'>10th</option><option value='11'>11th</option></select>";
+	html += "<br><br><input type='submit'id='grade-submit'value='Select'/></div>";
+	
+	pushView(VIEW_TYPE.PAGE,html);
+	
+	$("#grade-submit").click(function(){
+		setCookie("grade",$("#grade").val());
+		
+		init();
+	});
+}
+
 function init(){
 	console.log("Initializing...");
 	
@@ -134,28 +154,13 @@ function init(){
 
 	var grade = getGrade();
 	if(!grade||isNaN(grade)){
-		
-		
-		var html = "<div id='name'>Welcome!</div><br>";
-		html += "<div>Please select your grade level:<br>";
-		html += "<select aria-labelledby='Grade' id='grade' autofocus><option value='9'>9th</option><option value='10'>10th</option></select>";
-		html += "<br><br><input type='submit'id='grade-submit'value='Select'/></div>";
-		
-		pushView(VIEW_TYPE.PAGE,html);
-		
-		$("#grade-submit").click(function(){
-			setCookie("grade",$("#grade").val());
-			
-			init();
-		});
+		viewGradeSelect();
 	}else{
 		pushView(VIEW_TYPE.MESSAGE,'Generating Theme...');
 	 
 		loadGoogleApi();
 	 
 		readCookies();
-	
-		
 	}
 }
 

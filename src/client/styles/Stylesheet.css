@@ -295,10 +295,6 @@ input[type="submit"],input[type="reset"]{
     color: rgba(255,255,255,255) !important;
 }
 
-#settingsbutton{
-	background-image: url('../../../res/gear.svg');
-}
-
 #imgdesc:hover ~ div{
     opacity: 0 !important;
 }
@@ -306,7 +302,6 @@ input[type="submit"],input[type="reset"]{
 q {
     quotes: "“" "”" '‘' '’';
 }
-
 
 /*Settings tab*/
 #settings{
@@ -326,6 +321,14 @@ q {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+
+#settings-button{
+	bottom:0%;
+	left:0%;
+	position:fixed;
+	width:2em;
+	height:2em;
 }
 
 #shade{

@@ -39,7 +39,9 @@ function setCookie(cname, cvalue, exdays) {
 }
 
 function getCookie(cname) {
-	if(!document&&!document.cookie)return "";
+	if(!document&&!document.cookie){
+		return "";
+	}
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
 	for(var i = 0; i < ca.length; i++) {
@@ -109,18 +111,18 @@ function refreshPersonalizedSchedule(json){
 	
 	out += "</table></p>";
 	
-	$('#schedule-container').empty().html(out);
+	$("#schedule-container").empty().html(out);
 }
 
 function getGreeting(){
 	if(Math.floor(Math.random()*2)===1){
 	var d= new Date();
 	if(d.getHours()<12){
-		 return 'Good morning, %N';
+		 return "Good morning, %N";
 	} else if(d.getHours()<17){
-		 return 'Good afternoon, %N';
+		 return "Good afternoon, %N";
 	} else {
-		 return 'Good evening, %N';
+		 return "Good evening, %N";
 	}
 	}else{
 		return CONFIG.GREETINGS[Math.floor(Math.random() * CONFIG.GREETINGS.length)];
@@ -136,15 +138,16 @@ function getDayNoun(day){
 	var current =new Date().getDay()-1;
 	var offset = day-current;
 	if(offset==0){
-		return 'today';
+		return "today";
 	}else if(offset==1){
-		return 'tomorrow';
+		return "tomorrow";
 	}else if(offset==-1){
-		return 'yesterday';
+		return "yesterday";
 	}else if(offset<=-2){
-		return (offset*-1)/*absolute value, will always be negative here*/+' days ago';
+		/*absolute value, will always be negative here*/
+		return (offset*-1)+" days ago";
 	}else if(offset>=2){
-		return offset+' days from now';
+		return offset+" days from now";
 	}
 }
 
@@ -167,34 +170,40 @@ function loadPage(json){
 		}
 	}
 	
-	html += "<br>";
+	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
 
+	html += "<br>";
+	
 	pushView(VIEW_TYPE.PAGE,html);
+	
+	$("#settings-button").click(function(){
+		console.log("HELLO");
+	});
 	
 	$("#glitch").html($("#glitch").attr("data-text"));
 }
 
 function readCookies(){
-	applyTheme(getCookie('theme'));
+	applyTheme(getCookie("theme"));
 
 	//after the semicolon are parameters
-	var backgroundSelection = getCookie('bg').split(';');
+	var backgroundSelection = getCookie("bg").split(";");
 	if(backgroundSelection[0]=="Bing"){
 		pullBackground();
 	}else if(backgroundSelection[0]=="Color"){
-		$('head').append('<style>body{background-image: '+backgroundSelection[1]+' !important;}</style>');
+		$("head").append("<style>body{background-image: "+backgroundSelection[1]+" !important;}</style>");
 	}else if(backgroundSelection[0]==""){
-		setCookie('bg','Theme');
+		setCookie("bg","Theme");
 	}
 }
 
 function showNotification(title, msg){
 	var notification = new Notification(title, {
-	icon: CONFIG.NOTIFICATION_ICON,
-	body: msg,
-	dir: CONFIG.LANGUAGE_DIRECTION,
-	lang: CONFIG.LANGUAGE_NAME,
-	vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN
+		icon: CONFIG.NOTIFICATION_ICON,
+		body: msg,
+		dir: CONFIG.LANGUAGE_DIRECTION,
+		lang: CONFIG.LANGUAGE_NAME,
+		vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN
 	}); 
 }
 
@@ -217,39 +226,36 @@ function timeToString(date){
 
 function updateNotifications(json){
 	if(getCookie("notify")){
-	clearInterval(checkNotifications);
-	checkNotifications = function(){
-		var currentTime = getTime(new Date());
-		var passingPeriod = getCookie('passPeriod');
-		 
-		if(!passingPeriod||passingPeriod==''){
-			passingPeriod = 5;
-		}
-		
-		for(var i = 0;i<json.schedule.length;++i){
-		var start = new Date(json.schedule[i].startTime);
-		var nextTime = getTime(start);
-		
-		var timeDifference = (currentTime-nextTime);
-		
-		if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
-			showNotification(json.schedule[i].name+" starts in "+passingPeriod+" minutes.","It starts at "+timeToString(start)+".\nWait to be dismissed.");
-			return;
-		}else if(i == json.schedule.length - 1){
-			nextTime = getTime(new Date(json.schedule[i].endTime));
-			timeDifference = (currentTime-nextTime);
-			
-			if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
-				showNotification("School ends in "+passingPeriod+" minutes.","Wait to be dismissed.");
-				return;
+		clearInterval(checkNotifications);
+		checkNotifications = function(){
+			var currentTime = getTime(new Date());
+			var passingPeriod = getCookie("passPeriod");
+			 
+			if(!passingPeriod||passingPeriod==""){
+				passingPeriod = 5;
 			}
-		}
-		}
-		
-	};
-	
-	checkNotifications = setInterval(checkNotifications, 60000);
-	
+			
+			for(var i = 0;i<json.schedule.length;++i){
+				var start = new Date(json.schedule[i].startTime);
+				var nextTime = getTime(start);
+				
+				var timeDifference = (currentTime-nextTime);
+				
+				if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
+					showNotification(json.schedule[i].name+" starts in "+passingPeriod+" minutes.","It starts at "+timeToString(start)+".\nWait to be dismissed.");
+					return;
+				}else if(i == json.schedule.length - 1){
+					nextTime = getTime(new Date(json.schedule[i].endTime));
+					timeDifference = (currentTime-nextTime);
+					
+					if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
+						showNotification("School ends in "+passingPeriod+" minutes.","Wait to be dismissed.");
+						return;
+					}
+				}
+			}
+		};
+		checkNotifications = setInterval(checkNotifications, 60000);
 	}
 	
 }
