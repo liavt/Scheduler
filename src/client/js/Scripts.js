@@ -151,6 +151,38 @@ function getDayNoun(day){
 	}
 }
 
+function getAdminConsole(json){
+	var out = "<div class='noanimation'id=''schedule'><h2>Admin Console</h2><table><tr>";
+	
+	for(var x = 0;x < json.schedule.length;++x){
+		out += "<tr>"
+		if(json.schedule[x]){
+			for(var y = 0;y < json.schedule[x].length;++y){
+				if(json.schedule[x][y]){
+					var cellClass = "cell";
+					var cellColor = json.schedule[x][y].color;
+					
+					if(json.schedule[x][y].type == "TIME" ||json.schedule[x][y].type == "QUERY"){
+						cellClass += "key";
+					}else if(json.schedule[x][y].type == "EMPTY" || json.schedule[x][y].type == "KEY"){
+						cellClass += "empty";
+						cellColor = "";
+					}
+					
+					out += "<td class='"+cellClass+"'bgcolor='"+cellColor+"'>"+json.schedule[x][y].text+"</td>";
+				}
+			}
+		}
+		out += "</tr>";
+	}
+	
+	out += "</tr></table>";
+	out += "<br><a href='"+json.controlPanel+"'target='_blank'>Control panel</a>";
+	out += "</div><br>";
+	
+	return out;
+}
+
 function loadPage(json){
 	//we can't simply remove the login. the google login button tries to edit it's own style, and deleting it causes the javascript to throw an error and stop. keeping it hidden won't hurt anyone
 	$("#login").css("display","none");
@@ -166,7 +198,7 @@ function loadPage(json){
 			html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
 		}
 		if(json.isAdmin===true&&json.admin){
-			html += "<br><div class='noanimation'>"+json.admin+"</div>";
+			html += "<br>"+getAdminConsole(json.admin)+"";
 		}
 	}
 	
