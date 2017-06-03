@@ -143,11 +143,8 @@ function getDayNoun(day){
 		return "tomorrow";
 	}else if(offset==-1){
 		return "yesterday";
-	}else if(offset<=-2){
-		/*absolute value, will always be negative here*/
-		return (offset*-1)+" days ago";
-	}else if(offset>=2){
-		return offset+" days from now";
+	}else{
+		return (new Date().getMonth() + 1)+"/"+day;
 	}
 }
 
@@ -161,6 +158,7 @@ function getAdminConsole(json){
 				if(json.schedule[x][y]){
 					var cellClass = "cell";
 					var cellColor = json.schedule[x][y].color;
+					var cellText = json.schedule[x][y].text;
 					
 					if(json.schedule[x][y].type == "TIME" ||json.schedule[x][y].type == "QUERY"){
 						cellClass += "key";
@@ -169,7 +167,7 @@ function getAdminConsole(json){
 						cellColor = "";
 					}
 					
-					out += "<td class='"+cellClass+"'bgcolor='"+cellColor+"'>"+json.schedule[x][y].text+"</td>";
+					out += "<td class='"+cellClass+"'bgcolor='"+cellColor+"'>"+cellText+"</td>";
 				}
 			}
 		}
@@ -245,7 +243,12 @@ function timeToString(date){
 	var hours = parseInt(date.getHours());
 	if (hours >= 12) {
 		// Convert to AM/PM from military time
-		if(hours > 12)hours -= 12;
+		if(hours > 12){
+			hours -= 12;
+		}
+		pm = true;
+	}else if(hours == 0){
+		hours = 12;
 		pm = true;
 	}
 	
