@@ -44,39 +44,49 @@ function reset(){
 	});
 }
 
+function retrieveData(request, callback){
+	var settings = {
+		"async": true,
+		"crossDomain": true,
+		"dataType":"jsonp",
+		"url": CONFIG.API_ENDPOINT,
+		"type": "POST",
+		"headers": {
+			"cache-control": "no-cache",
+		},
+		"data": {
+			"request":encodeURIComponent(request),
+			"grade":encodeURIComponent(getGrade()),
+			"day":encodeURIComponent(9),
+			"code":encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token),
+			"callback":"foo"
+		}
+	};
+	
+	$.ajax(settings).done(function(response){
+		if(!response||response.failed){
+			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>No response recieved<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+		}
+
+		try{
+			var json = JSON.parse(response);
+		}catch(e){
+			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+e+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+		}
+		
+		try{
+			callback(json);
+		}catch(e){
+			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+(json.failed ? String(json.failed) : "No response recieved")+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+		}
+	});
+}
+
 function onSignIn(googleUser){
 	pushView(VIEW_TYPE.MESSAGE,"Fetching your schedule...");
 	
-	var settings = {
-	  "async": true,
-	  "crossDomain": true,
-	  "dataType":"jsonp",
-	  "url": CONFIG.API_ENDPOINT,
-	  "type": "POST",
-	  "headers": {
-		"cache-control": "no-cache",
-	  },
-	  "data": {
-		  "grade":encodeURIComponent(getGrade()),
-		  "day":encodeURIComponent(getDay()),
-		  "code":encodeURIComponent(googleUser.getAuthResponse().id_token),
-		  "callback":"foo"
-	  }
-	};
-	
 	var pullData = function(){
-		$.ajax(settings).done(function (response) {
-			try{
-				var json = JSON.parse(response);
-			}catch(e){
-				pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+String(e)+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
-			}
-			if(!json||json.failed){
-				pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+(json.failed ? String(json.failed) : "No respond recieved")+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
-			}else{
-				updatePage(json);
-			}    
-		});
+		retrieveData("schedule", updatePage);
 	};
 	
 	pullData();

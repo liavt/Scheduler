@@ -5,14 +5,14 @@ var CONFIG = {
       "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo %N!","Hey %N!","Greetings, %N",
       "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
     ],
-    "SERVICE_WORKER":"true",
-    "SERVICE_WORKER_CACHE_NAME":"v2",
+    "SERVICE_WORKER":"false",
+    "SERVICE_WORKER_CACHE_NAME":"v3",
     "LANGUAGE_NAME":"en-US",
     "LANGUAGE_DIRECTION":"ltr",
     "NOTIFICATION_VIBRATION_PATTERN":[300,300,100,100,100,300,300],
     "NOTIFICATION_ICON":"https://upload.wikimedia.org/wikipedia/en/c/c7/PlanoAcademyHSLogo.jpg",
-    "API_ENDPOINT":"https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec",
-    //"API_ENDPOINT":"https://script.google.com/a/macros/mypisd.net/s/AKfycbxu3RD39BI1mpo6iIW2JKsFoVUM47ZhSXMrIcEk55Z5/dev",
+    //"API_ENDPOINT":"https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec",
+    "API_ENDPOINT":"https://script.google.com/a/macros/mypisd.net/s/AKfycbxu3RD39BI1mpo6iIW2JKsFoVUM47ZhSXMrIcEk55Z5/dev",
     "GAPI_TOKEN":"48133947856-qpuod3t3ghkva88jfslo5gaeigi6ce4o.apps.googleusercontent.com",
     "THEME_PATH":"src/client/styles/themes/",
     "THEMES":[

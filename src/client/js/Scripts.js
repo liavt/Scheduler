@@ -189,17 +189,13 @@ function loadPage(json){
 	
 	var html = "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
 	
-	if(json.day<0||json.day>4){
-		html += "<br><div aria-live='polite'>No school today!</div>";
-	}else{
-		html += "<br>"+json.motd.global;
-		html += json.motd.local;
-		if(json.schedule){
-			html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
-		}
-		if(json.isAdmin===true&&json.admin){
-			html += "<br>"+getAdminConsole(json.admin)+"";
-		}
+	html += "<br>"+json.motd.global;
+	html += json.motd.local;
+	if(json.schedule){
+		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
+	}
+	if(json.isAdmin===true&&json.admin){
+		html += "<br>"+getAdminConsole(json.admin)+"";
 	}
 	
 	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
