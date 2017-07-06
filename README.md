@@ -5,17 +5,17 @@ Scheduler for school.
 ![Demo](https://github.com/liavt/Scheduler/blob/master/demos/DemoStudent.PNG)
 
 # WHAT?
-Yep, the school now runs this for 9th grade and 10th grade
+Yep, the school now runs this for 9th grade, 10th, and 11th grade (eventually 12th!)
 
 # Can I fix it
-Sure. Make a pull request. Make sure it works perfectly, as remember the school uses this. It must be reliable.
+Sure. Make a pull request. Make sure it works perfectly, as remember the school uses this. It must be reliable (a quality I wouldn't describe it's history as)
 **Master branch should always be ready to be pushed to live. If you want to test something, create a new branch+pull request**
 
 # How do I use it
 You can use the API endpoint:
 `https://script.google.com/macros/s/AKfycbyf4XMwLFWqDYH-jYfbS_jH-xlNm7eSyB0tWj0AidzD5wSB41gD/exec`
 
-It accepts POST requests. You will need to send a couple of parameters:
+It accepts GET and POST requests. You will need to send a couple of parameters:
 
 | *Parameter* 	| *Content*                                                                                     	|
 |-------------	|-----------------------------------------------------------------------------------------------	|
@@ -31,3 +31,5 @@ There are different types of requests you can make which changes what data it is
 | *Request Type* 	| *Response*                    	|
 |----------------	|-------------------------------	|
 | schedule       	| Returns the person's schedule 	|
+| info              | Returns only the person's info    |
+| mod-select        | Submits a list of mods that the user selected to pick and returns their new schedule |

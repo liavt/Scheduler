@@ -44,7 +44,13 @@ function reset(){
 	});
 }
 
-function retrieveData(request, callback){
+function retrieveData(request, callback, data){
+	data["request"] = encodeURIComponent(request);
+	data["grade"] = encodeURIComponent(getGrade());
+	data["day"] = encodeURIComponent(new Date().getDate());
+	data["code"] = encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token);
+	data["callback"] = "foo";
+	
 	var settings = {
 		"async": true,
 		"crossDomain": true,
@@ -54,13 +60,7 @@ function retrieveData(request, callback){
 		"headers": {
 			"cache-control": "no-cache",
 		},
-		"data": {
-			"request":encodeURIComponent(request),
-			"grade":encodeURIComponent(getGrade()),
-			"day":encodeURIComponent(9),
-			"code":encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token),
-			"callback":"foo"
-		}
+		"data": data
 	};
 	
 	$.ajax(settings).done(function(response){
@@ -69,8 +69,8 @@ function retrieveData(request, callback){
 		}
 
 		try{
-			console.log(response);
 			var json = JSON.parse(response);
+			console.log(json);
 		}catch(e){
 			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+e+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
 		}
@@ -78,7 +78,8 @@ function retrieveData(request, callback){
 		try{
 			callback(json);
 		}catch(e){
-			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+(json.failed ? String(json.failed) : "No response recieved")+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+			console.error(e);
+			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>Oops! An error occcured.<br>Please try again soon.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
 		}
 	});
 }
@@ -87,7 +88,7 @@ function onSignIn(googleUser){
 	pushView(VIEW_TYPE.MESSAGE,"Fetching your schedule...");
 	
 	var pullData = function(){
-		retrieveData("schedule", updatePage);
+		retrieveData("schedule", updatePage, {});
 	};
 	
 	pullData();

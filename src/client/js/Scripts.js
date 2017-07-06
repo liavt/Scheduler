@@ -94,24 +94,73 @@ function addZero(i) {
 function refreshPersonalizedSchedule(json){
 	var person = json.info.id;
 	var day = json.day;
+	
 	if(json.schedule.length<0){
 		return json.schedule.failed;
 	}
 	
-	var out = "<h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1><p id='personalized-schedule'><table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
+	var out = "";
 	
-	for(var i = 0;i<json.schedule.length;i++){
-		var start = new Date(json.schedule[i].startTime);
+	if(json.schedule.needsSelection == true){
+		out = "<h1>Pick your mods for today:</h1>";
+		for(var i = 0; i < json.schedule.modsForSelection.length; ++i){
+			out += timeToString(new Date(json.schedule.modsForSelection[i][0].endTime));
+			out += " - ";
+			out += timeToString(new Date(json.schedule.modsForSelection[i][0].startTime));
+			out += ": ";
+			out += "<select id='mod-selection-"+i+"'>";
+			out += "<option value=''selected='true'disabled='true'>Pick a mod</option>";
+			for(var j = 0; j < json.schedule.modsForSelection[i].length; ++j){
+				out += "<option value='" + json.schedule.modsForSelection[i][j].key +"'>";
+				out += json.schedule.modsForSelection[i][j].name;
+				out += "</option>";
+			}
+			out += "</select>";
+		}
 		
-		var end = new Date(json.schedule[i].endTime);
+		out += "<br><i style='color:red'id='mod-selection-error'></i>";
+		out += "<br><input type='submit'value='Confirm mods'id='mod-selection-submit'>";
 		
-		out += "<tr id='row"+i+"'><td class='time cell'>";
-		out += "<span class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></span></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
+		$("#schedule-container").empty().html(out);
+		
+		$("#mod-selection-submit").click(function(){
+			var selection = [];
+			
+			for(var i = 0; i < json.schedule.modsForSelection.length; ++i){
+				var selectedMod = $("#mod-selection-"+i);
+				if(!selectedMod||!selectedMod.val()){
+					$("#mod-selection-error").html("Must select a mod for every time slot!");
+					return;
+				}
+				
+				var selectedModJSON = {
+					"key":selectedMod.val(),
+					"startTime":json.schedule.modsForSelection[i][0].startTime,
+					"endTime":json.schedule.modsForSelection[i][0].endTime,
+				};
+				selection.push(selectedModJSON);
+			}
+			
+			$("#schedule-container").empty().html("Loading...");
+			
+			retrieveData("mod-select", refreshPersonalizedSchedule, {"selection":selection});
+		});
+	}else{
+		out = "<h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1><p id='personalized-schedule'><table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
+		
+		for(var i = 0;i<json.schedule.length;++i){
+			var start = new Date(json.schedule[i].startTime);
+			
+			var end = new Date(json.schedule[i].endTime);
+			
+			out += "<tr id='row"+i+"'><td class='time cell'>";
+			out += "<span class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></span></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
+		}
+		
+		out += "</table></p>";
+		
+		$("#schedule-container").empty().html(out);
 	}
-	
-	out += "</table></p>";
-	
-	$("#schedule-container").empty().html(out);
 }
 
 function getGreeting(){
@@ -192,6 +241,7 @@ function loadPage(json){
 	if(json.schedule){
 		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
 	}
+	
 	if(json.isAdmin===true&&json.admin){
 		html += "<br>"+getAdminConsole(json.admin)+"";
 	}
