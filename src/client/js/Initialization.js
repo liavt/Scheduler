@@ -64,15 +64,24 @@ function retrieveData(request, callback, data){
 	};
 	
 	$.ajax(settings).done(function(response){
-		if(!response||response.failed){
+		if(!response){
 			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>No response recieved<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+			return;
+			
 		}
 
 		try{
 			var json = JSON.parse(response);
 			console.log(json);
 		}catch(e){
+			console.error(response);
 			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+e+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+			return;
+		}
+		
+		if(json.failed){
+			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+json.failed+"<br>Please try again later.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
+			return;
 		}
 		
 		try{
