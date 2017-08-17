@@ -154,7 +154,11 @@ function loadGoogleApi(){
 function viewGradeSelect(){
 	var html = "<div id='name'>Welcome!</div><br>";
 	html += "<div>Please select your grade level:<br>";
-	html += "<select aria-labelledby='Grade' id='grade' autofocus><option value='9'>9th</option><option value='10'>10th</option><option value='11'>11th</option></select>";
+	html += "<select aria-labelledby='Grade' id='grade' autofocus>"
+	for(var i = CONFIG.DEBUG == true ? 8 : 9; i < 12; ++i){
+		html += "<option value='"+i+"'>"+i+"th</option>";
+	}
+	html += "</select>";
 	html += "<br><br><input type='submit'id='grade-submit'value='Select'/></div>";
 	
 	pushView(VIEW_TYPE.PAGE,html);
@@ -168,6 +172,13 @@ function viewGradeSelect(){
 
 function init(){
 	console.log("Initializing...");
+	
+	if(window.location.hostname == "schedular-liavt.c9users.io"){
+		CONFIG.API_ENDPOINT = CONFIG.DEBUG_API_ENDPOINT;
+		CONFIG.DEBUG = true;
+	}
+	
+	console.log(CONFIG.DEBUG);
 	
 	setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
 	

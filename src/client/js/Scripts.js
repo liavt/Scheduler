@@ -253,7 +253,7 @@ function loadPage(json){
 		html += "<br>"+getAdminConsole(json.admin)+"";
 	}
 	
-	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
+	//html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
 
 	html += "<br>";
 	
