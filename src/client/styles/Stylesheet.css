@@ -27,9 +27,9 @@ body div, .infobutton, select, input{
 }
 
 body div, .infobutton{
-    -webkit-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
-    -moz-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
-    box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19) !important;
+    -webkit-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19);
+    -moz-box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19);
+    box-shadow: 0.625em 0.625em 0em rgba(0,0,0,0.19);
 }
 
 select{
@@ -52,7 +52,7 @@ input{
     cursor:pointer;
 }
 
-input[type="text"],input[type="number"]{
+input[type="text"],input[type="number"],input[type="url"]{
     cursor:text;
 }
 

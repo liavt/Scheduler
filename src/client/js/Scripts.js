@@ -1,3 +1,12 @@
+/**
+Copyright (c) 2016-2017 Liav Turkia
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 var checkNotifications;
 
 function getTime(date) {
@@ -204,6 +213,7 @@ function getDayNoun(day){
 	}
 }
 
+
 function getAdminConsole(json){
 	var out = "<div class='noanimation'id=''schedule'><h2>Admin Console</h2><table><tr>";
 	
@@ -237,6 +247,96 @@ function getAdminConsole(json){
 	return out;
 }
 
+function viewSettings(){
+	var html = "<div id='name'>Settings</div><br>";
+	html += "<div class='noanimation'>";
+	html += "Theme<br><select id='theme-choice'>";
+	var currentTheme = getCookie("theme");
+	for(var i = 0; i < CONFIG.THEMES.length; ++i){
+		if(CONFIG.THEMES&&!CONFIG.THEMES[i][3]){
+			html += "<option value='"+CONFIG.THEMES[i][0]+"'"+(currentTheme == CONFIG.THEMES[i][0] ? "selected" : "" ) + ">"+CONFIG.THEMES[i][1]+"</option>";
+		}
+	}
+	html += "</select>"
+	html += "<small><i><p id='settings-style-description'></p></i></small>";
+	html += "</div><br>";
+	html += "<div class='noanimation'>";
+	html += "<strong>Add a hidden theme</strong>";
+	html += "<input type='text'id='hidden-selector'/>";
+	html += "<input type='submit'value='Add'id='hidden-submit'onclick='addHiddenTheme()'/>";
+	html += "</div><br>";
+	html += "<div class='noanimation'>";
+	html += "<strong>Notifications:</strong>";
+	html += "<input id='notify-checkbox'type='checkbox'checked='true'/>";
+	html += "<br>";
+	html += "Notify ";
+	html += "<input id='notify-delay'style='width:15%'type='number'min='1'value='5'/>";
+	html += "minutes before a class";
+	html += "</div><br>";
+	html += "<div class='noanimation'>";
+	html += "Background: <select id='background-choice'>";
+	html += "<option value='Theme'>Theme (Default)</option>";
+	html += "<option value='NASA-APOD'>NASA Astronomy Picture</option>";
+	html += "<option value='Bing'>Bing Image of the Day</option>";
+	html += "<option value='Color'>Custom Color</option>";
+	html += "<option value='Image'>Custom Image</option>";
+	html += "</select><br>";
+	html += "<input id='background-choice-extra'>";
+	html += "</div><br>";
+	html += "<div class='noanimation'><input id='settings-submit'type='submit'value='Submit'/><br><input type='reset'value='Cancel'onclick='location.reload()'/></div>";
+	pushView(VIEW_TYPE.PAGE, html);
+	
+    var notifyPassPeriod = $('#notify-delay');
+    
+    notifyPassPeriod.val(getCookie('passPeriod'));
+    notifyPassPeriod.attr('disabled',getCookie('notify')=='false');
+    
+    var notifyCheckbox = $('#notify-checkbox');
+    
+    notifyCheckbox.prop('checked',getCookie('notify')=='true');
+    
+	notifyCheckbox.change(function(){
+		notifyPassPeriod.attr('disabled',!notifyCheckbox.prop('checked'));
+	});
+	
+	$("#theme-choice").change(function(){
+		addThemeDescription(this);
+	});
+	
+	addThemeDescription($("#theme-choice"));
+	
+	var addExtraBackgroundInfo = function(value){
+		if(value == "Color"){
+			$("#background-choice-extra").attr("type", "color").css("display", "initial").val("#000000").attr("title", "Custom Color").attr("placeholder", "Color Hexcode");
+		}else if(value == "Image"){
+			$("#background-choice-extra").attr("type", "url").css("display", "initial").val("").attr("title", "Custom Image").attr("placeholder", "URL to image");
+		}else{
+			$("#background-choice-extra").css("display", "none");
+		}
+	}
+	
+	var currentBackground = getCookie("bg");
+	if(currentBackground){
+		var backgroundValues = currentBackground.split(":");
+		addExtraBackgroundInfo(backgroundValues[0]);
+		$("#background-choice option[value=" + backgroundValues[0] + "]").prop("selected", true);
+		$("#background-choice-extra").val(decodeURIComponent(backgroundValues[1]));
+	}
+	
+	$("#background-choice").change(function(){
+		addExtraBackgroundInfo($(this).val());
+	});
+	
+	$("#settings-submit").click(function(){
+		setCookie("theme", $("#theme-choice").val());
+		setCookie("notify", $("#notify-checkbox").prop("checked"));
+		setCookie("passPeriod", $("#notify-delay").val());
+		var background = $("#background-choice").val() + ":" + encodeURIComponent($("#background-choice-extra").val());
+		setCookie("bg", background);
+		location.reload();
+	});
+}
+
 function loadPage(json){
 	//we can't simply remove the login. the google login button tries to edit it's own style, and deleting it causes the javascript to throw an error and stop. keeping it hidden won't hurt anyone
 	$("#login").css("display","none");
@@ -253,15 +353,13 @@ function loadPage(json){
 		html += "<br>"+getAdminConsole(json.admin)+"";
 	}
 	
-	//html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
+	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
 
 	html += "<br>";
 	
 	pushView(VIEW_TYPE.PAGE,html);
 	
-	$("#settings-button").click(function(){
-		console.log("HELLO");
-	});
+	$("#settings-button").click(viewSettings);
 	
 	$("#glitch").html($("#glitch").attr("data-text"));
 }
@@ -270,12 +368,40 @@ function readCookies(){
 	applyTheme(getCookie("theme"));
 
 	//after the semicolon are parameters
-	var backgroundSelection = getCookie("bg").split(";");
-	if(backgroundSelection[0]=="Bing"){
-		pullBackground();
+	var backgroundSelection = getCookie("bg").split(":");
+	if(backgroundSelection[0]=="NASA-APOD"){
+		$.getJSON("https://api.nasa.gov/planetary/apod?api_key="+CONFIG.NASA_IMAGE_API, function(response){
+			$("head").append("<style>body{background-image: url(" + response.hdurl + ") !important;background-size:cover;}</style>");
+		});
+	}else if(backgroundSelection[0] == "Bing"){
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"dataType":"jsonp",
+			"url": CONFIG.API_ENDPOINT,
+			"type": "POST",
+			"headers": {
+				"cache-control": "no-cache",
+			},
+			"data": {
+				"request":"iotd"
+			}
+		};
+		
+		$.ajax(settings).done(function(response){
+			$("head").append("<style>body{background-image: url(" + JSON.parse(response).url + ") !important;background-size:cover;}</style>");
+		});
 	}else if(backgroundSelection[0]=="Color"){
-		$("head").append("<style>body{background-image: "+backgroundSelection[1]+" !important;}</style>");
-	}else if(backgroundSelection[0]==""){
+		$("head").append("<style>body{background-color: "+decodeURIComponent(backgroundSelection[1])+" !important;}</style>");
+	}else if(backgroundSelection[0]=="Image"){
+		var pattern = /(?:(?:https):\/\/|\b(?:[a-z\d]+\.))(?:(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))?\))+(?:\((?:[^\s()<>]+|(?:\(?:[^\s()<>]+\)))?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))?/;
+		var matches = decodeURIComponent(backgroundSelection[1]).match(pattern);
+	    if(!matches||matches.length != 1){
+	    	alert("Invalid Custom Image URL");
+	    }else{
+			$("head").append("<style>body{background-image: url("+decodeURIComponent(backgroundSelection[1])+") !important;background-size:cover;}</style>");
+	    }
+	}else if(backgroundSelection[0] == "" || backgroundSelection[0] == "Theme"){
 		setCookie("bg","Theme");
 	}
 }

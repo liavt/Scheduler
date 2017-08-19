@@ -1,4 +1,4 @@
-## You can find this live [here](https://liavt.github.io/Scheduler)
+## You can find this live [here](https://scheduler.netlify.com)
 
 # Scheduler
 Scheduler for school. 
@@ -33,3 +33,4 @@ There are different types of requests you can make which changes what data it is
 | schedule       	| Returns the person's schedule 	|
 | info              | Returns only the person's info    |
 | mod-select        | Submits a list of mods that the user selected to pick and returns their new schedule |
+| iotd              | Returns the Bing Image of the Day |
