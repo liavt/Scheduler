@@ -104,6 +104,10 @@ function refreshPersonalizedSchedule(json){
 	var person = json.info.id;
 	var day = json.day;
 	
+	if(!json.schedule){
+		return;	
+	}
+	
 	if(json.schedule.length<0){
 		return json.schedule.failed;
 	}
