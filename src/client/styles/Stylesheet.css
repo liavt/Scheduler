@@ -105,6 +105,7 @@ td, tr, table{
     border: solid;
     border-width: 0.2em 0.01em;
     font-weight: 500;
+    text-align: center;
 }
     
 table tr:last-child { 
@@ -275,7 +276,7 @@ input[type="submit"],input[type="reset"]{
     color:white;
 }
 
-#schedule{
+#schedule-parent{
     opacity: 1 !important;
     background-color: rgba(0,0,0,0) !important;
     -webkit-box-shadow: 0em 0em 0em rgba(0,0,0,0) !important;
@@ -284,15 +285,25 @@ input[type="submit"],input[type="reset"]{
     border-left: none;
     border: none;
     border-style:none;
+    display: table;
 }
 
- #schedule-tooltip{
+#schedule{
+	table-layout: fixed;
+	width: 100%;
+}
+
+#schedule-tooltip{
     background-color: rgba(0,0,0,0);
     color: rgba(255,255,255,0);
 }
 
 #schedule:hover ~ #schedule-tooltip{
     color: rgba(255,255,255,255) !important;
+}
+
+#schedule-container{
+	padding-bottom: 1em;
 }
 
 #imgdesc:hover ~ div{
@@ -384,10 +395,7 @@ q {
 .time.cell{
     background-color: #CCC;
     width:12em;
-}
-
-.mod.cell{
-    padding: 0.1em;
+    text-align: center;
 }
 
 .disabled.cell{

@@ -219,7 +219,7 @@ function getDayNoun(day){
 
 
 function getAdminConsole(json){
-	var out = "<div class='noanimation'id=''schedule'><h2>Admin Console</h2><table><tr>";
+	var out = "<div class='noanimation'id='schedule-parent'><h2>Admin Console</h2><table id='schedule'><tr>";
 	
 	for(var x = 0;x < json.schedule.length;++x){
 		out += "<tr>"
