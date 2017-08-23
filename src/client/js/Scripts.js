@@ -266,7 +266,7 @@ function getScheduleTable(json){
 	}
 	
 	out += "</tr></table>";
-	out += "</div><br>";
+	out += "</div>";
 	
 	return out;
 }
