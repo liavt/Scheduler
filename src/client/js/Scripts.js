@@ -179,6 +179,9 @@ function refreshPersonalizedSchedule(json){
 		
 		out += "</table></p>";
 		
+		out += "Group: "+json.info.group +"<br>";
+		out += "Cohort: "+json.info.cohort;
+		
 		$("#schedule-container").empty().html(out);
 	}
 }
