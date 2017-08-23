@@ -179,8 +179,15 @@ function refreshPersonalizedSchedule(json){
 		
 		out += "</table></p>";
 		
-		out += "Group: "+json.info.group +"<br>";
-		out += "Cohort: "+json.info.cohort;
+		if(json.info.group){
+			out += "<br>Group: "+json.info.group;
+		}
+		if(json.info.cohort){
+			out += "<br>Cohort: "+json.info.cohort;
+		}
+		if(json.info.lote){
+			out += "<br>LOTE: "+json.info.lote;
+		}
 		
 		$("#schedule-container").empty().html(out);
 	}
