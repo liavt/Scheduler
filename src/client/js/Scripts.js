@@ -66,9 +66,18 @@ function getCookie(cname) {
 }
 
 function createNotifications(json){
+	if(getCookie('passPeriod')==''||!getCookie('passPeriod')){
+		setCookie('passPeriod',5);
+	}
+	
 	if(getCookie('notify')==''||!getCookie('notify')){
-		if (!Notification) {
+		if (!Notification||!NNotification.requestPermission) {
 			setCookie('notify','false');
+			return;
+		}
+		
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+			setCookie("notify", "false");
 			return;
 		}
 		
@@ -84,10 +93,6 @@ function createNotifications(json){
 			setCookie('notify','true');
 		});
 		setCookie('notify','true');
-	}
-	
-	if(getCookie('passPeriod')==''||!getCookie('passPeriod')){
-		setCookie('passPeriod',5);
 	}
 }
 
@@ -227,22 +232,28 @@ function getDayNoun(day){
 	}
 }
 
-
 function getAdminConsole(json){
-	var out = "<div class='noanimation'id='schedule-parent'><h2>Admin Console</h2><table id='schedule'><tr>";
+	var out = "<div class='noanimation'><h1>Admin</h1>";
+	out += "<a href='"+json.admin.controlPanel+"'target='_blank'>Control Panel</a>";
+	out += "</div>";
+	return out;
+}
+
+function getScheduleTable(json){
+	var out = "<div class='noanimation'id='schedule-parent'><table id='schedule'><tr>";
 	
-	for(var x = 0;x < json.schedule.length;++x){
+	for(var x = 0;x < json.table.length;++x){
 		out += "<tr>"
-		if(json.schedule[x]){
-			for(var y = 0;y < json.schedule[x].length;++y){
-				if(json.schedule[x][y]){
+		if(json.table[x]){
+			for(var y = 0;y < json.table[x].length;++y){
+				if(json.table[x][y]){
 					var cellClass = "cell";
-					var cellColor = json.schedule[x][y].color;
-					var cellText = json.schedule[x][y].text;
+					var cellColor = json.table[x][y].color;
+					var cellText = json.table[x][y].text;
 					
-					if(json.schedule[x][y].type == "TIME" ||json.schedule[x][y].type == "QUERY"){
+					if(json.table[x][y].type == "TIME" ||json.table[x][y].type == "QUERY"){
 						cellClass += "key";
-					}else if(json.schedule[x][y].type == "EMPTY" || json.schedule[x][y].type == "KEY"){
+					}else if(json.table[x][y].type == "EMPTY" || json.table[x][y].type == "KEY"){
 						cellClass += "empty";
 						cellColor = "";
 					}
@@ -255,7 +266,6 @@ function getAdminConsole(json){
 	}
 	
 	out += "</tr></table>";
-	out += "<br><a href='"+json.controlPanel+"'target='_blank'>Control panel</a>";
 	out += "</div><br>";
 	
 	return out;
@@ -363,8 +373,12 @@ function loadPage(json){
 		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
 	}
 	
-	if(json.isAdmin===true&&json.admin){
-		html += "<br>"+getAdminConsole(json.admin)+"";
+	if(json.table){
+		html += "<br>" + getScheduleTable(json);
+	}
+	
+	if(json.isAdmin===true&&json){
+		html += "<br>"+getAdminConsole(json)+"";
 	}
 	
 	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
