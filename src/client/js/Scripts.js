@@ -71,7 +71,7 @@ function createNotifications(json){
 	}
 	
 	if(getCookie('notify')==''||!getCookie('notify')){
-		if (!Notification||!NNotification.requestPermission) {
+		if (!Notification||!Notification.requestPermission) {
 			setCookie('notify','false');
 			return;
 		}
