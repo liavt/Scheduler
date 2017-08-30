@@ -120,27 +120,28 @@
 		  <![endif]-->
 		  </h1>
 		</span>
+		
+		<!--Scripts are loaded in here, at the end, to make it fastest-->
+		<script src="https://apis.google.com/js/platform.js"type="text/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"type="text/javascript"></script>
+		<script src="src/client/js/ViewManager.js"type="text/javascript"></script>
+		<script src="src/client/js/Scripts.js"type="text/javascript"></script>
+		<script src="src/client/js/Themes.js"type="text/javascript"></script>
+		<script src="src/client/js/Initialization.js"type="text/javascript"></script>
+		<script src="config.js"type="text/javascript"></script>
+		<script type="text/javascript">
+			if (CONFIG.SERVICE_WORKER == true && CONFIG.DEBUG == false && 'serviceWorker' in navigator) {
+				navigator.serviceWorker.register("sw.js").then(function(reg) {
+					// registration worked
+					console.log("Service worker registration succeeded. Scope is " + reg.scope);
+				}).catch(function(error) {
+					// registration failed
+					console.log("Service worker registration failed with " + error);
+				});
+			}
+		  
+		  //checks that resouces loaded and https
+		  (function(w,d,c){if(!gapi||!$||!CONFIG){c.error("Resources failed to load.");d.write("<h1 id='message'>Resources failed to load. Please reload the page.</h1>");}if (location.protocol != 'https:'){location.href = 'https:' + window.location.href.substring(window.location.protocol.length);}})(window,document,console);
+		</script>
 	</body>
-	<!--Scripts are loaded in here, at the end, to make it fastest-->
-	<script src="https://apis.google.com/js/platform.js"type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"type="text/javascript"></script>
-	<script src="src/client/js/ViewManager.js"type="text/javascript"></script>
-	<script src="src/client/js/Scripts.js"type="text/javascript"></script>
-	<script src="src/client/js/Themes.js"type="text/javascript"></script>
-	<script src="src/client/js/Initialization.js"type="text/javascript"></script>
-	<script src="config.js"type="text/javascript"></script>
-	<script type="text/javascript">
-		if (CONFIG.SERVICE_WORKER == true && CONFIG.DEBUG == false && 'serviceWorker' in navigator) {
-			navigator.serviceWorker.register("sw.js").then(function(reg) {
-				// registration worked
-				console.log("Service worker registration succeeded. Scope is " + reg.scope);
-			}).catch(function(error) {
-				// registration failed
-				console.log("Service worker registration failed with " + error);
-			});
-		}
-	  
-	  //checks that resouces loaded and https
-	  (function(w,d,c){if(!gapi||!$||!CONFIG){c.error("Resources failed to load.");d.write("<h1 id='message'>Resources failed to load. Please reload the page.</h1>");}if (location.protocol != 'https:'){location.href = 'https:' + window.location.href.substring(window.location.protocol.length);}})(window,document,console);
-	</script>
 </html>
