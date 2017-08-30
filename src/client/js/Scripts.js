@@ -71,7 +71,7 @@ function createNotifications(json){
 	}
 	
 	if(getCookie('notify')==''||!getCookie('notify')){
-		if (!Notification||!Notification.requestPermission) {
+		if (typeof Notification !== "undefined") {
 			setCookie('notify','false');
 			return;
 		}
@@ -102,7 +102,7 @@ function createNotifications(json){
 	        if (error instanceof TypeError) {
 	            Notification.requestPermission(onPermissionRequested);
 	        } else {
-	            //ignore error, notifications not working is not a reason to stop everything                                                                                                                                                                                
+	            throw error;                                                                                                                                                                               
 	        }    
 		}
 		setCookie('notify','true');
