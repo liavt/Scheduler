@@ -81,7 +81,7 @@ function createNotifications(json){
 			return;
 		}
 		
-		Notification.requestPermission().then(function(result) {
+		var onPermissionRequested = function(result){
 			if (result === 'denied') {
 				setCookie('notify','false');
 				return;
@@ -91,7 +91,20 @@ function createNotifications(json){
 				return;
 			}
 			setCookie('notify','true');
-		});
+		}
+		
+		try{
+			Notification.requestPermission().then(onPermissionRequested);
+		}catch(error){
+			// Safari doesn't return a promise for requestPermissions and it                                                                                                                                       
+	        // throws a TypeError. It takes a callback as the first argument                                                                                                                                       
+	        // instead.
+	        if (error instanceof TypeError) {
+	            Notification.requestPermission(onPermissionRequested);
+	        } else {
+	            throw error;                                                                                                                                                                                       
+	        }    
+		}
 		setCookie('notify','true');
 	}
 }
