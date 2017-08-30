@@ -102,7 +102,7 @@ function createNotifications(json){
 	        if (error instanceof TypeError) {
 	            Notification.requestPermission(onPermissionRequested);
 	        } else {
-	            throw error;                                                                                                                                                                                       
+	            //ignore error, notifications not working is not a reason to stop everything                                                                                                                                                                                
 	        }    
 		}
 		setCookie('notify','true');
