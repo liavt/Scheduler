@@ -71,6 +71,7 @@ function createNotifications(json){
 	}
 	
 	if(getCookie('notify')==''||!getCookie('notify')){
+		//if browser doesnt support notifications, end
 		if (typeof Notification !== "undefined") {
 			setCookie('notify','false');
 			return;
@@ -319,6 +320,10 @@ function viewSettings(){
 	html += "<option value='Image'>Custom Image</option>";
 	html += "</select><br>";
 	html += "<input id='background-choice-extra'>";
+	html += "</div><br>";
+	html += "<div class='noanimation'>";
+	html += "<select id='day-choice'>";
+	html += "</select>";
 	html += "</div><br>";
 	html += "<div class='noanimation'><input id='settings-submit'type='submit'value='Submit'/><br><input type='reset'value='Cancel'onclick='location.reload()'/></div>";
 	pushView(VIEW_TYPE.PAGE, html);

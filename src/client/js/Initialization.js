@@ -56,7 +56,7 @@ function reset(){
 function retrieveData(request, callback, data){
 	data["request"] = encodeURIComponent(request);
 	data["grade"] = encodeURIComponent(getGrade());
-	data["day"] = encodeURIComponent(new Date().getDate());
+	data["day"] = getCookie("day") ? getCookie("day") : encodeURIComponent(new Date().getDate());
 	data["code"] = encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token);
 	data["callback"] = "foo";
 	
@@ -190,6 +190,8 @@ function init(){
 	console.log(CONFIG.DEBUG);
 	
 	setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
+	
+	setCookie("day", 31);
 	
 	createNotifications();
 
