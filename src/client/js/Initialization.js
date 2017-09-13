@@ -56,7 +56,7 @@ function reset(){
 function retrieveData(request, callback, data){
 	data["request"] = encodeURIComponent(request);
 	data["grade"] = encodeURIComponent(getGrade());
-	data["day"] = getCookie("day") ? getCookie("day") : encodeURIComponent(new Date().getDate());
+	data["day"] = encodeURIComponent(new Date().getDate());
 	data["code"] = encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token);
 	data["callback"] = "foo";
 	
