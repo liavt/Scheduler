@@ -273,6 +273,8 @@ function getScheduleTable(json){
 					}
 					
 					out += "<td class='"+cellClass+"'bgcolor='"+cellColor+"'>"+cellText+"</td>";
+				}else{
+					out += "<td class='EMPTY'></td>";
 				}
 			}
 		}
