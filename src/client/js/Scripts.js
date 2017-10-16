@@ -385,7 +385,13 @@ function loadPage(json){
 	//we can't simply remove the login. the google login button tries to edit it's own style, and deleting it causes the javascript to throw an error and stop. keeping it hidden won't hurt anyone
 	$("#login").css("display","none");
 	
-	var html = "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
+	var html = "";
+	
+	if(json.premium === true){
+		html += "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
+	}else{
+		html += "<div id='name'class='personalized'>Please upgrade to a premium account to enable <b>Schedule+</b>.</div>";
+	}
 	
 	html += "<br>"+json.motd.global;
 	html += json.motd.local;
@@ -401,7 +407,9 @@ function loadPage(json){
 		html += "<br>"+getAdminConsole(json)+"";
 	}
 	
-	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
+	if(json.premium === true){
+		html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
+	}
 
 	html += "<br>";
 	
@@ -419,7 +427,7 @@ function readCookies(){
 	var backgroundSelection = getCookie("bg").split(":");
 	if(backgroundSelection[0]=="NASA-APOD"){
 		$.getJSON("https://api.nasa.gov/planetary/apod?api_key="+CONFIG.NASA_IMAGE_API, function(response){
-			$("head").append("<style>body{background-image: url(" + response.hdurl + ") !important;background-size:cover;}</style>");
+			$("head").append("<style id='theme-style'>body{background-image: url(" + response.hdurl + ") !important;background-size:cover;}</style>");
 		});
 	}else if(backgroundSelection[0] == "Bing"){
 		var settings = {
@@ -437,17 +445,17 @@ function readCookies(){
 		};
 		
 		$.ajax(settings).done(function(response){
-			$("head").append("<style>body{background-image: url(" + JSON.parse(response).url + ") !important;background-size:cover;}</style>");
+			$("head").append("<style id='theme-style'>body{background-image: url(" + JSON.parse(response).url + ") !important;background-size:cover;}</style>");
 		});
 	}else if(backgroundSelection[0]=="Color"){
-		$("head").append("<style>body{background-color: "+decodeURIComponent(backgroundSelection[1])+" !important;}</style>");
+		$("head").append("<style id='theme-style'>body{background-color: "+decodeURIComponent(backgroundSelection[1])+" !important;}</style>");
 	}else if(backgroundSelection[0]=="Image"){
 		var pattern = /(?:(?:https):\/\/|\b(?:[a-z\d]+\.))(?:(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))?\))+(?:\((?:[^\s()<>]+|(?:\(?:[^\s()<>]+\)))?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))?/;
 		var matches = decodeURIComponent(backgroundSelection[1]).match(pattern);
 	    if(!matches||matches.length != 1){
 	    	alert("Invalid Custom Image URL");
 	    }else{
-			$("head").append("<style>body{background-image: url("+decodeURIComponent(backgroundSelection[1])+") !important;background-size:cover;}</style>");
+			$("head").append("<style id='theme-style'>body{background-image: url("+decodeURIComponent(backgroundSelection[1])+") !important;background-size:cover;}</style>");
 	    }
 	}else if(backgroundSelection[0] == "" || backgroundSelection[0] == "Theme"){
 		setCookie("bg","Theme");

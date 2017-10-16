@@ -94,6 +94,10 @@ function retrieveData(request, callback, data){
 		}
 		
 		try{
+			if(json.premium !== true){
+				$("#main-stylesheet, #theme-style").remove();
+			}
+			
 			callback(json);
 		}catch(e){
 			console.error(e);
