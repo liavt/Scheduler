@@ -81,7 +81,6 @@ function retrieveData(request, callback, data){
 
 		try{
 			var json = JSON.parse(response);
-			console.log(json);
 		}catch(e){
 			console.error(response);
 			pushView(VIEW_TYPE.MESSAGE,"<span aria-live='assertive'>"+e+"<br>Please try to login again.</span><br><br><input type='submit'value='Log in again'onclick='loadGoogleApi()'/><br><input type='submit'value='Change grade level'onclick='reset()'/>");
