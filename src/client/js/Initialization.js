@@ -98,6 +98,9 @@ function retrieveData(request, callback, data){
 				setInterval(function(){
 					$("style, link[rel=stylesheet]").remove();
 				}, 3000);
+				$("html").on('DOMNodeInserted', 'style, link[rel=stylesheet]', function () {
+					$(this).remove();
+				});
 			}
 			
 			callback(json);
