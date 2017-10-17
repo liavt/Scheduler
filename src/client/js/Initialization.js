@@ -96,8 +96,8 @@ function retrieveData(request, callback, data){
 			if(json.premium !== true){
 				//hey john
 				$("style, link[rel=stylesheet]").remove();
-				$(document).scroll(function(){
-					$("style, link[rel=stylesheet]").remove();
+				$(document).arrive("style, link", function(){
+					$(this).remove();
 				});
 			}
 			
