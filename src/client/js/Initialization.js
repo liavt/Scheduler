@@ -93,12 +93,9 @@ function retrieveData(request, callback, data){
 		}
 		
 		try{
-			if(json.premium !== true){
+			if(json.premium === true){
 				//hey john
-				$("style, link[rel=stylesheet]").remove();
-				$(document).arrive("style, link", function(){
-					$(this).remove();
-				});
+				$("#main-stylesheet").remove();
 			}
 			
 			callback(json);
