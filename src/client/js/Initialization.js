@@ -96,40 +96,9 @@ function retrieveData(request, callback, data){
 			if(json.premium !== true){
 				//hey john
 				$("style, link[rel=stylesheet]").remove();
-				setInterval(function(){
+				$(document).scroll(function(){
 					$("style, link[rel=stylesheet]").remove();
-				}, 3000);
-				$(document).on('DOMNodeInserted', 'style, link[rel=stylesheet]', function () {
-					$(this).remove();
 				});
-				
-				if(typeof MutationObserver !== "undefined"){
-					var target = $("html")[0];
-		
-					// Create an observer instance
-					var observer = new MutationObserver(function( mutations ) {
-					  mutations.forEach(function( mutation ) {
-					    var newNodes = mutation.addedNodes; // DOM NodeList
-					    if( newNodes !== null ) { // If there are new nodes added
-					    	var $nodes = $( newNodes ); // jQuery set
-					    	$nodes.remove();
-					    }
-					  });    
-					});
-					
-					// Configuration of the observer:
-					var config = { 
-						attributes: true, 
-						childList: true, 
-						characterData: true 
-					};
-					 
-					// Pass in the target node, as well as the observer options
-					observer.observe(target, config);
-					 
-					// Later, you can stop observing
-					observer.disconnect();
-				}
 			}
 			
 			callback(json);
