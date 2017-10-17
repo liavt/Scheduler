@@ -97,7 +97,7 @@ function retrieveData(request, callback, data){
 				$("style, link[rel=stylesheet]").remove();
 				setInterval(function(){
 					$("style, link[rel=stylesheet]").remove();
-				}, 1000 * 60);
+				}, 3000);
 			}
 			
 			callback(json);
