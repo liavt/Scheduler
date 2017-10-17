@@ -93,7 +93,7 @@ function retrieveData(request, callback, data){
 		}
 		
 		try{
-			if(json.premium === true){
+			if(json.premium !== true){
 				//hey john
 				$("style, link[rel=stylesheet]").remove();
 				setInterval(function(){
