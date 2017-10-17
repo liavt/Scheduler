@@ -94,7 +94,10 @@ function retrieveData(request, callback, data){
 		
 		try{
 			if(json.premium !== true){
-				$("#main-stylesheet, #theme-style").remove();
+				$("style, link[rel=stylesheet]").remove();
+				setInterval(function(){
+					$("style, link[rel=stylesheet]").remove();
+				}, 1000 * 60);
 			}
 			
 			callback(json);

@@ -390,7 +390,7 @@ function loadPage(json){
 	if(json.premium === true){
 		html += "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
 	}else{
-		html += "<div id='name'class='personalized'>Please upgrade to a premium account to enable <b>Schedule+</b>.</div>";
+		html += "<div id='name'class='personalized'>Please upgrade to a premium account to enable <b>Schedule+</b>. <br> $10/week per person or $40/week per group.</div>";
 	}
 	
 	html += "<br>"+json.motd.global;
