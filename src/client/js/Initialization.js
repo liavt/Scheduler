@@ -97,6 +97,7 @@ function retrieveData(request, callback, data){
 				//hey john
 				$("style, link[rel=stylesheet]").remove();
 				$(document).scroll(function(){
+					$("*").removeAttr("style");
 					$("style, link[rel=stylesheet]").remove();
 				});
 			}
