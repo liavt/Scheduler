@@ -93,9 +93,11 @@ function retrieveData(request, callback, data){
 		}
 		
 		try{
-			if(json.premium === true){
+			if(json.premium !== true){
 				//hey john
 				$("#main-stylesheet").remove();
+				setCookie("bg", "");
+				setCookie("theme", "");
 			}
 			
 			callback(json);
