@@ -197,7 +197,7 @@ function init(){
 	
 	setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
 	
-	setCookie("day", 31);
+	setCookie("day", "");
 	
 	createNotifications();
 
