@@ -323,9 +323,8 @@ function viewSettings(){
 	html += "</select><br>";
 	html += "<input id='background-choice-extra'>";
 	html += "</div><br>";
-	html += "<div class='noanimation'>";
-	html += "<select id='day-choice'>";
-	html += "</select>";
+	html += "<div class='noanimation'>Day: ";
+	html += "<input type='date' id='day-choice'>";
 	html += "</div><br>";
 	html += "<div class='noanimation'><input id='settings-submit'type='submit'value='Submit'/><br><input type='reset'value='Cancel'onclick='location.reload()'/></div>";
 	pushView(VIEW_TYPE.PAGE, html);
@@ -371,9 +370,24 @@ function viewSettings(){
 		addExtraBackgroundInfo($(this).val());
 	});
 	
+	var $dayChoice = $("#day-choice");
+	var currentDate = new Date();
+	currentDate.setDate(getDay());
+	$dayChoice.val(currentDate.toISOString().substr(0, 10));
+	currentDate.setDate(1);
+	$dayChoice.attr("min", currentDate.toISOString().substr(0, 10));
+	currentDate.setDate(31);
+	$dayChoice.attr("max", currentDate.toISOString().substr(0, 10));
+	
 	$("#settings-submit").click(function(){
 		setCookie("theme", $("#theme-choice").val());
 		setCookie("notify", $("#notify-checkbox").prop("checked"));
+		var dayChoice = new Date($dayChoice.val()).getDate() + 1;
+		if(dayChoice == new Date().getDate()){
+			setCookie("day", "");
+		}else{
+			setCookie("day", dayChoice);
+		}
 		setCookie("passPeriod", $("#notify-delay").val());
 		var background = $("#background-choice").val() + ":" + encodeURIComponent($("#background-choice-extra").val());
 		setCookie("bg", background);
@@ -394,13 +408,25 @@ function loadPage(json){
 	}
 	
 	html += "<br>"+json.motd.global;
-	html += json.motd.local;
-	if(json.schedule){
-		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>"
+	if(typeof json.motd.local !== "undefined"){
+		html += json.motd.local;
 	}
 	
-	if(json.table){
+	if(typeof json.schedule === "object"){
+		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>";
+		updateNotifications(json);
+	}
+	
+	if(getDay() != new Date().getDate()){
+		html += "<br><div><input type='submit'value='Reset to today'onclick='javascript:setCookie(\"day\", \"\");location.reload();'></div>";
+	}
+	
+	if(typeof json.table === "object"){
 		html += "<br>" + getScheduleTable(json);
+	}else{
+		html += "<br><div>No schedule on ";
+		html += (new Date().getMonth() + 1) + "/" + getDay() + "<br>";
+		html += "</div>";
 	}
 	
 	if(json.isAdmin===true&&json){
@@ -536,5 +562,4 @@ This should be called when the JSON gets updated
 function updatePage(json){
 	loadPage(json);
 	refreshPersonalizedSchedule(json);
-	updateNotifications(json);
 }

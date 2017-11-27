@@ -41,7 +41,12 @@ function getGrade(){
 }
 
 function getDay(){
-	return getSetting("day");
+	var setting = getSetting("day");
+	if(setting && setting != ""){
+		return setting;
+	}
+	
+	return new Date().getDate();
 }
 
 function reset(){
@@ -56,7 +61,7 @@ function reset(){
 function retrieveData(request, callback, data){
 	data["request"] = encodeURIComponent(request);
 	data["grade"] = encodeURIComponent(getGrade());
-	data["day"] = encodeURIComponent(new Date().getDate());
+	data["day"] = encodeURIComponent(getDay());
 	data["code"] = encodeURIComponent(auth2.currentUser.get().getAuthResponse().id_token);
 	data["callback"] = "foo";
 	
@@ -98,6 +103,7 @@ function retrieveData(request, callback, data){
 				$("#main-stylesheet").remove();
 				setCookie("bg", "");
 				setCookie("theme", "");
+				setCookie("day", "")
 			}
 			
 			callback(json);
@@ -196,8 +202,6 @@ function init(){
 	console.log(CONFIG.DEBUG);
 	
 	setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
-	
-	setCookie("day", 31);
 	
 	createNotifications();
 
