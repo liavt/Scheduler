@@ -491,10 +491,12 @@ function readCookies(){
 function showNotification(title, msg){
 	var notification = new Notification(title, {
 		icon: CONFIG.NOTIFICATION_ICON,
+		image: CONFIG.NOTIFICATION_ICON,
 		body: msg,
 		dir: CONFIG.LANGUAGE_DIRECTION,
 		lang: CONFIG.LANGUAGE_NAME,
-		vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN
+		vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN,
+		renotify: true,
 	}); 
 }
 
