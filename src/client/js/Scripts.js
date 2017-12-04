@@ -401,11 +401,7 @@ function loadPage(json){
 	
 	var html = "";
 	
-	if(json.premium === true){
-		html += "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
-	}else{
-		html += "<div id='name'class='personalized'>Please upgrade to a premium account to enable <b>Schedule+</b>. <br> $10/week per person or $40/week per group.</div>";
-	}
+	html += "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
 	
 	html += "<br>"+json.motd.global;
 	if(typeof json.motd.local !== "undefined"){
@@ -433,9 +429,7 @@ function loadPage(json){
 		html += "<br>"+getAdminConsole(json)+"";
 	}
 	
-	if(json.premium === true){
-		html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
-	}
+	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
 
 	html += "<br>";
 	

@@ -98,14 +98,6 @@ function retrieveData(request, callback, data){
 		}
 		
 		try{
-			if(json.premium !== true){
-				//hey john
-				$("#main-stylesheet").remove();
-				setCookie("bg", "");
-				setCookie("theme", "");
-				setCookie("day", "")
-			}
-			
 			callback(json);
 		}catch(e){
 			console.error(e);
