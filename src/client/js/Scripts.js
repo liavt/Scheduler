@@ -490,6 +490,7 @@ function showNotification(title, msg){
 		dir: CONFIG.LANGUAGE_DIRECTION,
 		lang: CONFIG.LANGUAGE_NAME,
 		vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN,
+		tag: "next-mod",
 		renotify: true,
 	}); 
 }
