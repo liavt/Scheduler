@@ -17,6 +17,13 @@ body{
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
+    
+    
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 body div, .infobutton, select, input{
