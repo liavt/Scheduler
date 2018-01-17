@@ -1,0 +1,3 @@
+/api
+  # Headers for that path:
+  Cache-Control: private, max-age=300
