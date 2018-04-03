@@ -11,7 +11,7 @@ var CONFIG = {
     "VERSION":"1.0.0b",
     "INFOBUTTON_IMAGE_SIZE": 70,
     "GREETINGS":[
-      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo %N!","Hey %N!","Greetings, %N",
+      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo,;,' %N!","Hey %N!","Greetings, %N",
       "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
     ],
     "SERVICE_WORKER":false,
