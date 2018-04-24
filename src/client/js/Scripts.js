@@ -14,16 +14,47 @@ function getTime(date) {
 	return (date.getHours() * 60) + date.getMinutes();
 }
 
-function fetchData(){
+function fetchData() {
 
 }
 
 /*! modernizr 3.3.1 (Custom Build) | MIT *
  * https://modernizr.com/download/?-touchevents-mq-setclasses !*/
-!function(e,n,t){function o(e,n){return typeof e===n}function s(){var e,n,t,s,a,i,r;for(var l in c)if(c.hasOwnProperty(l)){if(e=[],n=c[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(s=o(n.fn,"function")?n.fn():n.fn,a=0;a<e.length;a++)i=e[a],r=i.split("."),1===r.length?Modernizr[r[0]]=s:(!Modernizr[r[0]]||Modernizr[r[0]]instanceof Boolean||(Modernizr[r[0]]=new Boolean(Modernizr[r[0]])),Modernizr[r[0]][r[1]]=s),f.push((s?"":"no-")+r.join("-"))}}function a(e){var n=d.className,t=Modernizr._config.classPrefix||"";if(p&&(n=n.baseVal),Modernizr._config.enableJSClass){var o=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(o,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),p?d.className.baseVal=n:d.className=n)}function i(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):p?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function r(){var e=n.body;return e||(e=i(p?"svg":"body"),e.fake=!0),e}function l(e,t,o,s){var a,l,f,c,u="modernizr",p=i("div"),m=r();if(parseInt(o,10))for(;o--;)f=i("div"),f.id=s?s[o]:u+(o+1),p.appendChild(f);return a=i("style"),a.type="text/css",a.id="s"+u,(m.fake?m:p).appendChild(a),m.appendChild(p),a.styleSheet?a.styleSheet.cssText=e:a.appendChild(n.createTextNode(e)),p.id=u,m.fake&&(m.style.background="",m.style.overflow="hidden",c=d.style.overflow,d.style.overflow="hidden",d.appendChild(m)),l=t(p,e),m.fake?(m.parentNode.removeChild(m),d.style.overflow=c,d.offsetHeight):p.parentNode.removeChild(p),!!l}var f=[],c=[],u={_version:"3.3.1",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){c.push({name:e,fn:n,options:t})},addAsyncTest:function(e){c.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=u,Modernizr=new Modernizr;var d=n.documentElement,p="svg"===d.nodeName.toLowerCase(),m=u._config.usePrefixes?" -webkit- -moz- -o- -ms- ".split(" "):["",""];u._prefixes=m;var h=u.testStyles=l;Modernizr.addTest("touchevents",function(){var t;if("ontouchstart"in e||e.DocumentTouch&&n instanceof DocumentTouch)t=!0;else{var o=["@media (",m.join("touch-enabled),("),"heartz",")","{#modernizr{top:9px;position:absolute}}"].join("");h(o,function(e){t=9===e.offsetTop})}return t});var v=function(){var n=e.matchMedia||e.msMatchMedia;return n?function(e){var t=n(e);return t&&t.matches||!1}:function(n){var t=!1;return l("@media "+n+" { #modernizr { position: absolute; } }",function(n){t="absolute"==(e.getComputedStyle?e.getComputedStyle(n,null):n.currentStyle).position}),t}}();u.mq=v,s(),a(f),delete u.addTest,delete u.addAsyncTest;for(var g=0;g<Modernizr._q.length;g++)Modernizr._q[g]();e.Modernizr=Modernizr}(window,document);
+! function(e, n, t) {
+	function o(e, n) { return typeof e === n }
 
-function setTouchScreen(touch){
-	if(touch){
+	function s() { var e, n, t, s, a, i, r; for (var l in c)
+			if (c.hasOwnProperty(l)) { if (e = [], n = c[l], n.name && (e.push(n.name.toLowerCase()), n.options && n.options.aliases && n.options.aliases.length))
+					for (t = 0; t < n.options.aliases.length; t++) e.push(n.options.aliases[t].toLowerCase()); for (s = o(n.fn, "function") ? n.fn() : n.fn, a = 0; a < e.length; a++) i = e[a], r = i.split("."), 1 === r.length ? Modernizr[r[0]] = s : (!Modernizr[r[0]] || Modernizr[r[0]] instanceof Boolean || (Modernizr[r[0]] = new Boolean(Modernizr[r[0]])), Modernizr[r[0]][r[1]] = s), f.push((s ? "" : "no-") + r.join("-")) } }
+
+	function a(e) { var n = d.className,
+			t = Modernizr._config.classPrefix || ""; if (p && (n = n.baseVal), Modernizr._config.enableJSClass) { var o = new RegExp("(^|\\s)" + t + "no-js(\\s|$)");
+			n = n.replace(o, "$1" + t + "js$2") } Modernizr._config.enableClasses && (n += " " + t + e.join(" " + t), p ? d.className.baseVal = n : d.className = n) }
+
+	function i() { return "function" != typeof n.createElement ? n.createElement(arguments[0]) : p ? n.createElementNS.call(n, "http://www.w3.org/2000/svg", arguments[0]) : n.createElement.apply(n, arguments) }
+
+	function r() { var e = n.body; return e || (e = i(p ? "svg" : "body"), e.fake = !0), e }
+
+	function l(e, t, o, s) { var a, l, f, c, u = "modernizr",
+			p = i("div"),
+			m = r(); if (parseInt(o, 10))
+			for (; o--;) f = i("div"), f.id = s ? s[o] : u + (o + 1), p.appendChild(f); return a = i("style"), a.type = "text/css", a.id = "s" + u, (m.fake ? m : p).appendChild(a), m.appendChild(p), a.styleSheet ? a.styleSheet.cssText = e : a.appendChild(n.createTextNode(e)), p.id = u, m.fake && (m.style.background = "", m.style.overflow = "hidden", c = d.style.overflow, d.style.overflow = "hidden", d.appendChild(m)), l = t(p, e), m.fake ? (m.parentNode.removeChild(m), d.style.overflow = c, d.offsetHeight) : p.parentNode.removeChild(p), !!l } var f = [],
+		c = [],
+		u = { _version: "3.3.1", _config: { classPrefix: "", enableClasses: !0, enableJSClass: !0, usePrefixes: !0 }, _q: [], on: function(e, n) { var t = this;
+				setTimeout(function() { n(t[e]) }, 0) }, addTest: function(e, n, t) { c.push({ name: e, fn: n, options: t }) }, addAsyncTest: function(e) { c.push({ name: null, fn: e }) } },
+		Modernizr = function() {};
+	Modernizr.prototype = u, Modernizr = new Modernizr; var d = n.documentElement,
+		p = "svg" === d.nodeName.toLowerCase(),
+		m = u._config.usePrefixes ? " -webkit- -moz- -o- -ms- ".split(" ") : ["", ""];
+	u._prefixes = m; var h = u.testStyles = l;
+	Modernizr.addTest("touchevents", function() { var t; if ("ontouchstart" in e || e.DocumentTouch && n instanceof DocumentTouch) t = !0;
+		else { var o = ["@media (", m.join("touch-enabled),("), "heartz", ")", "{#modernizr{top:9px;position:absolute}}"].join("");
+			h(o, function(e) { t = 9 === e.offsetTop }) } return t }); var v = function() { var n = e.matchMedia || e.msMatchMedia; return n ? function(e) { var t = n(e); return t && t.matches || !1 } : function(n) { var t = !1; return l("@media " + n + " { #modernizr { position: absolute; } }", function(n) { t = "absolute" == (e.getComputedStyle ? e.getComputedStyle(n, null) : n.currentStyle).position }), t } }();
+	u.mq = v, s(), a(f), delete u.addTest, delete u.addAsyncTest; for (var g = 0; g < Modernizr._q.length; g++) Modernizr._q[g]();
+	e.Modernizr = Modernizr }(window, document);
+
+function setTouchScreen(touch) {
+	if (touch) {
 		applyTheme('mobile');
 	}
 }
@@ -39,21 +70,21 @@ function getTextWidth(text, font) {
 
 function setCookie(cname, cvalue, exdays) {
 	var expires = "";
-	if(!exdays)exdays = 365;
-	
+	if (!exdays) exdays = 365;
+
 	var d = new Date();
-	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	expires = "expires="+d.toGMTString();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	expires = "expires=" + d.toGMTString();
 	document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
 function getCookie(cname) {
-	if(!document&&!document.cookie){
+	if (!document && !document.cookie) {
 		return "";
 	}
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
-	for(var i = 0; i < ca.length; i++) {
+	for (var i = 0; i < ca.length; i++) {
 		var c = ca[i];
 		while (c.charAt(0) == ' ') {
 			c = c.substring(1);
@@ -65,48 +96,50 @@ function getCookie(cname) {
 	return "";
 }
 
-function createNotifications(json){
-	if(getCookie('passPeriod')==''||!getCookie('passPeriod')){
-		setCookie('passPeriod',5);
+function createNotifications(json) {
+	if (getCookie('passPeriod') == '' || !getCookie('passPeriod')) {
+		setCookie('passPeriod', 5);
 	}
-	
-	if(getCookie('notify')==''||!getCookie('notify')){
+
+	if (getCookie('notify') == '' || !getCookie('notify')) {
 		//if browser doesnt support notifications, end
 		if (typeof Notification !== "undefined") {
-			setCookie('notify','false');
+			setCookie('notify', 'false');
 			return;
 		}
-		
-		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 			setCookie("notify", "false");
 			return;
 		}
-		
-		var onPermissionRequested = function(result){
+
+		var onPermissionRequested = function(result) {
 			if (result === 'denied') {
-				setCookie('notify','false');
+				setCookie('notify', 'false');
 				return;
 			}
 			if (result === 'default') {
-				setCookie('notify','false');
+				setCookie('notify', 'false');
 				return;
 			}
-			setCookie('notify','true');
+			setCookie('notify', 'true');
 		}
-		
-		try{
+
+		try {
 			Notification.requestPermission().then(onPermissionRequested);
-		}catch(error){
-			// Safari doesn't return a promise for requestPermissions and it                                                                                                                                       
-	        // throws a TypeError. It takes a callback as the first argument                                                                                                                                       
-	        // instead.
-	        if (error instanceof TypeError) {
-	            Notification.requestPermission(onPermissionRequested);
-	        } else {
-	            throw error;                                                                                                                                                                               
-	        }    
 		}
-		setCookie('notify','true');
+		catch (error) {
+			// Safari doesn't return a promise for requestPermissions and it                                                                                                                                       
+			// throws a TypeError. It takes a callback as the first argument                                                                                                                                       
+			// instead.
+			if (error instanceof TypeError) {
+				Notification.requestPermission(onPermissionRequested);
+			}
+			else {
+				throw error;
+			}
+		}
+		setCookie('notify', 'true');
 	}
 }
 
@@ -119,182 +152,192 @@ function addZero(i) {
 	return i;
 }
 
-function refreshPersonalizedSchedule(json){
+function refreshPersonalizedSchedule(json) {
+	console.log(json);
 	var person = json.info.id;
 	var day = json.day;
-	
-	if(!json.schedule){
-		return;	
+
+	if (!json.schedule) {
+		return;
 	}
-	
-	if(json.schedule.length<0){
+
+	if (json.schedule.length < 0) {
 		return json.schedule.failed;
 	}
-	
+
 	var out = "";
-	
-	if(json.schedule.needsSelection == true){
+
+	if (json.schedule.needsSelection == true) {
 		out = "<h1>Pick your mods for today:</h1>";
-		for(var i = 0; i < json.schedule.modsForSelection.length; ++i){
-			if(json.schedule.modsForSelection[i]&&json.schedule.modsForSelection[i][0]){
+		for (var i = 0; i < json.schedule.modsForSelection.length; ++i) {
+			if (json.schedule.modsForSelection[i] && json.schedule.modsForSelection[i][0]) {
 				out += timeToString(new Date(json.schedule.modsForSelection[i][0].endTime));
 				out += " - ";
 				out += timeToString(new Date(json.schedule.modsForSelection[i][0].startTime));
 				out += ": ";
-				out += "<select id='mod-selection-"+i+"'>";
+				out += "<select id='mod-selection-" + i + "'>";
 				out += "<option value=''selected='true'disabled='true'>Pick a mod</option>";
-				for(var j = 0; j < json.schedule.modsForSelection[i].length; ++j){
-					out += "<option value='" + json.schedule.modsForSelection[i][j].key +"'>";
+				for (var j = 0; j < json.schedule.modsForSelection[i].length; ++j) {
+					out += "<option value='" + json.schedule.modsForSelection[i][j].key + "'>";
 					out += json.schedule.modsForSelection[i][j].name;
 					out += "</option>";
 				}
 				out += "</select><br>";
 			}
 		}
-		
+
 		out += "<br><i style='color:red'id='mod-selection-error'></i>";
 		out += "<br><input type='submit'value='Confirm mods'id='mod-selection-submit'>";
-		
+
 		$("#schedule-container").empty().html(out);
-		
-		$("#mod-selection-submit").click(function(){
+
+		$("#mod-selection-submit").click(function() {
 			var selection = {};
-			
-			for(var i = 0; i < json.schedule.modsForSelection.length; ++i){
-				var selectedMod = $("#mod-selection-"+i);
-				if(selectedMod.length){
-					if(!selectedMod.val()){
+
+			for (var i = 0; i < json.schedule.modsForSelection.length; ++i) {
+				var selectedMod = $("#mod-selection-" + i);
+				if (selectedMod.length) {
+					if (!selectedMod.val()) {
 						$("#mod-selection-error").html("Must select a mod for every time slot!");
 						return;
 					}
-					
+
 					var selectedModJSON = {
-						"key":selectedMod.val(),
-						"startTime":json.schedule.modsForSelection[i][0].startTime,
-						"endTime":json.schedule.modsForSelection[i][0].endTime,
+						"key": selectedMod.val(),
+						"startTime": json.schedule.modsForSelection[i][0].startTime,
+						"endTime": json.schedule.modsForSelection[i][0].endTime,
 					};
-					
+
 					selection[i] = (selectedModJSON);
 				}
 			}
-			
+
 			selection.length = json.schedule.modsForSelection.length;
-			
+
 			$("#schedule-container").empty().html("Loading...");
-			
-			retrieveData("mod-select", refreshPersonalizedSchedule, {"selection":JSON.stringify(selection)});
+
+			retrieveData("mod-select", refreshPersonalizedSchedule, { "selection": JSON.stringify(selection) });
 		});
-	}else{
-		out = "<h1>Here\'s your schedule for "+getDayNoun(json.day)+":</h1><p id='personalized-schedule'><table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
-		
-		for(var i = 0;i<json.schedule.length;++i){
+	}
+	else {
+		out = "<h1>Here\'s your schedule for " + getDayNoun(json.day) + ":</h1><p id='personalized-schedule'><table><tr bgcolor='#BBB'><td><b>Time</b></td><td><b>Class</b></td></tr>";
+
+		for (var i = 0; i < json.schedule.length; ++i) {
 			var start = new Date(json.schedule[i].startTime);
-			
+
 			var end = new Date(json.schedule[i].endTime);
-			
-			out += "<tr id='row"+i+"'><td class='time cell'>";
-			out += "<span class='time-contents'><p class='time-hours'>"+timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>"+ timeToString(end)+"</p></span></td><td class='mod cell'bgcolor='"+json.schedule[i].color+"'><p>" + json.schedule[i].name + '</p></td></tr>';
+
+			out += "<tr id='row" + i + "'><td class='time cell'>";
+			out += "<span class='time-contents'><p class='time-hours'>" + timeToString(start) + "</p><p class='time-dash'>&#32;-&#32;</p><p class='time-hours'>" + timeToString(end) + "</p></span></td><td class='mod cell'bgcolor='" + json.schedule[i].color + "'><p>" + json.schedule[i].name + '</p></td></tr>';
 		}
-		
+
 		out += "</table></p>";
-		
-		if(json.info.group){
-			out += "<br>Group: "+json.info.group;
+
+		if (json.info.group) {
+			out += "<br>Group: " + json.info.group;
 		}
-		if(json.info.cohort){
-			out += "<br>Cohort: "+json.info.cohort;
+		if (json.info.cohort) {
+			out += "<br>Cohort: " + json.info.cohort;
 		}
-		if(json.info.lote){
-			out += "<br>LOTE: "+json.info.lote;
+		if (json.info.lote) {
+			out += "<br>LOTE: " + json.info.lote;
 		}
-		
+
 		$("#schedule-container").empty().html(out);
 	}
 }
 
-function getGreeting(){
-	if(Math.floor(Math.random()*2)===1){
-	var d= new Date();
-	if(d.getHours()<12){
-		 return "Good morning, %N";
-	} else if(d.getHours()<17){
-		 return "Good afternoon, %N";
-	} else {
-		 return "Good evening, %N";
+function getGreeting() {
+	if (Math.floor(Math.random() * 2) === 1) {
+		var d = new Date();
+		if (d.getHours() < 12) {
+			return "Good morning, %N";
+		}
+		else if (d.getHours() < 17) {
+			return "Good afternoon, %N";
+		}
+		else {
+			return "Good evening, %N";
+		}
 	}
-	}else{
+	else {
 		return CONFIG.GREETINGS[Math.floor(Math.random() * CONFIG.GREETINGS.length)];
 	}
 }
 
 function capitalizeFirstLetter(target) {
 	// Return a string with the first letter capitalized.
-	return target.substring(0,1).toUpperCase()+target.substring(1);
+	return target.substring(0, 1).toUpperCase() + target.substring(1);
 }
 
-function getDayNoun(day){
-	var current =new Date().getDay()-1;
-	var offset = day-current;
-	if(offset==0){
+function getDayNoun(day) {
+	var current = new Date().getDay() - 1;
+	var offset = day - current;
+	if (offset == 0) {
 		return "today";
-	}else if(offset==1){
+	}
+	else if (offset == 1) {
 		return "tomorrow";
-	}else if(offset==-1){
+	}
+	else if (offset == -1) {
 		return "yesterday";
-	}else{
-		return (new Date().getMonth() + 1)+"/"+day;
+	}
+	else {
+		return (new Date().getMonth() + 1) + "/" + day;
 	}
 }
 
-function getAdminConsole(json){
+function getAdminConsole(json) {
 	var out = "<div class='noanimation'><h1>Admin</h1>";
-	out += "<a href='"+json.admin.controlPanel+"'target='_blank'>Control Panel</a>";
+	out += "<a href='" + json.admin.controlPanel + "'target='_blank'>Control Panel</a>";
 	out += "</div>";
 	return out;
 }
 
-function getScheduleTable(json){
+function getScheduleTable(json) {
 	var out = "<div class='noanimation'id='schedule-parent'><table id='schedule'><tr>";
-	
-	for(var x = 0;x < json.table.length;++x){
+
+	for (var x = 0; x < json.table.length; ++x) {
 		out += "<tr>"
-		if(json.table[x]){
-			for(var y = 0;y < json.table[x].length;++y){
-				if(json.table[x][y]){
+		if (json.table[x]) {
+			for (var y = 0; y < json.table[x].length; ++y) {
+				if (json.table[x][y]) {
 					var cellClass = "cell";
 					var cellColor = json.table[x][y].color;
 					var cellText = json.table[x][y].text;
-					
-					if(json.table[x][y].type == "TIME" ||json.table[x][y].type == "QUERY"){
+
+					if (json.table[x][y].type == "TIME" || json.table[x][y].type == "QUERY") {
 						cellClass += "key";
-					}else if(json.table[x][y].type == "EMPTY" || json.table[x][y].type == "KEY"){
+					}
+					else if (json.table[x][y].type == "EMPTY" || json.table[x][y].type == "KEY") {
 						cellClass += "empty";
 						cellColor = "";
 					}
-					
-					out += "<td class='"+cellClass+"'bgcolor='"+cellColor+"'>"+cellText+"</td>";
-				}else{
+
+					out += "<td class='" + cellClass + "'bgcolor='" + cellColor + "'>" + cellText + "</td>";
+				}
+				else {
 					out += "<td class='EMPTY'></td>";
 				}
 			}
 		}
 		out += "</tr>";
 	}
-	
+
 	out += "</tr></table>";
 	out += "</div>";
-	
+
 	return out;
 }
 
-function viewSettings(){
+function viewSettings() {
 	var html = "<div id='name'>Settings</div><br>";
 	html += "<div class='noanimation'>";
 	html += "Theme<br><select id='theme-choice'>";
 	var currentTheme = getCookie("theme");
-	for(var i = 0; i < CONFIG.THEMES.length; ++i){
-		if(CONFIG.THEMES&&!CONFIG.THEMES[i][3]){
-			html += "<option value='"+CONFIG.THEMES[i][0]+"'"+(currentTheme == CONFIG.THEMES[i][0] ? "selected" : "" ) + ">"+CONFIG.THEMES[i][1]+"</option>";
+	for (var i = 0; i < CONFIG.THEMES.length; ++i) {
+		if (CONFIG.THEMES && !CONFIG.THEMES[i][3]) {
+			html += "<option value='" + CONFIG.THEMES[i][0] + "'" + (currentTheme == CONFIG.THEMES[i][0] ? "selected" : "") + ">" + CONFIG.THEMES[i][1] + "</option>";
 		}
 	}
 	html += "</select>"
@@ -328,48 +371,50 @@ function viewSettings(){
 	html += "</div><br>";
 	html += "<div class='noanimation'><input id='settings-submit'type='submit'value='Submit'/><br><input type='reset'value='Cancel'onclick='location.reload()'/></div>";
 	pushView(VIEW_TYPE.PAGE, html);
-	
-    var notifyPassPeriod = $('#notify-delay');
-    
-    notifyPassPeriod.val(getCookie('passPeriod'));
-    notifyPassPeriod.attr('disabled',getCookie('notify')=='false');
-    
-    var notifyCheckbox = $('#notify-checkbox');
-    
-    notifyCheckbox.prop('checked',getCookie('notify')=='true');
-    
-	notifyCheckbox.change(function(){
-		notifyPassPeriod.attr('disabled',!notifyCheckbox.prop('checked'));
+
+	var notifyPassPeriod = $('#notify-delay');
+
+	notifyPassPeriod.val(getCookie('passPeriod'));
+	notifyPassPeriod.attr('disabled', getCookie('notify') == 'false');
+
+	var notifyCheckbox = $('#notify-checkbox');
+
+	notifyCheckbox.prop('checked', getCookie('notify') == 'true');
+
+	notifyCheckbox.change(function() {
+		notifyPassPeriod.attr('disabled', !notifyCheckbox.prop('checked'));
 	});
-	
-	$("#theme-choice").change(function(){
+
+	$("#theme-choice").change(function() {
 		addThemeDescription(this);
 	});
-	
+
 	addThemeDescription($("#theme-choice"));
-	
-	var addExtraBackgroundInfo = function(value){
-		if(value == "Color"){
+
+	var addExtraBackgroundInfo = function(value) {
+		if (value == "Color") {
 			$("#background-choice-extra").attr("type", "color").css("display", "initial").val("#000000").attr("title", "Custom Color").attr("placeholder", "Color Hexcode");
-		}else if(value == "Image"){
+		}
+		else if (value == "Image") {
 			$("#background-choice-extra").attr("type", "url").css("display", "initial").val("").attr("title", "Custom Image").attr("placeholder", "URL to image");
-		}else{
+		}
+		else {
 			$("#background-choice-extra").css("display", "none");
 		}
 	}
-	
+
 	var currentBackground = getCookie("bg");
-	if(currentBackground){
+	if (currentBackground) {
 		var backgroundValues = currentBackground.split(":");
 		addExtraBackgroundInfo(backgroundValues[0]);
 		$("#background-choice option[value=" + backgroundValues[0] + "]").prop("selected", true);
 		$("#background-choice-extra").val(decodeURIComponent(backgroundValues[1]));
 	}
-	
-	$("#background-choice").change(function(){
+
+	$("#background-choice").change(function() {
 		addExtraBackgroundInfo($(this).val());
 	});
-	
+
 	var $dayChoice = $("#day-choice");
 	var currentDate = new Date();
 	currentDate.setDate(getDay());
@@ -378,14 +423,15 @@ function viewSettings(){
 	$dayChoice.attr("min", currentDate.toISOString().substr(0, 10));
 	currentDate.setDate(31);
 	$dayChoice.attr("max", currentDate.toISOString().substr(0, 10));
-	
-	$("#settings-submit").click(function(){
+
+	$("#settings-submit").click(function() {
 		setCookie("theme", $("#theme-choice").val());
 		setCookie("notify", $("#notify-checkbox").prop("checked"));
 		var dayChoice = new Date($dayChoice.val()).getDate() + 1;
-		if(dayChoice == new Date().getDate()){
+		if (dayChoice == new Date().getDate()) {
 			setCookie("day", "");
-		}else{
+		}
+		else {
 			setCookie("day", dayChoice);
 		}
 		setCookie("passPeriod", $("#notify-delay").val());
@@ -395,101 +441,145 @@ function viewSettings(){
 	});
 }
 
-function loadPage(json){
+function loadPage(json) {
 	//we can't simply remove the login. the google login button tries to edit it's own style, and deleting it causes the javascript to throw an error and stop. keeping it hidden won't hurt anyone
-	$("#login").css("display","none");
-	
+	$("#login").css("display", "none");
+
 	var html = "";
-	
-	html += "<div id='name'class='personalized'><span id='greeting'>"+getGreeting().replace("%N",capitalizeFirstLetter(json.info.first))+"</span></div>";
-	
-	html += "<br>"+json.motd.global;
-	if(typeof json.motd.local !== "undefined"){
+
+	html += "<div id='name'class='personalized'><span id='greeting'>" + getGreeting().replace("%N", capitalizeFirstLetter(json.info.first)) + "</span></div>";
+
+	html += "<br>" + json.motd.global;
+	if (typeof json.motd.local !== "undefined") {
 		html += json.motd.local;
 	}
+
+	if (getDay() != new Date().getDate()) {
+		html += "<div>This is a preview of " + (new Date().getMonth() + 1) + "/" + getDay();
+		html += "<br>It could be out of date or inaccurate.";
+		html += "<br>To view today's schedule, click the button below";
+		html += "<br><input id='day-reset' type='submit'value='Reset to today'></div><br>";
+	}
 	
-	if(typeof json.schedule === "object"){
+	html += "<div id='day-shift' class='noanimation'>";
+	html += "<div id='day-shift-right'>+1</div>";
+	html += "<div id='day-shift-left'>-1</div>";
+	html += "</div>";
+
+	if (typeof json.schedule === "object") {
 		html += "<div class='personalized noanimation'><p aria-label='Schedule'id='schedule-container'></p></div>";
 		updateNotifications(json);
 	}
-	
-	if(getDay() != new Date().getDate()){
-		html += "<br><div><input type='submit'value='Reset to today'onclick='javascript:setCookie(\"day\", \"\");location.reload();'></div>";
-	}
-	
-	if(typeof json.table === "object"){
+
+	if (typeof json.table === "object") {
 		html += "<br>" + getScheduleTable(json);
-	}else{
+	}
+	else {
 		html += "<br><div>No schedule on ";
 		html += (new Date().getMonth() + 1) + "/" + getDay() + "<br>";
 		html += "</div>";
 	}
-	
-	if(json.isAdmin===true&&json){
-		html += "<br>"+getAdminConsole(json)+"";
+
+	if (json.isAdmin === true && json) {
+		html += "<br>" + getAdminConsole(json) + "";
 	}
-	
+
 	html += "<img id='settings-button'src='res/gear.png' alt='Settings'>";
 
 	html += "<br>";
-	
-	pushView(VIEW_TYPE.PAGE,html);
-	
+
+	pushView(VIEW_TYPE.PAGE, html);
+
 	$("#settings-button").click(viewSettings);
-	
+
+	$("#day-shift-left").click(function() {
+		var prevDay = Number(getDay()) - 1;
+		if (prevDay == new Date().getDate()) {
+			setCookie("day", "");
+		}
+		else {
+			setCookie("day", prevDay);
+		}
+		retrieveData("schedule", updatePage, {});
+		pushView(VIEW_TYPE.MESSAGE, "Previous day...");
+	});
+
+	$("#day-shift-right").click(function() {
+		var nextDay = Number(getDay()) + 1;
+		if (nextDay == new Date().getDate()) {
+			setCookie("day", "");
+		}
+		else {
+			setCookie("day", nextDay);
+		}
+		retrieveData("schedule", updatePage, {});
+		pushView(VIEW_TYPE.MESSAGE, "Next day...");
+	});
+
+	$("#day-reset").click(function() {
+		setCookie("day", "");
+		retrieveData("schedule", updatePage, {});
+		pushView(VIEW_TYPE.MESSAGE, "Today...");
+	});
+
 	$("#glitch").html($("#glitch").attr("data-text"));
 }
 
-function readCookies(){
+function readCookies() {
 	applyTheme(getCookie("theme"));
 
 	//after the semicolon are parameters
 	var backgroundSelection = getCookie("bg").split(":");
-	if(backgroundSelection[0]=="NASA-APOD"){
-		$.getJSON("https://api.nasa.gov/planetary/apod?api_key="+CONFIG.NASA_IMAGE_API, function(response){
+	if (backgroundSelection[0] == "NASA-APOD") {
+		$.getJSON("https://api.nasa.gov/planetary/apod?api_key=" + CONFIG.NASA_IMAGE_API, function(response) {
 			$("head").append("<style id='theme-style'>body{background-image: url(" + response.hdurl + ") !important;background-size:cover;}</style>");
 		});
-	}else if(backgroundSelection[0] == "Bing"){
+	}
+	else if (backgroundSelection[0] == "Bing") {
 		var settings = {
 			"async": true,
 			"crossDomain": true,
-			"dataType":"jsonp",
+			"dataType": "jsonp",
 			"url": CONFIG.API_ENDPOINT,
 			"type": "POST",
 			"headers": {
 				"cache-control": "no-cache",
 			},
 			"data": {
-				"request":"iotd"
+				"request": "iotd"
 			}
 		};
-		
-		$.ajax(settings).done(function(response){
+
+		$.ajax(settings).done(function(response) {
 			$("head").append("<style id='theme-style'>body{background-image: url(" + JSON.parse(response).url + ") !important;background-size:cover;}</style>");
 		});
-	}else if(backgroundSelection[0]=="Color"){
-		$("head").append("<style id='theme-style'>body{background-color: "+decodeURIComponent(backgroundSelection[1])+" !important;}</style>");
-	}else if(backgroundSelection[0]=="Image"){
+	}
+	else if (backgroundSelection[0] == "Color") {
+		$("head").append("<style id='theme-style'>body{background-color: " + decodeURIComponent(backgroundSelection[1]) + " !important;}</style>");
+	}
+	else if (backgroundSelection[0] == "Image") {
 		var pattern = /(?:(?:https):\/\/|\b(?:[a-z\d]+\.))(?:(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))?\))+(?:\((?:[^\s()<>]+|(?:\(?:[^\s()<>]+\)))?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))?/;
 		var matches = decodeURIComponent(backgroundSelection[1]).match(pattern);
-	    if(!matches||matches.length != 1){
-	    	alert("Invalid Custom Image URL");
-	    }else{
-			$("head").append("<style id='theme-style'>body{background-image: url("+decodeURIComponent(backgroundSelection[1])+") !important;background-size:cover;}</style>");
-	    }
-	}else if(backgroundSelection[0] == "" || backgroundSelection[0] == "Theme"){
-		setCookie("bg","Theme");
+		if (!matches || matches.length != 1) {
+			alert("Invalid Custom Image URL");
+		}
+		else {
+			$("head").append("<style id='theme-style'>body{background-image: url(" + decodeURIComponent(backgroundSelection[1]) + ") !important;background-size:cover;}</style>");
+		}
+	}
+	else if (backgroundSelection[0] == "" || backgroundSelection[0] == "Theme") {
+		setCookie("bg", "Theme");
 	}
 }
 
-function showNotification(title, msg){
+function showNotification(title, msg) {
 	var notification = new Notification(title, {
 		icon: CONFIG.NOTIFICATION_ICON,
 		body: msg,
 		dir: CONFIG.LANGUAGE_DIRECTION,
 		lang: CONFIG.LANGUAGE_NAME,
 		vibrate: CONFIG.NOTIFICATION_VIBRATION_PATTERN,
-	}); 
+	});
 }
 
 function getTime(date) {
@@ -497,49 +587,51 @@ function getTime(date) {
 	return (date.getHours() * 60) + date.getMinutes();
 }
 
-function timeToString(date){
+function timeToString(date) {
 	var pm = false;
 	var hours = parseInt(date.getHours());
 	if (hours >= 12) {
 		// Convert to AM/PM from military time
-		if(hours > 12){
+		if (hours > 12) {
 			hours -= 12;
 		}
 		pm = true;
-	}else if(hours == 0){
+	}
+	else if (hours == 0) {
 		hours = 12;
 		pm = true;
 	}
-	
-	return hours+":"+addZero(date.getMinutes())+" "+(pm ? "PM" : "AM");
+
+	return hours + ":" + addZero(date.getMinutes()) + " " + (pm ? "PM" : "AM");
 }
 
-function updateNotifications(json){
-	if(getCookie("notify")){
+function updateNotifications(json) {
+	if (getCookie("notify")) {
 		clearInterval(checkNotifications);
-		checkNotifications = function(){
+		checkNotifications = function() {
 			var currentTime = getTime(new Date());
 			var passingPeriod = getCookie("passPeriod");
-			 
-			if(!passingPeriod||passingPeriod==""){
+
+			if (!passingPeriod || passingPeriod == "") {
 				passingPeriod = 5;
 			}
-			
-			for(var i = 0;i<json.schedule.length;++i){
+
+			for (var i = 0; i < json.schedule.length; ++i) {
 				var start = new Date(json.schedule[i].startTime);
 				var nextTime = getTime(start);
-				
-				var timeDifference = (currentTime-nextTime);
-				
-				if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
-					showNotification(json.schedule[i].name+" starts in "+passingPeriod+" minutes.","It starts at "+timeToString(start)+".\nWait to be dismissed.");
+
+				var timeDifference = (currentTime - nextTime);
+
+				if (Math.abs(timeDifference) == passingPeriod && timeDifference < 0) {
+					showNotification(json.schedule[i].name + " starts in " + passingPeriod + " minutes.", "It starts at " + timeToString(start) + ".\nWait to be dismissed.");
 					return;
-				}else if(i == json.schedule.length - 1){
+				}
+				else if (i == json.schedule.length - 1) {
 					nextTime = getTime(new Date(json.schedule[i].endTime));
-					timeDifference = (currentTime-nextTime);
-					
-					if(Math.abs(timeDifference)==passingPeriod&&timeDifference<0){
-						showNotification("School ends in "+passingPeriod+" minutes.","Wait to be dismissed.");
+					timeDifference = (currentTime - nextTime);
+
+					if (Math.abs(timeDifference) == passingPeriod && timeDifference < 0) {
+						showNotification("School ends in " + passingPeriod + " minutes.", "Wait to be dismissed.");
 						return;
 					}
 				}
@@ -547,13 +639,13 @@ function updateNotifications(json){
 		};
 		checkNotifications = setInterval(checkNotifications, 60000);
 	}
-	
+
 }
 
 /**
 This should be called when the JSON gets updated
 */
-function updatePage(json){
+function updatePage(json) {
 	loadPage(json);
 	refreshPersonalizedSchedule(json);
 }

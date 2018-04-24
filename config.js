@@ -11,7 +11,7 @@ var CONFIG = {
     "VERSION":"1.0.0b",
     "INFOBUTTON_IMAGE_SIZE": 70,
     "GREETINGS":[
-      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo,;,': %N!","Hey %N!","Greetings, %N",
+      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo, %N!","Hey %N!","Greetings, %N",
       "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
     ],
     "SERVICE_WORKER":false,
@@ -20,7 +20,7 @@ var CONFIG = {
     "LANGUAGE_DIRECTION":"ltr",
     "NOTIFICATION_VIBRATION_PATTERN":[300,300,100,100,100,300,300],
     "NOTIFICATION_ICON":"https://upload.wikimedia.org/wikipedia/en/c/c7/PlanoAcademyHSLogo.jpg",
-    "DEBUG":"false",
+    "DEBUG":"true",
     "DEBUG_API_ENDPOINT":"https://script.google.com/a/mypisd.net/macros/s/AKfycbx0ztVoIwRo70rLufDMqqGV2pfYrOyzGg4JraLCp9z5/dev",
     "API_ENDPOINT":"https://script.google.com/macros/s/AKfycbx6UM43jEELsS8VNJCQASpH60veCwJ2fESByIOgFqG8itpvK60v/exec",
     "NASA_IMAGE_API":"UP1G1rpM3KwrpgRw2oMxIdxHlsip8I3ixEfU3L3e",
