@@ -232,15 +232,11 @@ function refreshPersonalizedSchedule(json) {
 		}
 
 		out += "</table></p>";
-
-		if (json.info.group) {
-			out += "<br>Group: " + json.info.group;
-		}
-		if (json.info.cohort) {
-			out += "<br>Cohort: " + json.info.cohort;
-		}
-		if (json.info.lote) {
-			out += "<br>LOTE: " + json.info.lote;
+		
+		for(var key in json.info){
+			if(key && key !== "id"){
+				out += "<br>" + key + ": " + json.info[key];
+			}
 		}
 
 		$("#schedule-container").empty().html(out);
@@ -289,7 +285,8 @@ function getDayNoun(day) {
 
 function getAdminConsole(json) {
 	var out = "<div class='noanimation'><h1>Admin</h1>";
-	out += "<a href='" + json.admin.controlPanel + "'target='_blank'>Control Panel</a>";
+	out += "<a href='" + json.admin.controlPanel + "'target='_blank' rel='noopener'>Control Panel</a>";
+	out += "<br><a href='" + json.admin.rosterURL + "'target='_blank' rel='noopener'>Roster</a>";
 	out += "</div>";
 	return out;
 }
@@ -447,7 +444,7 @@ function loadPage(json) {
 
 	var html = "";
 
-	html += "<div id='name'class='personalized'><span id='greeting'>" + getGreeting().replace("%N", capitalizeFirstLetter(json.info.first)) + "</span></div>";
+	html += "<div id='name'class='personalized'><span id='greeting'>" + getGreeting().replace("%N", capitalizeFirstLetter(json.info["First Name"])) + "</span></div>";
 
 	html += "<br>" + json.motd.global;
 	if (typeof json.motd.local !== "undefined") {
@@ -493,7 +490,7 @@ function loadPage(json) {
 	$("#settings-button").click(viewSettings);
 
 	$("#day-shift-left").click(function() {
-		var prevDay = Number(getDay()) - 1;
+		var prevDay = Math.max(Number(getDay()) - 1, 1);
 		if (prevDay == new Date().getDate()) {
 			setCookie("day", "");
 		}
@@ -505,7 +502,7 @@ function loadPage(json) {
 	});
 
 	$("#day-shift-right").click(function() {
-		var nextDay = Number(getDay()) + 1;
+		var nextDay = Math.min(Number(getDay()) + 1, 31);
 		if (nextDay == new Date().getDate()) {
 			setCookie("day", "");
 		}
