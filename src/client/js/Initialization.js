@@ -168,7 +168,7 @@ function viewGradeSelect(){
 	var html = "<div id='name'>Welcome!</div><br>";
 	html += "<div>Please select your grade level:<br>";
 	html += "<select aria-labelledby='Grade' id='grade' autofocus>"
-	for(var i = CONFIG.DEBUG == true ? 8 : 11; i < 12; ++i){
+	for(var i = CONFIG.DEBUG == true ? 8 : 10; i <= 12; ++i){
 		html += "<option value='"+i+"'>"+i+"th</option>";
 	}
 	html += "</select>";
