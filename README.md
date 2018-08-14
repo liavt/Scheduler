@@ -20,7 +20,7 @@ It accepts GET and POST requests. You will need to send a couple of parameters:
 | *Parameter* 	| *Content*                                                                                     	|
 |-------------	|-----------------------------------------------------------------------------------------------	|
 | code        	| Google API token                                                                              	|
-| grade       	| Grade level to search for. Valid values are 9 and 10.                                       	  |
+| grade       	| Grade level to search for. Valid values are 10, 11, and 12.                                       	  |
 | day         	| Which day to get the schedule for. Day of the month. If not specified, the current day is used  |
 | request       | What type of request you are doing.                                                             |
 
