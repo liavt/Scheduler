@@ -234,7 +234,7 @@ function refreshPersonalizedSchedule(json) {
 		out += "</table></p>";
 		
 		for(var key in json.info){
-			if(key && key !== "id"){
+			if(key && key !== "id" && json.info[key]){
 				out += "<br>" + key + ": " + json.info[key];
 			}
 		}

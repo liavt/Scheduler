@@ -37,7 +37,7 @@ function getSetting(param){
 }
 
 function getGrade(){
-	return getSetting("grade");
+	return getSetting("gr");
 }
 
 function getDay(){
@@ -52,7 +52,7 @@ function getDay(){
 function reset(){
 	var auth2 = gapi.auth2.getAuthInstance();
 	auth2.signOut().then(function () {
-		setCookie("grade","",-1);
+		setCookie("gr","",-1);
 		setCookie("day","",-1);
 		location.reload();
 	});
@@ -177,7 +177,7 @@ function viewGradeSelect(){
 	pushView(VIEW_TYPE.PAGE,html);
 	
 	$("#grade-submit").click(function(){
-		setCookie("grade",$("#grade").val());
+		setCookie("gr",$("#grade").val());
 		
 		init();
 	});
