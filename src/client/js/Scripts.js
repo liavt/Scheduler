@@ -446,9 +446,14 @@ function loadPage(json) {
 
 	html += "<div id='name'class='personalized'><span id='greeting'>" + getGreeting().replace("%N", capitalizeFirstLetter(json.info["First Name"])) + "</span></div>";
 
-	html += "<br>" + json.motd.global;
+	if(typeof json.motd.global !== "undefined"){
+		html += "<div>" + json.motd.global + "</div>";
+	}
+	
+	html += "<br>";
+	
 	if (typeof json.motd.local !== "undefined") {
-		html += json.motd.local;
+		html += "<div>" + json.motd.local + "</div><br>";
 	}
 
 	if (getDay() != new Date().getDate()) {

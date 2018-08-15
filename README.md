@@ -5,7 +5,7 @@ Scheduler for school.
 ![Demo](https://github.com/liavt/Scheduler/blob/master/demos/DemoStudent.PNG)
 
 # WHAT?
-Yep, the school now runs this for 9th grade, 10th, and 11th grade (eventually 12th!)
+Yep, the school now runs this for 10th, 11th, and 12th grade (9th hopefully in the future)
 
 # Can I fix it
 Sure. Make a pull request. Make sure it works perfectly, as remember the school uses this. It must be reliable (a quality I wouldn't describe it's history as)
@@ -19,7 +19,7 @@ It accepts GET and POST requests. You will need to send a couple of parameters:
 
 | *Parameter* 	| *Content*                                                                                     	|
 |-------------	|-----------------------------------------------------------------------------------------------	|
-| code        	| Google API token                                                                              	|
+| code        	| Google Identity token                                                                              	|
 | grade       	| Grade level to search for. Valid values are 10, 11, and 12.                                       	  |
 | day         	| Which day to get the schedule for. Day of the month. If not specified, the current day is used  |
 | request       | What type of request you are doing.                                                             |
