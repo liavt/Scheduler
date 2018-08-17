@@ -96,14 +96,14 @@ function getCookie(cname) {
 	return "";
 }
 
-function createNotifications(json) {
+function createNotifications() {
 	if (getCookie('passPeriod') == '' || !getCookie('passPeriod')) {
 		setCookie('passPeriod', 5);
 	}
 
 	if (getCookie('notify') == '' || !getCookie('notify')) {
 		//if browser doesnt support notifications, end
-		if (typeof Notification !== "undefined") {
+		if (typeof Notification === "undefined") {
 			setCookie('notify', 'false');
 			return;
 		}
@@ -123,7 +123,7 @@ function createNotifications(json) {
 				return;
 			}
 			setCookie('notify', 'true');
-		}
+		};
 
 		try {
 			Notification.requestPermission().then(onPermissionRequested);
@@ -575,6 +575,7 @@ function readCookies() {
 }
 
 function showNotification(title, msg) {
+	console.log(title+ " " + msg);
 	var notification = new Notification(title, {
 		icon: CONFIG.NOTIFICATION_ICON,
 		body: msg,
@@ -623,6 +624,7 @@ function updateNotifications(json) {
 				var nextTime = getTime(start);
 
 				var timeDifference = (currentTime - nextTime);
+				
 
 				if (Math.abs(timeDifference) == passingPeriod && timeDifference < 0) {
 					showNotification(json.schedule[i].name + " starts in " + passingPeriod + " minutes.", "It starts at " + timeToString(start) + ".\nWait to be dismissed.");
