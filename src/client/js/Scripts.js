@@ -101,7 +101,7 @@ function createNotifications() {
 		setCookie('passPeriod', 5);
 	}
 
-	if (getCookie('notify') == '' || !getCookie('notify') || Notification.permission === "default") {
+	if (getCookie('notify') == '' || !getCookie('notify') || (typeof Notification !== "undefined" && Notification.permission === "default")) {
 		//if browser doesnt support notifications, end
 		if (typeof Notification === "undefined") {
 			setCookie('notify', 'false');
