@@ -171,15 +171,19 @@ function refreshPersonalizedSchedule(json) {
 		out = "<h1>Pick your mods for today:</h1>";
 		for (var i = 0; i < json.schedule.modsForSelection.length; ++i) {
 			if (json.schedule.modsForSelection[i] && json.schedule.modsForSelection[i][0]) {
-				out += timeToString(new Date(json.schedule.modsForSelection[i][0].endTime));
-				out += " - ";
 				out += timeToString(new Date(json.schedule.modsForSelection[i][0].startTime));
+				out += " - ";
+				out += timeToString(new Date(json.schedule.modsForSelection[i][0].endTime));
 				out += ": ";
 				out += "<select id='mod-selection-" + i + "'>";
 				out += "<option value=''selected='true'disabled='true'>Pick a mod</option>";
 				for (var j = 0; j < json.schedule.modsForSelection[i].length; ++j) {
-					out += "<option value='" + json.schedule.modsForSelection[i][j].key + "'>";
+					var slots = Number(json.schedule.modsForSelection[i][j].slots);
+					out += "<option value='" + json.schedule.modsForSelection[i][j].key + "'" + (slots === 0 ? "disabled='true'" : "") + ">";
 					out += json.schedule.modsForSelection[i][j].name;
+					if(slots >= 0){
+						out += " (" + slots + " slot" + (slots === 1 ? "" : "s") + " remaining)";
+					}
 					out += "</option>";
 				}
 				out += "</select><br>";
@@ -206,9 +210,11 @@ function refreshPersonalizedSchedule(json) {
 						"key": selectedMod.val(),
 						"startTime": json.schedule.modsForSelection[i][0].startTime,
 						"endTime": json.schedule.modsForSelection[i][0].endTime,
+						"row": json.schedule.modsForSelection[i][0].row,
+						"col": json.schedule.modsForSelection[i][0].col,
 					};
-
-					selection[i] = (selectedModJSON);
+					
+					selection[i] = selectedModJSON;
 				}
 			}
 
