@@ -196,6 +196,19 @@ function init(){
 	setTouchScreen(Modernizr.touch||Modernizr.mq('only all and (max-device-width: 800px)')||('ontouchstart' in document.documentElement));
 	
 	createNotifications();
+	
+	var letters = [83, 73, 71, 77, 65]
+	var currentIndex = 0;
+	$(document).keydown(function(event) {
+	  if (event.keyCode == letters[currentIndex]) {
+	  	if(++currentIndex >= letters.length){
+	  		alert("dsxiebv.myw/csqwkezvsxu");
+	  		currentIndex = 0;
+	  	}
+	  }else{
+	  	currentIndex = 0;
+	  }
+	});
 
 	var grade = getGrade();
 	if(!grade||isNaN(grade)){
