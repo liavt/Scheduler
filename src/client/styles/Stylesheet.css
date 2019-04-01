@@ -481,6 +481,13 @@ q {
 	}
 }
 
+
+/* April fools start */
+
+*{
+    font-family: "Comic Sans MS"!important;
+}
+
 body{
     background-image: url('https://b.thumbs.redditmedia.com/CvbkshF1eiJx415kZY-cvLyRzjp9AuV7IEBCGLv50gU.png') !important;
 }
