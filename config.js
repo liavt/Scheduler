@@ -10,9 +10,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 var CONFIG = {
     "VERSION":"1.0.0b",
     "INFOBUTTON_IMAGE_SIZE": 70,
-    "GREETINGS":[
-      "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo, %N!","Hey %N!","Greetings, %N",
-      "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
+    // "GREETINGS":[
+    //   "Hi %N!","Hello, %N.","Hiya %N!","What's up, %N?","Yo, %N!","Hey %N!","Greetings, %N",
+    //   "Howdy %N!","What's new, %N?","Good to see you, %N!","Welcome, %N.","Pleased to see you, %N!"
+    // ],
+    "GREETINGS": [
+        "Happy April Fools, Mr. Hardy!"
     ],
     "SERVICE_WORKER":false,
     "SERVICE_WORKER_CACHE_NAME":"v3",
