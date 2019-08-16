@@ -1,4 +1,4 @@
-## You can find this live [here](https://scheduler.netlify.com)
+## This fork is no longer maintained due to ownership being transferred. The repo will continue to exist for historical reasons, but you can check out the newest version [here.](https://github.com/RyanHir/Scheduler)
 
 # Scheduler
 Scheduler for school. 
